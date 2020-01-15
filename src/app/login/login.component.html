@@ -1,13 +1,25 @@
-<div class="center">
+<div class="center card-custom">
+<mat-card class="mat-form-field">
     <form [formGroup]="loginForm">
-        <div class="card-header">Login</div>
+        <mat-card-header class="center">
+            <mat-card-title>Login</mat-card-title>
+        </mat-card-header>
         <p>
-            <mat-form-field appearance="standard">
-                <mat-label>Email</mat-label>
-                <input matInput #email type="text" placeholder="Email" required autofocus>
+            <mat-form-field appearance="legacy">
+                <input matInput #email type="text" placeholder="Email" required>
             </mat-form-field>
         </p>
-        <input #password type="password" class="form-control mb-2" placeholder="Password" required><br>
-        <button class="btn btn-lg btn-primary btn-block mb-1" type="submit" (click)="login(email.value, password.value)">Login</button>
+        <p>
+            <mat-form-field appearance="legacy">
+                <input matInput #password type="password" class="form-control mb-2" placeholder="Password" required>
+            </mat-form-field>
+        </p>
+        <p class="center">
+        <button mat-button color="primary" 
+                class="btn btn-lg btn-primary btn-block mb-1" 
+                type="submit" 
+                (click)="login(email.value, password.value)">Login</button>
+        </p>
     </form>
+</mat-card>
 </div>

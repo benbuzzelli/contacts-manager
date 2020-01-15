@@ -1,4 +1,9 @@
 .center {
     display: flex;
+    align-items: center;
     justify-content: center;
+}
+
+.card-custom {
+    padding: 20px;
 }

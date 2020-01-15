@@ -23,6 +23,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from './material/material.module';
+import { ToolbarComponent } from './toolbar/toolbar.component';
 
 const appRoutes: Routes = [
   { path:  'login',component:  LoginComponent},
@@ -39,7 +40,8 @@ const appRoutes: Routes = [
     UserComponent,
     ForgotPasswordComponent,
     VerifyEmailComponent,
-    ContactsComponent
+    ContactsComponent,
+    ToolbarComponent
   ],
   imports: [
     RouterModule.forRoot(

@@ -4,13 +4,15 @@ import { LoginComponent } from  './login/login.component';
 import { RegisterComponent } from  './register/register.component';
 import { ForgotPasswordComponent } from  './forgot-password/forgot-password.component';
 import { VerifyEmailComponent } from  './verify-email/verify-email.component';
+import { ContactsComponent } from './contacts/contacts.component';
 import { app } from 'firebase';
 
 const appRoutes: Routes = [
   { path:  'login',component:  LoginComponent},
   { path:  'register', component:  RegisterComponent },
   { path:  'forgot-password', component:  ForgotPasswordComponent },
-  { path:  'verify-email', component:  VerifyEmailComponent }
+  { path:  'verify-email', component:  VerifyEmailComponent },
+  { path:  'contacts',component:  ContactsComponent}
 ];
 
 @NgModule({

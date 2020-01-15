@@ -5,14 +5,11 @@
                 <div class="card-header">Login</div>
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-md-4 text-center">
-                            <img src="https://placeimg.com/128/128/nature">
-                        </div>
                         <div class="col-md-8">
                             <form>
-                                <input type="text" class="form-control mb-2" placeholder="Email" required autofocus>
-                                <input type="password" class="form-control mb-2" placeholder="Password" required>
-                                <button class="btn btn-lg btn-primary btn-block mb-1" type="submit">Login</button>
+                                <input #email type="text" class="form-control mb-2" placeholder="Email" required autofocus><br>
+                                <input #password type="password" class="form-control mb-2" placeholder="Password" required>
+                                <button class="btn btn-lg btn-primary btn-block mb-1" type="submit" (click)="login(email.value, password.value)">Login</button>
                             </form>
                         </div>
                     </div>

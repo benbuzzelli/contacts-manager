@@ -23,12 +23,12 @@ export class AuthService {
 
   async login(email: string, password: string) {
     var result = await this.afAuth.auth.signInWithEmailAndPassword(email, password)
-    this.router.navigate(['admin/list']);
+    this.router.navigate(['contacts']);
   }
 
   async sendEmailVerification() {
     await this.afAuth.auth.currentUser.sendEmailVerification()
-    this.router.navigate(['admin/verify-email']);
+    this.router.navigate(['verify-email']);
   }
 
   async register(email: string, password: string) {
@@ -43,7 +43,7 @@ export class AuthService {
   async logout(){
     await this.afAuth.auth.signOut();
     localStorage.removeItem('user');
-    this.router.navigate(['admin/login']);
+    this.router.navigate(['login']);
   }
 
   get isLoggedIn(): boolean {

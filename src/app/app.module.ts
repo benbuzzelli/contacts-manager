@@ -18,6 +18,7 @@ import { VerifyEmailComponent } from './verify-email/verify-email.component';
 
 import { RouterModule, Routes } from '@angular/router';
 import { LocationStrategy, HashLocationStrategy} from '@angular/common';
+import { ContactsComponent } from './contacts/contacts.component';
 
 const appRoutes: Routes = [
   { path:  'login',component:  LoginComponent},
@@ -33,7 +34,8 @@ const appRoutes: Routes = [
     RegisterComponent,
     UserComponent,
     ForgotPasswordComponent,
-    VerifyEmailComponent
+    VerifyEmailComponent,
+    ContactsComponent
   ],
   imports: [
     RouterModule.forRoot(

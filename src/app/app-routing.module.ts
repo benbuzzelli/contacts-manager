@@ -8,6 +8,7 @@ import { ContactsComponent } from './contacts/contacts.component';
 import { app } from 'firebase';
 
 const appRoutes: Routes = [
+  { path: '', redirectTo: 'register', pathMatch: 'full' },
   { path:  'login',component:  LoginComponent},
   { path:  'register', component:  RegisterComponent },
   { path:  'forgot-password', component:  ForgotPasswordComponent },

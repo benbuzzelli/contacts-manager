@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from  '../auth/auth.service';
+import { ReactiveFormsModule , FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-login',
@@ -8,7 +9,7 @@ import { AuthService } from  '../auth/auth.service';
 })
 export class LoginComponent implements OnInit {
 
-  constructor(private  authService:  AuthService) { }
+  constructor(private authService: AuthService, private formsModule: FormsModule) { }
 
   ngOnInit() {
   }

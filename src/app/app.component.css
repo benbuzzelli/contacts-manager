@@ -5,5 +5,25 @@
 }
 
 .card-custom {
-    padding: 20px;
+    padding-top: 20px;
+}
+
+.text-option {
+    font-size: 14px;
+}
+
+.btn-route-link {
+    border: none;
+    background-color: none;
+    font-size: 12px;
+    cursor: pointer;
+    display: inline-block;
+}
+
+.btn-route-link:focus {
+    outline: none;
+}
+
+.btn-route-link:hover {
+    color: #673AB7;
 }

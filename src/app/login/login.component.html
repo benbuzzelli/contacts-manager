@@ -1,3 +1,4 @@
+<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500" rel="stylesheet">
 <div class="center card-custom">
 <mat-card class="mat-form-field">
     <form [formGroup]="loginForm">
@@ -23,3 +24,9 @@
     </form>
 </mat-card>
 </div>
+<p class="center">
+    <span class="text-option">Don't have an account?</span>
+    <button class="btn-route-link" (click)="router.navigate(['register']);" style="min-width: 1%;">
+        Register
+    </button>
+</p>

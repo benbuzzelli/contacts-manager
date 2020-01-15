@@ -1,4 +1,4 @@
-<div class="center">
+<div class="card-custom center">
 <mat-card class="mat-form-field">
     <form [formGroup]="registerForm">
         <mat-card-header class="center">
@@ -23,3 +23,9 @@
     </form>
 </mat-card>
 </div>
+<p class="center">
+    <span class="text-option">Already have an account?</span>
+    <button class="btn-route-link" (click)="router.navigate(['login']);" style="min-width: 1%;">
+        Login
+    </button>
+</p>

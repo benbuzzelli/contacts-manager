@@ -5,7 +5,6 @@ import { RegisterComponent } from  './register/register.component';
 import { ForgotPasswordComponent } from  './forgot-password/forgot-password.component';
 import { VerifyEmailComponent } from  './verify-email/verify-email.component';
 import { ContactsComponent } from './contacts/contacts.component';
-import { app } from 'firebase';
 
 const appRoutes: Routes = [
   { path: '', redirectTo: 'register', pathMatch: 'full' },

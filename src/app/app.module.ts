@@ -19,6 +19,10 @@ import { VerifyEmailComponent } from './verify-email/verify-email.component';
 import { RouterModule, Routes } from '@angular/router';
 import { LocationStrategy, HashLocationStrategy} from '@angular/common';
 import { ContactsComponent } from './contacts/contacts.component';
+import { MatFormFieldModule } from '@angular/material/form-field';
+
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MaterialModule } from './material/material.module';
 
 const appRoutes: Routes = [
   { path:  'login',component:  LoginComponent},
@@ -48,7 +52,10 @@ const appRoutes: Routes = [
     AngularFirestoreModule,
     AngularFireAuthModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    BrowserAnimationsModule,
+    MatFormFieldModule,
+    MaterialModule
   ],
   providers: [{ provide: LocationStrategy, useClass: HashLocationStrategy }],
   bootstrap: [AppComponent]

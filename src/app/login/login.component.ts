@@ -7,8 +7,6 @@ import { AuthService } from  '../auth/auth.service';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-  // username: string;
-  // password: string; 
 
   constructor(private  authService:  AuthService) { }
 
@@ -16,7 +14,6 @@ export class LoginComponent implements OnInit {
   }
 
   async login(email: string, password: string) {
-    console.log(email + "\npass = " + password);
     this.authService.login(email, password);
   }
 

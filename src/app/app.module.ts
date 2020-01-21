@@ -1,6 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
+import { AngularFireDatabaseModule } from "@angular/fire/database";
 import { AngularFireModule } from '@angular/fire';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { AngularFireAuthModule } from '@angular/fire/auth';
@@ -18,12 +19,12 @@ import { VerifyEmailComponent } from './verify-email/verify-email.component';
 
 import { RouterModule, Routes } from '@angular/router';
 import { LocationStrategy, HashLocationStrategy} from '@angular/common';
-import { ContactsComponent } from './contacts/contacts.component';
 import { MatFormFieldModule } from '@angular/material/form-field';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from './material/material.module';
 import { ToolbarComponent } from './toolbar/toolbar.component';
+import { ContactsComponent } from './contacts/contacts.component';
 
 const appRoutes: Routes = [
   { path:  'login',component:  LoginComponent},
@@ -41,8 +42,8 @@ const appRoutes: Routes = [
     UserComponent,
     ForgotPasswordComponent,
     VerifyEmailComponent,
-    ContactsComponent,
-    ToolbarComponent
+    ToolbarComponent,
+    ContactsComponent
   ],
   imports: [
     RouterModule.forRoot(
@@ -50,6 +51,7 @@ const appRoutes: Routes = [
       { enableTracing: true }
     ),
     BrowserModule,
+    AngularFireDatabaseModule,
     AppRoutingModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule,

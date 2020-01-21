@@ -5,16 +5,35 @@
                 <mat-card-title>Create New Contact</mat-card-title>
             </mat-card-header>
             <p>
-                <mat-form-field appearance="legacy">
-                    <input matInput #name type="text" placeholder="Name">
+                <mat-form-field appearance="legacy" class="input-card-column-division">
+                    <input matInput #firstName type="text" placeholder="First name">
                 </mat-form-field>
             </p>
             <p>
                 <mat-form-field appearance="legacy">
-                    <input matInput #phone type="text" class="form-control mb-2" placeholder="Phone #">
+                    <input matInput #lastName type="text" placeholder="Last name">
                 </mat-form-field>
             </p>
-            <p>
+            <p class="center">
+                <mat-form-field class="input-card-column-division" style="width: 20%;">
+                    <mat-select>
+                        <mat-option *ngFor="let type of emailTypes" [value]="type.value">
+                            {{type.viewValue}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <mat-form-field appearance="legacy">
+                    <input matInput #phone type="tel" class="form-control mb-2" placeholder="Phone #">
+                </mat-form-field>
+            </p>
+            <p  class="center">
+                <mat-form-field class="input-card-column-division" style="width: 20%;">
+                    <mat-select>
+                        <mat-option *ngFor="let type of emailTypes" [value]="type.value">
+                            {{type.viewValue}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
                 <mat-form-field appearance="legacy">
                     <input matInput #email type="text" placeholder="Email">
                 </mat-form-field>
@@ -23,8 +42,21 @@
                 <button mat-button color="primary" 
                                 class="btn btn-lg btn-primary btn-block mb-1" 
                                 type="submit" 
-                                (click)="createContact(name.value, phone.value, email.value)">Create Contact</button>
+                                (click)="createContact(firstName.value, lastName.value, phone.value, email.value)">Create Contact</button>
             </p>
+            <p class="center">
+                <button mat-button color="primary" 
+                                class="btn btn-lg btn-primary btn-block mb-1" 
+                                type="submit" 
+                                (click)="showContacts()">Show Contacts</button>
+            </p>
+            <ul>
+                <mat-list *ngFor="let contact of contacts$ | async">
+                    {{ contact.firstName }} {{ contact.lastName }}<br>
+                    {{ contact.phone }}<br>
+                    {{ contact.email }}
+                </mat-list>
+            </ul>
         </form>
     </mat-card>
 </div>

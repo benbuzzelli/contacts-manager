@@ -4,6 +4,10 @@
     justify-content: center;
 }
 
+.input-card-column-division {
+    padding-right: 15px;
+}
+
 .card-custom {
     padding-top: 20px;
 }

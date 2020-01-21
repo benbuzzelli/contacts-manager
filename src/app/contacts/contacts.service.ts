@@ -1,14 +1,17 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from  "@angular/fire/auth";
 import { AngularFireDatabase, AngularFireList } from "@angular/fire/database";
+import { Observable } from 'rxjs';
 
 export class Contact {
-  name: string;
+  firstName: string;
+  lastName: string;
   phone: string;
   email: string;
 
-  constructor(name: string, phone: string, email: string) {
-    this.name = name;
+  constructor(firstName: string, lastName: string, phone: string, email: string) {
+    this.firstName = firstName;
+    this.lastName = lastName;
     this.phone = phone;
     this.email = email;
   }
@@ -18,7 +21,7 @@ export class Contact {
   providedIn: 'root'
 })
 export class ContactsService {
-  contacts: AngularFireList<Contact> = null;
+  contacts$: Observable<any[]> = null;
   userId: string;
 
   constructor(private db: AngularFireDatabase, private afAuth: AngularFireAuth) {
@@ -27,18 +30,18 @@ export class ContactsService {
     })
   }
 
-  getItemsList(): AngularFireList<Contact> {
+  getItemsList(): Observable<any[]> {
     if (!this.userId) return;
-    this.contacts = this.db.list(`contacts/${this.userId}`);
-    console.log(this.contacts == null);
+    this.contacts$ = this.db.list(`contacts/${this.userId}`).valueChanges();
+    console.log(this.contacts$ == null);
     this.db.list(`contacts/${this.userId}`).valueChanges().subscribe(console.log);
-    return this.contacts;
+    return this.contacts$;
   }
 
 
   createItem(contact: Contact)  {
     this.getItemsList();
     console.log(contact);
-    this.contacts.push(contact);
+    this.db.list(`contacts/${this.userId}`).push(contact);
   }
 }

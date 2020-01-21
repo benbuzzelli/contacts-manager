@@ -1,1 +1,30 @@
-<p>contacts works!</p>
+<div class="center card-custom">
+    <mat-card class="mat-form-field">
+        <form [formGroup]="createContactForm">
+            <mat-card-header class="center">
+                <mat-card-title>Create New Contact</mat-card-title>
+            </mat-card-header>
+            <p>
+                <mat-form-field appearance="legacy">
+                    <input matInput #name type="text" placeholder="Name">
+                </mat-form-field>
+            </p>
+            <p>
+                <mat-form-field appearance="legacy">
+                    <input matInput #phone type="text" class="form-control mb-2" placeholder="Phone #">
+                </mat-form-field>
+            </p>
+            <p>
+                <mat-form-field appearance="legacy">
+                    <input matInput #email type="text" placeholder="Email">
+                </mat-form-field>
+            </p>
+            <p class="center">
+                <button mat-button color="primary" 
+                                class="btn btn-lg btn-primary btn-block mb-1" 
+                                type="submit" 
+                                (click)="createContact(name.value, phone.value, email.value)">Create Contact</button>
+            </p>
+        </form>
+    </mat-card>
+</div>

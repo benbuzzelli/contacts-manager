@@ -4,12 +4,26 @@
     justify-content: center;
 }
 
+.input-card-column-division {
+    padding-right: 15px;
+}
+
 .card-custom {
     padding-top: 20px;
 }
 
 .text-option {
     font-size: 14px;
+}
+
+.dropdown-btn {
+    border: 0px;
+    outline: none;
+    background: none;
+}
+
+.dropdown-btn:hover {
+    cursor: pointer;
 }
 
 .btn-route-link {

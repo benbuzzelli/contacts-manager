@@ -4,18 +4,59 @@
             <mat-card-header class="center">
                 <mat-card-title>Create New Contact</mat-card-title>
             </mat-card-header>
-            <p>
-                <mat-form-field appearance="legacy">
-                    <input matInput #name type="text" placeholder="Name">
+            <p class="center">
+                <mat-form-field style="padding-left: 37px;" *ngIf="!dropdownToggle" appearance="legacy">
+                    <mat-label>Name</mat-label>
+                    <input matInput [(value)]="fullName.fullName" #primaryName type="text" (keyup)="setNameValues(primaryName.value)">
+                </mat-form-field>
+                <mat-form-field style="padding-left: 37px;" *ngIf="dropdownToggle" appearance="legacy">
+                    <input matInput [(value)]="fullName.prefix" #prefix type="text" placeholder="Prefix"
+                    (keyup)="setPrefix(prefix.value)">
+                </mat-form-field>
+                <button class="dropdown-btn" [(value)]="dropdownToggle" (click)="toggleDropdown()" matSuffix>
+                    <mat-icon>
+                        expand_more</mat-icon>
+                </button>
+            </p>
+            <p *ngIf="dropdownToggle">
+                <mat-form-field class="center" appearance="legacy">
+                    <input matInput [(value)]="fullName.firstName" #firstName type="text" placeholder="First name"
+                    (keyup)="setFirst(firstName.value)">
+                </mat-form-field><br>
+                <mat-form-field class="center" appearance="legacy">
+                    <input matInput [(value)]="fullName.middleName" #middleName type="text" placeholder="Middle name"
+                    (keyup)="setMiddle(middleName.value)">
+                </mat-form-field><br>
+                <mat-form-field class="center" appearance="legacy">
+                    <input matInput [(value)]="fullName.lastName" #lastName type="text" placeholder="Last name"
+                    (keyup)="setLast(lastName.value)">
+                </mat-form-field>
+                <mat-form-field class="center" appearance="legacy">
+                    <input matInput [(value)]="fullName.suffix" #suffix type="text" placeholder="Suffix"
+                    (keyup)="setSuffix(suffix.value)">
                 </mat-form-field>
             </p>
-            <p>
+            <p class="center">
+                <mat-form-field class="contact-type-selector">
+                    <mat-select [(value)]="phoneTypeSelected">
+                        <mat-option *ngFor="let type of phoneTypes" [value]="type.value">
+                            {{type.viewValue}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
                 <mat-form-field appearance="legacy">
-                    <input matInput #phone type="text" class="form-control mb-2" placeholder="Phone #">
+                    <input matInput #phone type="tel" class="form-control mb-2" placeholder="Phone #">
                 </mat-form-field>
             </p>
-            <p>
-                <mat-form-field appearance="legacy">
+            <p class="center">
+                <mat-form-field class="contact-type-selector">
+                    <mat-select [(value)]="emailTypeSelected">
+                        <mat-option *ngFor="let type of emailTypes" [value]="type.value">
+                            {{type.viewValue}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <mat-form-field floatLabel="never" appearance="legacy">
                     <input matInput #email type="text" placeholder="Email">
                 </mat-form-field>
             </p>
@@ -23,8 +64,21 @@
                 <button mat-button color="primary" 
                                 class="btn btn-lg btn-primary btn-block mb-1" 
                                 type="submit" 
-                                (click)="createContact(name.value, phone.value, email.value)">Create Contact</button>
+                                (click)="createContact(phone.value, email.value)">Create Contact</button>
             </p>
+            <p class="center">
+                <button mat-button color="primary" 
+                                class="btn btn-lg btn-primary btn-block mb-1" 
+                                type="submit" 
+                                (click)="showContacts()">Show Contacts</button>
+            </p>
+            <ul>
+                <mat-list *ngFor="let contact of contacts$ | async">
+                    {{ contact.firstName }} {{ contact.lastName }}<br>
+                    {{ contact.phone }}<br>
+                    {{ contact.email }}
+                </mat-list>
+            </ul>
         </form>
     </mat-card>
 </div>

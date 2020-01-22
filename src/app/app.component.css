@@ -16,6 +16,16 @@
     font-size: 14px;
 }
 
+.dropdown-btn {
+    border: 0px;
+    outline: none;
+    background: none;
+}
+
+.dropdown-btn:hover {
+    cursor: pointer;
+}
+
 .btn-route-link {
     border: none;
     background-color: none;

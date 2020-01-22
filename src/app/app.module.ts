@@ -23,6 +23,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from './material/material.module';
+import {MatIconModule} from '@angular/material/icon';
 import { ToolbarComponent } from './toolbar/toolbar.component';
 import { ContactsComponent } from './contacts/contacts.component';
 
@@ -60,7 +61,8 @@ const appRoutes: Routes = [
     ReactiveFormsModule,
     BrowserAnimationsModule,
     MatFormFieldModule,
-    MaterialModule
+    MaterialModule,
+    MatIconModule
   ],
   providers: [{ provide: LocationStrategy, useClass: HashLocationStrategy }],
   bootstrap: [AppComponent]

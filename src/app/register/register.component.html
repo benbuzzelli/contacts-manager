@@ -6,7 +6,11 @@
         </mat-card-header>
         <p>
             <mat-form-field appearance="legacy">
-                <input matInput #email type="text" placeholder="Email" required>
+                <input matInput #email type="text" placeholder="Email" required [formControl]="emailFormControl"
+                [errorStateMatcher]="matcher">
+                <mat-error *ngIf="emailFormControl.hasError('email') && !emailFormControl.hasError('required')">
+                    Please enter a valid email address
+                </mat-error>
             </mat-form-field>
         </p>
         <p>

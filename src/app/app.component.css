@@ -48,6 +48,15 @@
     cursor: pointer;
 }
 
+.card-email-phone {
+    width: 55%;
+}
+
+.card-type-email-phone {
+    width: 20%;
+    padding-right: 5%;
+}
+
 .btn-route-link {
     border: none;
     background-color: none;

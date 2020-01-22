@@ -60,7 +60,7 @@ export class ContactsComponent implements OnInit {
   }
 
   createContact(phone: string, email: string) {
-    this.contactsService.createItem(new Contact(this.fullName.fullName, phone, email));
+    this.contactsService.createItem(new Contact(this.fullName, phone, email));
     // this.contacts$ = this.contactsService.contacts;
   }
 
@@ -79,6 +79,7 @@ export class ContactsComponent implements OnInit {
 
     console.log(fullName.firstName);
     this.createContactForm.patchValue({
+      fullName: fullName.fullName,
       prefix: fullName.prefix,
       firstName: fullName.firstName,
       middleName: fullName.middleName,

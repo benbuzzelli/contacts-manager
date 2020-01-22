@@ -68,12 +68,11 @@ export class NameDefaults {
     
     assigned[0] = prefix != "";
     
-    if (length > 2)
+    if (length > 2) {
       suffix = this.getSuffix(names[length-1]);
-    else
+      assigned[length-1] = suffix != "";
+    } else
       suffix = "";
-
-    assigned[length-1] = suffix != "";
 
     if (length > 1) {
       let lastNameIndex = assigned[length-1] ? length-2 : length-1;
@@ -95,10 +94,6 @@ export class NameDefaults {
       assigned[index] = true;
     } else
       middleName = "";
-
-    let index = 0;
-    while (assigned[index])
-      index++;
 
     firstName = "";
     let firstNames: string[] = [];
@@ -138,11 +133,11 @@ export class NameDefaults {
 }
 
 export class Contact {
-  fullName: string
+  fullName: FullName
   phone: string;
   email: string;
 
-  constructor(fullName: string, phone: string, email: string) {
+  constructor(fullName: FullName, phone: string, email: string) {
     this.fullName = fullName;
     this.phone = phone;
     this.email = email;

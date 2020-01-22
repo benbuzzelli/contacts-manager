@@ -4,34 +4,34 @@
             <mat-card-header class="center">
                 <mat-card-title>Create New Contact</mat-card-title>
             </mat-card-header>
-            <p class="center">
-                <mat-form-field style="padding-left: 37px;" *ngIf="!dropdownToggle" appearance="legacy">
+            <p class="center-right">
+                <mat-form-field class="full-width-field" style="padding-left: 10%;" *ngIf="!dropdownToggle" appearance="legacy">
                     <mat-label>Name</mat-label>
                     <input matInput [(value)]="fullName.fullName" #primaryName type="text" (keyup)="setNameValues(primaryName.value)">
                 </mat-form-field>
-                <mat-form-field style="padding-left: 37px;" *ngIf="dropdownToggle" appearance="legacy">
+                <mat-form-field class="full-width-field" style="padding-left: 10%;" *ngIf="dropdownToggle" appearance="legacy">
                     <input matInput [(value)]="fullName.prefix" #prefix type="text" placeholder="Prefix"
                     (keyup)="setPrefix(prefix.value)">
                 </mat-form-field>
-                <button class="dropdown-btn" [(value)]="dropdownToggle" (click)="toggleDropdown()" matSuffix>
+                <button class="dropdown-btn" [(value)]="dropdownToggle" (click)="toggleDropdown()">
                     <mat-icon>
                         expand_more</mat-icon>
                 </button>
             </p>
-            <p *ngIf="dropdownToggle">
-                <mat-form-field class="center" appearance="legacy">
+            <p *ngIf="dropdownToggle" class="center-col">
+                <mat-form-field class="full-width-field" appearance="legacy">
                     <input matInput [(value)]="fullName.firstName" #firstName type="text" placeholder="First name"
                     (keyup)="setFirst(firstName.value)">
                 </mat-form-field><br>
-                <mat-form-field class="center" appearance="legacy">
+                <mat-form-field class="full-width-field" appearance="legacy">
                     <input matInput [(value)]="fullName.middleName" #middleName type="text" placeholder="Middle name"
                     (keyup)="setMiddle(middleName.value)">
                 </mat-form-field><br>
-                <mat-form-field class="center" appearance="legacy">
+                <mat-form-field class="full-width-field" appearance="legacy">
                     <input matInput [(value)]="fullName.lastName" #lastName type="text" placeholder="Last name"
                     (keyup)="setLast(lastName.value)">
-                </mat-form-field>
-                <mat-form-field class="center" appearance="legacy">
+                </mat-form-field><br>
+                <mat-form-field class="full-width-field" appearance="legacy">
                     <input matInput [(value)]="fullName.suffix" #suffix type="text" placeholder="Suffix"
                     (keyup)="setSuffix(suffix.value)">
                 </mat-form-field>

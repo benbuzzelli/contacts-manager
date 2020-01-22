@@ -5,6 +5,7 @@ import { RegisterComponent } from  './register/register.component';
 import { ForgotPasswordComponent } from  './forgot-password/forgot-password.component';
 import { VerifyEmailComponent } from  './verify-email/verify-email.component';
 import { ContactsComponent } from './contacts/contacts.component';
+import { ViewContactsComponent } from './view-contacts/view-contacts.component';
 
 const appRoutes: Routes = [
   { path: '', redirectTo: 'register', pathMatch: 'full' },
@@ -12,7 +13,8 @@ const appRoutes: Routes = [
   { path:  'register', component:  RegisterComponent },
   { path:  'forgot-password', component:  ForgotPasswordComponent },
   { path:  'verify-email', component:  VerifyEmailComponent },
-  { path:  'contacts',component:  ContactsComponent}
+  { path:  'contacts',component:  ContactsComponent},
+  { path:  'view-contacts',component:  ViewContactsComponent}
 ];
 
 @NgModule({

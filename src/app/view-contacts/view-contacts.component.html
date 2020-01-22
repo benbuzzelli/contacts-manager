@@ -1,0 +1,8 @@
+<button (click)="showContacts()">show</button>
+<ul>
+    <mat-list *ngFor="let contact of contacts$ | async">
+        {{ contact.firstName }} {{ contact.lastName }}<br>
+        {{ contact.phone }}<br>
+        {{ contact.email }}
+    </mat-list>
+</ul>

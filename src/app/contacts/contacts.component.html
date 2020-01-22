@@ -8,7 +8,7 @@
                 <mat-card-header class="center" style="width: 85%;">
                     <mat-card-title>Create New Contact</mat-card-title>
                 </mat-card-header>
-                <button class="dropdown-btn" style="padding-bottom: 10px;" (click)="createContact(phone.value, email.value)">
+                <button class="dropdown-btn" style="padding-bottom: 10px;" (click)="createContact()">
                     <mat-icon>check</mat-icon>
                 </button>
             </mat-toolbar>
@@ -44,17 +44,20 @@
                     (keyup)="setSuffix(suffix.value)">
                 </mat-form-field>
             </p>
-            <p class="center">
-                <mat-form-field class="card-type-email-phone">
-                    <mat-select [(value)]="phoneTypeSelected">
-                        <mat-option *ngFor="let type of phoneTypes" [value]="type.value">
-                            {{type.viewValue}}
-                        </mat-option>
-                    </mat-select>
-                </mat-form-field>
-                <mat-form-field appearance="legacy" class="card-email-phone">
-                    <input matInput #phone type="tel" class="form-control mb-2" placeholder="Phone #">
-                </mat-form-field>
+            <p formArrayName="phoneNumbers"
+            *ngFor="let phoneNumber of createContactForm.get('phoneNumbers').controls; let i = index;" class="center">
+                <span [formGroupName]="i" class="center">
+                    <mat-form-field class="card-type-email-phone">
+                        <mat-select formControlName="type" [(value)]="phoneTypeSelected">
+                            <mat-option *ngFor="let type of phoneTypes" [value]="type.value">
+                                {{type.viewValue}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <mat-form-field appearance="legacy" class="card-email-phone">
+                        <input formControlName="value" (keyup)="handlePhoneNumbersArray(phone.value)" matInput #phone type="tel" class="form-control mb-2" placeholder="Phone #">
+                    </mat-form-field>
+                </span>
             </p>
             <p class="center">
                 <mat-form-field class="card-type-email-phone">

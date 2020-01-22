@@ -26,6 +26,7 @@ import { MaterialModule } from './material/material.module';
 import {MatIconModule} from '@angular/material/icon';
 import { ToolbarComponent } from './toolbar/toolbar.component';
 import { ContactsComponent } from './contacts/contacts.component';
+import { ViewContactsComponent } from './view-contacts/view-contacts.component';
 
 const appRoutes: Routes = [
   { path:  'login',component:  LoginComponent},
@@ -44,7 +45,8 @@ const appRoutes: Routes = [
     ForgotPasswordComponent,
     VerifyEmailComponent,
     ToolbarComponent,
-    ContactsComponent
+    ContactsComponent,
+    ViewContactsComponent
   ],
   imports: [
     RouterModule.forRoot(

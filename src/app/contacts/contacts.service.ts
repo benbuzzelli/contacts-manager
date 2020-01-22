@@ -134,13 +134,13 @@ export class NameDefaults {
 
 export class Contact {
   fullName: FullName
-  phone: string;
-  email: string;
+  phones: [];
+  emails: [];
 
-  constructor(fullName: FullName, phone: string, email: string) {
+  constructor(fullName: FullName) {
     this.fullName = fullName;
-    this.phone = phone;
-    this.email = email;
+    // this.phones = phones;
+    // this.emails = emails;
   }
 }
 

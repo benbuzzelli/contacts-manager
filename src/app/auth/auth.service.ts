@@ -23,7 +23,7 @@ export class AuthService {
 
   async login(email: string, password: string) {
     var result = await this.afAuth.auth.signInWithEmailAndPassword(email, password)
-    this.router.navigate(['contacts']);
+    this.router.navigate(['view-contacts']);
   }
 
   async sendEmailVerification() {

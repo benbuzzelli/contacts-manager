@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ContactsService, Contact, FullName } from './contacts.service';
 import { AngularFireDatabase, AngularFireList } from "@angular/fire/database";
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { FormGroup, FormBuilder, FormArray } from '@angular/forms';
 import { Observable } from 'rxjs';
 
 export class contactType {
@@ -16,6 +16,7 @@ export class contactType {
 })
 export class ContactsComponent implements OnInit {
   createContactForm: FormGroup;
+  phoneNumbers: FormArray;
   
   dropdownToggle: boolean;
 
@@ -49,18 +50,55 @@ export class ContactsComponent implements OnInit {
       lastName: '',
       suffix: '',
       email: '',
-      phone: ''
+      phoneNumbers: this.formBuilder.array([ this.createPhoneNumber(0) ])
     })
+  }
 
-    // this.createContactForm.valueChanges.subscribe()
+  handlePhoneNumbersArray(value: string) {
+    this.phoneNumbers = this.createContactForm.get('phoneNumbers') as FormArray;
+    let length: number = (this.phoneNumbers.length);
+
+    let empty: number = 0;
+    for (let i = 0; i < length; i++)
+      if (this.phoneNumbers.get(i.toString()).get('value').value === "")
+        empty++;
+    
+    if (empty > 1) {
+      let val: number = empty;
+      let index: number = length-1;
+      while (val > 1 && index >= 0) {
+        if (this.phoneNumbers.get(index.toString()).get('value').value === "") {
+          val--;
+          console.log("removing: " + index);
+          this.phoneNumbers.removeAt(index);
+        }
+        index--;
+      }
+    } else if (empty == 0)
+      this.addPhoneNumber();
+  }
+
+  createPhoneNumber(length: number): FormGroup {
+    return this.formBuilder.group({
+      type: '',
+      value: '',
+      index: length,
+      canRemove: false
+    });
+  }
+
+  addPhoneNumber(): void {
+    console.log(this.phoneNumbers.get('0').get('type').value)
+    this.phoneNumbers = this.createContactForm.get('phoneNumbers') as FormArray;
+    this.phoneNumbers.push(this.createPhoneNumber(this.phoneNumbers.length));
   }
 
   toggleDropdown() {
     this.dropdownToggle = !this.dropdownToggle;
   }
 
-  createContact(phone: string, email: string) {
-    this.contactsService.createItem(new Contact(this.fullName, phone, email));
+  createContact() {
+    this.contactsService.createItem(new Contact(this.fullName));
     // this.contacts$ = this.contactsService.contacts;
   }
 

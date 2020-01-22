@@ -1,9 +1,17 @@
 <div class="center card-custom">
     <mat-card class="mat-form-field">
         <form [formGroup]="createContactForm">
-            <mat-card-header class="center">
-                <mat-card-title>Create New Contact</mat-card-title>
-            </mat-card-header>
+            <mat-toolbar style="background-color:transparent; padding: 0px;" class="center">
+                <button class="dropdown-btn" style="padding-bottom: 10px;">
+                    <mat-icon>keyboard_backspace</mat-icon>
+                </button>
+                <mat-card-header class="center" style="width: 85%;">
+                    <mat-card-title>Create New Contact</mat-card-title>
+                </mat-card-header>
+                <button class="dropdown-btn" style="padding-bottom: 10px;" (click)="createContact(phone.value, email.value)">
+                    <mat-icon>check</mat-icon>
+                </button>
+            </mat-toolbar>
             <p class="center-right">
                 <mat-form-field class="full-width-field" style="padding-left: 10%;" *ngIf="!dropdownToggle" appearance="legacy">
                     <mat-label>Name</mat-label>
@@ -37,30 +45,30 @@
                 </mat-form-field>
             </p>
             <p class="center">
-                <mat-form-field class="contact-type-selector">
+                <mat-form-field class="card-type-email-phone">
                     <mat-select [(value)]="phoneTypeSelected">
                         <mat-option *ngFor="let type of phoneTypes" [value]="type.value">
                             {{type.viewValue}}
                         </mat-option>
                     </mat-select>
                 </mat-form-field>
-                <mat-form-field appearance="legacy">
+                <mat-form-field appearance="legacy" class="card-email-phone">
                     <input matInput #phone type="tel" class="form-control mb-2" placeholder="Phone #">
                 </mat-form-field>
             </p>
             <p class="center">
-                <mat-form-field class="contact-type-selector">
+                <mat-form-field class="card-type-email-phone">
                     <mat-select [(value)]="emailTypeSelected">
                         <mat-option *ngFor="let type of emailTypes" [value]="type.value">
                             {{type.viewValue}}
                         </mat-option>
                     </mat-select>
                 </mat-form-field>
-                <mat-form-field floatLabel="never" appearance="legacy">
+                <mat-form-field appearance="legacy" class="card-email-phone">
                     <input matInput #email type="text" placeholder="Email">
                 </mat-form-field>
             </p>
-            <p class="center">
+            <!-- <p class="center">
                 <button mat-button color="primary" 
                                 class="btn btn-lg btn-primary btn-block mb-1" 
                                 type="submit" 
@@ -71,14 +79,14 @@
                                 class="btn btn-lg btn-primary btn-block mb-1" 
                                 type="submit" 
                                 (click)="showContacts()">Show Contacts</button>
-            </p>
-            <ul>
+            </p> -->
+            <!-- <ul>
                 <mat-list *ngFor="let contact of contacts$ | async">
                     {{ contact.firstName }} {{ contact.lastName }}<br>
                     {{ contact.phone }}<br>
                     {{ contact.email }}
                 </mat-list>
-            </ul>
+            </ul> -->
         </form>
     </mat-card>
 </div>

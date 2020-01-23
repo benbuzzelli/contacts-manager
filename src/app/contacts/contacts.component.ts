@@ -3,6 +3,7 @@ import { ContactsService, Contact } from './contacts.service';
 import { FullName } from '../names/names.service';
 import { AngularFireDatabase } from "@angular/fire/database";
 import { FormGroup, FormBuilder, FormArray } from '@angular/forms';
+import { Router } from  "@angular/router";
 
 export class contactType {
   value: string;
@@ -37,7 +38,7 @@ export class ContactsComponent implements OnInit {
 
   constructor(private contactsService: ContactsService, 
     private db: AngularFireDatabase,
-    private formBuilder: FormBuilder) { }
+    private formBuilder: FormBuilder, public router: Router) { }
 
   ngOnInit() {
     this.createContactForm = this.formBuilder.group({
@@ -67,7 +68,15 @@ export class ContactsComponent implements OnInit {
   }
 
   createContact() {
-    this.contactsService.createContact(new Contact(this.getFullName(), this.phoneNumbers.getRawValue(), this.emails.getRawValue()));
+    let phoneNumbers: any[] = (this.createContactForm.get('phoneNumbers') as FormArray).getRawValue();
+    let emails: any[] = (this.createContactForm.get('emails') as FormArray).getRawValue();
+
+    if (phoneNumbers[phoneNumbers.length-1].value === "")
+      phoneNumbers.pop();
+    if (emails[emails.length-1].value === "")
+      emails.pop();
+
+    this.contactsService.createContact(new Contact(this.getFullName(), phoneNumbers, emails));
   }
 
   handlePhoneArray(value: string) {
@@ -182,7 +191,25 @@ export class ContactsComponent implements OnInit {
     }
   }
 
-  setNameValues(primary: string) {
+  formIsFilled(): boolean {
+    let emails: FormArray = this.createContactForm.get('emails') as FormArray;
+    let phoneNumbers: FormArray = this.createContactForm.get('phoneNumbers') as FormArray;
+
+    if (this.createContactForm.get('primaryName').value != "")
+      return true;
+
+    for (let i = 0; i < emails.length; i++)
+      if (emails.get(i.toString()).get('value').value != "")
+        return true;
+
+    for (let i = 0; i < phoneNumbers.length; i++)
+      if (phoneNumbers.get(i.toString()).get('value').value != "")
+        return true;
+
+    return false
+  }
+
+  setNameValues(primary: string) {    
     let fullName: FullName = this.contactsService.getAllNameValues(this.createContactForm.get('primaryName').value);
 
     this.createContactForm.patchValue({

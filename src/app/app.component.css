@@ -4,6 +4,12 @@
     justify-content: center;
 }
 
+.margin-auto {
+    display: block;
+    margin-left: auto;
+    margin-right: auto
+}
+
 .center-right {
     display: flex;
     align-items: right;
@@ -18,7 +24,9 @@
 }
 
 .full-width-field {
-    width: 80%;
+    width: 75%;
+    padding-right: 5%;
+    padding-left: 5%;
 }
 
 .input-padding {
@@ -39,6 +47,7 @@
 }
 
 .dropdown-btn {
+    padding: 0%;
     border: 0px;
     outline: none;
     background: none;
@@ -48,13 +57,19 @@
     cursor: pointer;
 }
 
+.card-contact-div {
+    max-width: 400px;
+}
+
 .card-email-phone {
-    width: 55%;
+    width: 50%;
+    padding-right: 5%;
 }
 
 .card-type-email-phone {
     width: 20%;
     padding-right: 5%;
+    padding-left: 5%;
 }
 
 .btn-route-link {

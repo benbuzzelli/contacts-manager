@@ -2,36 +2,39 @@
     <mat-card class="mat-form-field">
         <form [formGroup]="createContactForm">
             <mat-toolbar style="background-color:transparent; padding: 0px;" class="center">
-                <button class="dropdown-btn" style="padding-bottom: 10px;">
+                <button (click)="router.navigate(['view-contacts']);" class="dropdown-btn" style="padding-bottom: 10px;">
                     <mat-icon>keyboard_backspace</mat-icon>
                 </button>
                 <mat-card-header class="center" style="width: 85%;">
                     <mat-card-title>Create New Contact</mat-card-title>
                 </mat-card-header>
-                <button class="dropdown-btn" style="padding-bottom: 10px;" (click)="createContact()">
+                <button [disabled]="!formIsFilled()" matRipple class="dropdown-btn" style="padding-bottom: 10px;" (click)="createContact()">
                     <mat-icon>check</mat-icon>
                 </button>
             </mat-toolbar>
             <!-- Input for contacts's name (prefix, first, middle, etc.) -->
-            <p class="center-right">
-                <mat-form-field class="full-width-field" style="padding-left: 10%;" *ngIf="!dropdownToggle" appearance="legacy">
+            <div class="center card-contact-div">
+                <!-- This is in here to align the name element -->
+                <mat-icon style="color: transparent;">expand_less</mat-icon>
+                <!-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ -->
+                <mat-form-field class="full-width-field" *ngIf="!dropdownToggle" appearance="legacy">
                     <mat-label>Name</mat-label>
                     <input matInput formControlName="primaryName" #primaryName type="text" (keyup)="setNameValues(primaryName.value)">
                 </mat-form-field>
-                <mat-form-field class="full-width-field" style="padding-left: 10%;" *ngIf="dropdownToggle" appearance="legacy">
+                <mat-form-field class="full-width-field" *ngIf="dropdownToggle" appearance="legacy">
                     <input matInput formControlName="prefix" #prefix type="text" placeholder="Prefix"
                     (keyup)="updatePrimary()">
                 </mat-form-field>
                 <!-- Toggles the extra names values to be visible in the dom -->
-                <button *ngIf="!dropdownToggle" class="dropdown-btn" [(value)]="dropdownToggle" (click)="toggleDropdown()">
+                <button matRipple *ngIf="!dropdownToggle" class="dropdown-btn" [(value)]="dropdownToggle" (click)="toggleDropdown()">
                     <mat-icon>
                         expand_more</mat-icon>
                 </button>
-                <button *ngIf="dropdownToggle" class="dropdown-btn" [(value)]="dropdownToggle" (click)="toggleDropdown()">
+                <button matRipple *ngIf="dropdownToggle" class="dropdown-btn" [(value)]="dropdownToggle" (click)="toggleDropdown()">
                     <mat-icon>
                         expand_less</mat-icon>
                 </button>
-            </p>
+            </div>
             <p *ngIf="dropdownToggle" class="center-col">
                 <mat-form-field class="full-width-field" appearance="legacy">
                     <input matInput formControlName="firstName" #firstName type="text" placeholder="First name"
@@ -52,9 +55,11 @@
             </p>
 
             <!-- Input for contacts's phone numbers -->
-            <p formArrayName="phoneNumbers"
+            <span formArrayName="phoneNumbers"
             *ngFor="let phoneNumber of createContactForm.get('phoneNumbers').controls; let i = index;" class="center">
-                <span [formGroupName]="i" class="center">
+                <div [formGroupName]="i" class="center card-contact-div">
+                    <mat-icon *ngIf="i==0">call</mat-icon>
+                    <mat-icon style="color: transparent;" *ngIf="i!=0">call</mat-icon>
                     <mat-form-field class="card-type-email-phone">
                         <mat-select formControlName="type">
                             <mat-option *ngFor="let type of phoneTypes" [value]="type.value">
@@ -65,12 +70,19 @@
                     <mat-form-field appearance="legacy" class="card-email-phone">
                         <input formControlName="value" (keyup)="handlePhoneArray(phone.value, 'phoneNumbers')" matInput #phone type="tel" class="form-control mb-2" placeholder="Phone #">
                     </mat-form-field>
-                </span>
-            </p>
+                    <button matRipple *ngIf="phone.value != ''" class="dropdown-btn" (click)="createContactForm.get('phoneNumbers').controls.splice(i, 1)">
+                        <mat-icon>close</mat-icon>
+                    </button
+                    >
+                    <mat-icon style="color: transparent; cursor: default;" *ngIf="phone.value == ''">close</mat-icon>
+                </div>
+            </span>
             <!-- Input for contacts's emails -->
-            <p formArrayName="emails"
+            <span formArrayName="emails"
             *ngFor="let email of createContactForm.get('emails').controls; let i = index;" class="center">
-                <span [formGroupName]="i" class="center">
+                <div [formGroupName]="i" class="center card-contact-div">
+                    <mat-icon *ngIf="i==0">email</mat-icon>
+                    <mat-icon style="color: transparent;" *ngIf="i!=0">email</mat-icon>
                     <mat-form-field class="card-type-email-phone">
                         <mat-select formControlName="type">
                             <mat-option *ngFor="let type of emailTypes" [value]="type.value">
@@ -81,8 +93,12 @@
                     <mat-form-field appearance="legacy" class="card-email-phone">
                         <input formControlName="value" (keyup)="handleEmailArray(email.value, 'emails')" matInput #email type="text" class="form-control mb-2" placeholder="Email">
                     </mat-form-field>
-                </span>
-            </p>
+                    <button matRipple *ngIf="email.value != ''" class="dropdown-btn" (click)="createContactForm.get('emails').controls.splice(i, 1)">
+                        <mat-icon>close</mat-icon>
+                    </button>
+                    <mat-icon style="color: transparent; cursor: default;"  *ngIf="email.value == ''">close</mat-icon>
+                </div>
+            </span>
         </form>
     </mat-card>
 </div>

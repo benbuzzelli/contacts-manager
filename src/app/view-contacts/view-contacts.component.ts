@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AngularFireDatabase, AngularFireList } from "@angular/fire/database";
 import { ContactsService } from '../contacts/contacts.service';
 import { Observable } from 'rxjs';
+import { Router } from  "@angular/router";
 
 @Component({
   selector: 'app-view-contacts',
@@ -12,7 +13,7 @@ export class ViewContactsComponent implements OnInit {
   contacts$: Observable<any[]> = null;
 
   constructor(private contactsService: ContactsService, 
-    private db: AngularFireDatabase) { }
+    private db: AngularFireDatabase, public router: Router) { }
 
   ngOnInit() {
   }

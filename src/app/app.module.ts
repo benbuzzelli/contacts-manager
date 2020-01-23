@@ -57,7 +57,6 @@ const appRoutes: Routes = [
     ),
     BrowserModule,
     AngularFireDatabaseModule,
-    AppRoutingModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule,
     AngularFireAuthModule,
@@ -66,7 +65,8 @@ const appRoutes: Routes = [
     BrowserAnimationsModule,
     MatFormFieldModule,
     MaterialModule,
-    MatIconModule
+    MatIconModule,
+    AppRoutingModule
   ],
   entryComponents: [EditDialogComponent],
   providers: [{ provide: LocationStrategy, useClass: HashLocationStrategy }],

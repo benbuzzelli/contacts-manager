@@ -25,6 +25,11 @@ export class FullName {
     }
 }
 
+// This class is for the add contacts page and/or the edit contacts page.
+// It contains a method called getNames() which returns an instance of
+// FullName. The getNames(string[]) method is called in ContactService
+// in the method, getNameValues(string). This is called whenever a user
+// inputs into the add contacts name field.
 export class NameDefaults {
 
   prefixes: string[] = ["adm","atty","brother","capt","chief","cmdr","col","dean","dr","elder","father","gen","gov",

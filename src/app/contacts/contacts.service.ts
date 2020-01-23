@@ -165,7 +165,7 @@ export class ContactsService {
   }
 
 
-  createItem(contact: Contact)  {
+  createContact(contact: Contact)  {
     this.getItemsList();
     this.db.list(`contacts/${this.userId}`).push(contact);
   }

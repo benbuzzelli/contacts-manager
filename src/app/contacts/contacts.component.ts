@@ -98,8 +98,7 @@ export class ContactsComponent implements OnInit {
   }
 
   createContact() {
-    this.contactsService.createItem(new Contact(this.fullName));
-    // this.contacts$ = this.contactsService.contacts;
+    this.contactsService.createContact(new Contact(this.fullName));
   }
 
   showContacts() {

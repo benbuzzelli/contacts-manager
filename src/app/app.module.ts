@@ -27,6 +27,7 @@ import {MatIconModule} from '@angular/material/icon';
 import { ToolbarComponent } from './toolbar/toolbar.component';
 import { ContactsComponent } from './contacts/contacts.component';
 import { ViewContactsComponent } from './view-contacts/view-contacts.component';
+import { EditDialogComponent } from './edit-dialog/edit-dialog.component';
 
 const appRoutes: Routes = [
   { path:  'login',component:  LoginComponent},
@@ -46,7 +47,8 @@ const appRoutes: Routes = [
     VerifyEmailComponent,
     ToolbarComponent,
     ContactsComponent,
-    ViewContactsComponent
+    ViewContactsComponent,
+    EditDialogComponent
   ],
   imports: [
     RouterModule.forRoot(
@@ -66,6 +68,7 @@ const appRoutes: Routes = [
     MaterialModule,
     MatIconModule
   ],
+  entryComponents: [EditDialogComponent],
   providers: [{ provide: LocationStrategy, useClass: HashLocationStrategy }],
   bootstrap: [AppComponent]
 })

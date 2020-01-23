@@ -4,6 +4,8 @@ import { FullName } from '../names/names.service';
 import { AngularFireDatabase } from "@angular/fire/database";
 import { FormGroup, FormBuilder, FormArray } from '@angular/forms';
 import { Router } from  "@angular/router";
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { EditDialogComponent } from '../edit-dialog/edit-dialog.component';
 
 export class contactType {
   value: string;
@@ -38,7 +40,9 @@ export class ContactsComponent implements OnInit {
 
   constructor(private contactsService: ContactsService, 
     private db: AngularFireDatabase,
-    private formBuilder: FormBuilder, public router: Router) { }
+    private formBuilder: FormBuilder, 
+    public router: Router,
+    public dialog: MatDialog) { }
 
   ngOnInit() {
     this.createContactForm = this.formBuilder.group({
@@ -238,5 +242,20 @@ export class ContactsComponent implements OnInit {
     this.createContactForm.patchValue({
       primaryName: primaryName
     });
+  }
+
+  openEditDialog() {
+    if (!this.formIsFilled()) {
+      this.router.navigate(['view-contacts']);
+      return;
+    }
+
+    let dialogRef = this.dialog.open(EditDialogComponent);
+
+    dialogRef.afterClosed().subscribe(res => {
+      if (res === "discard")
+        this.router.navigate(['view-contacts']);
+    })
+
   }
 }

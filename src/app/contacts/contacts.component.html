@@ -2,7 +2,7 @@
     <mat-card class="mat-form-field">
         <form [formGroup]="createContactForm">
             <mat-toolbar style="background-color:transparent; padding: 0px;" class="center">
-                <button (click)="router.navigate(['view-contacts']);" class="dropdown-btn" style="padding-bottom: 10px;">
+                <button (click)="openEditDialog();" class="dropdown-btn" style="padding-bottom: 10px;">
                     <mat-icon>keyboard_backspace</mat-icon>
                 </button>
                 <mat-card-header class="center" style="width: 85%;">

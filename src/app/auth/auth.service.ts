@@ -8,6 +8,7 @@ import { User } from  'firebase';
 })
 export class AuthService {
   user: User;
+  redirectUrl: string;
 
   constructor(public  afAuth:  AngularFireAuth, public  router:  Router) {
     this.afAuth.authState.subscribe(user => {
@@ -20,9 +21,16 @@ export class AuthService {
     });
   }
 
+  get isAuthenticated(): boolean {
+    return this.user.emailVerified
+  }
+
   async login(email: string, password: string) {
     var result = await this.afAuth.auth.signInWithEmailAndPassword(email, password)
-    this.router.navigate(['view-contacts']);
+    if (this.isAuthenticated)
+      this.router.navigate(['view-contacts']);
+    else
+      this.logout();
   }
 
   async sendEmailVerification() {
@@ -33,6 +41,7 @@ export class AuthService {
   async register(email: string, password: string) {
     var result = await this.afAuth.auth.createUserWithEmailAndPassword(email, password)
     this.sendEmailVerification();
+    this.logout();
   }
 
   async sendPasswordResetEmail(passwordResetEmail: string) {

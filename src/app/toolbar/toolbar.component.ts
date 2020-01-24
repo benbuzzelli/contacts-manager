@@ -15,8 +15,7 @@ export class ToolbarComponent implements OnInit {
   }
 
   isLoggedIn() {
-    let user = localStorage.getItem('user');
-    return user !== "null" && typeof user !== 'undefined' && user !== null;
+    return this.authService.isLoggedIn;
   }
 
   logOut() {

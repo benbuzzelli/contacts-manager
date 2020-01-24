@@ -27,7 +27,7 @@ export class AuthService {
 
   async sendEmailVerification() {
     await this.afAuth.auth.currentUser.sendEmailVerification()
-    this.router.navigate(['login']);
+    this.router.navigate(['verify-email']);
   }
 
   async register(email: string, password: string) {
@@ -36,7 +36,8 @@ export class AuthService {
   }
 
   async sendPasswordResetEmail(passwordResetEmail: string) {
-    return await this.afAuth.auth.sendPasswordResetEmail(passwordResetEmail);
+    await this.afAuth.auth.sendPasswordResetEmail(passwordResetEmail);
+    this.router.navigate(['login']);
   }
 
   async logout(){

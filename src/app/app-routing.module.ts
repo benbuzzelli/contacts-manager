@@ -14,7 +14,8 @@ const appRoutes: Routes = [
   { path:  'forgot-password', component:  ForgotPasswordComponent },
   { path:  'verify-email', component:  VerifyEmailComponent },
   { path:  'contacts',component:  ContactsComponent},
-  { path:  'view-contacts',component:  ViewContactsComponent}
+  { path:  'view-contacts',component:  ViewContactsComponent},
+  { path:  'forgot-password',component:  ViewContactsComponent}
 ];
 
 @NgModule({

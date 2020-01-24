@@ -27,12 +27,12 @@ export class AuthService {
 
   async sendEmailVerification() {
     await this.afAuth.auth.currentUser.sendEmailVerification()
-    this.router.navigate(['verify-email']);
+    this.router.navigate(['login']);
   }
 
   async register(email: string, password: string) {
     var result = await this.afAuth.auth.createUserWithEmailAndPassword(email, password)
-    this.router.navigate(['contacts']);
+    this.sendEmailVerification();
   }
 
   async sendPasswordResetEmail(passwordResetEmail: string) {

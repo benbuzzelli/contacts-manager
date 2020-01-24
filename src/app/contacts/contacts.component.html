@@ -8,7 +8,7 @@
                 <mat-card-header class="center" style="width: 85%;">
                     <mat-card-title>Create New Contact</mat-card-title>
                 </mat-card-header>
-                <button [disabled]="!formIsFilled()" matRipple class="dropdown-btn" style="padding-bottom: 10px;" (click)="createContact()">
+                <button [disabled]="!formIsFilled()" matRipple class="dropdown-btn" style="padding-bottom: 10px;" (click)="createContact(); router.navigate(['view-contacts']);">
                     <mat-icon>check</mat-icon>
                 </button>
             </mat-toolbar>

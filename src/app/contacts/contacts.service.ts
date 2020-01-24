@@ -29,7 +29,7 @@ export class ContactsService {
     })
   }
 
-  getItemsList(): Observable<any[]> {
+  getContactsList(): Observable<any[]> {
     if (!this.userId) return;
     this.contacts$ = this.db.list(`contacts/${this.userId}`).valueChanges();
     this.db.list(`contacts/${this.userId}`).valueChanges().subscribe(console.log);
@@ -38,7 +38,7 @@ export class ContactsService {
 
 
   createContact(contact: Contact)  {
-    this.getItemsList();
+    this.getContactsList();
     this.db.list(`contacts/${this.userId}`).push(contact);
   }
 

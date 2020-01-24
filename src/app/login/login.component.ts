@@ -33,14 +33,14 @@ export class LoginComponent implements OnInit {
     private contactsService: ContactsService,
     private formBuilder: FormBuilder, public router: Router) { }
 
-    ngOnInit() {
-      this.loginForm = this.formBuilder.group({
-        email: '',
-        password: ''
-      })
-  
-      this.loginForm.valueChanges.subscribe(console.log)
-    }
+  ngOnInit() {
+    this.loginForm = this.formBuilder.group({
+      email: '',
+      password: ''
+    })
+
+    this.loginForm.valueChanges.subscribe(console.log)
+  }
 
   async login(email: string, password: string) {
     this.getItemsList();
@@ -48,7 +48,7 @@ export class LoginComponent implements OnInit {
   }
 
   getItemsList() {
-    this.contactsService.getItemsList();
+    this.contactsService.getContactsList();
   }
 
 }

@@ -19,8 +19,7 @@
             </mat-form-field>
         </p>
         <p class="center">
-        <button mat-button color="primary" 
-                class="btn btn-lg btn-primary btn-block mb-1" 
+        <button mat-raised-button color="primary" 
                 type="submit" 
                 (click)="login(email.value, password.value)">Login</button>
         </p>
@@ -31,5 +30,10 @@
     <span class="text-option">Don't have an account?</span>
     <button class="btn-route-link" (click)="router.navigate(['register']);">
         Register
+    </button>
+</p>
+<p class="center">
+    <button class="btn-route-link" (click)="router.navigate(['forgot-password']);">
+        Forgot Password
     </button>
 </p>

@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { AngularFireDatabase, AngularFireList } from "@angular/fire/database";
-import { ContactsService } from '../contacts/contacts.service';
+import { ContactsService } from '../create-contacts/contacts.service';
 import { Observable } from 'rxjs';
 import { Router } from  "@angular/router";
-import { Contact } from '../contacts/contacts.service';
+import { Contact } from '../create-contacts/contacts.service';
 
 @Component({
   selector: 'app-view-contacts',

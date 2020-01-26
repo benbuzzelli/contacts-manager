@@ -25,7 +25,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from './material/material.module';
 import { MatIconModule } from '@angular/material/icon';
 import { ToolbarComponent } from './toolbar/toolbar.component';
-import { ContactsComponent } from './contacts/contacts.component';
+import { ContactsComponent } from './create-contacts/create-contacts.component';
 import { ViewContactsComponent } from './view-contacts/view-contacts.component';
 import { EditDialogComponent } from './edit-dialog/edit-dialog.component';
 

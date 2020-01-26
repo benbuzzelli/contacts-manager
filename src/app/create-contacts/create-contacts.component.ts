@@ -15,8 +15,8 @@ export class contactType {
 
 @Component({
   selector: 'app-contacts',
-  templateUrl: './contacts.component.html',
-  styleUrls: ['./contacts.component.css']
+  templateUrl: './create-contacts.component.html',
+  styleUrls: ['./create-contacts.component.css']
 })
 export class ContactsComponent implements OnInit {
   createContactForm: FormGroup;

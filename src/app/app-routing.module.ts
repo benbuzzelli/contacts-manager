@@ -4,7 +4,7 @@ import { LoginComponent } from  './login/login.component';
 import { RegisterComponent } from  './register/register.component';
 import { ForgotPasswordComponent } from  './forgot-password/forgot-password.component';
 import { VerifyEmailComponent } from  './verify-email/verify-email.component';
-import { ContactsComponent } from './contacts/contacts.component';
+import { ContactsComponent } from './create-contacts/create-contacts.component';
 import { ViewContactsComponent } from './view-contacts/view-contacts.component';
 import { AuthGuard } from './auth/auth.guard';
 

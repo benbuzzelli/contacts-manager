@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from  '../auth/auth.service';
 import { FormGroup, FormBuilder } from '@angular/forms';
-import { ContactsService } from '../contacts/contacts.service';
+import { ContactsService } from '../create-contacts/contacts.service';
 import { Router } from  "@angular/router";
 import {FormControl, FormGroupDirective, NgForm, Validators} from '@angular/forms';
 import {ErrorStateMatcher} from '@angular/material/core';
@@ -43,12 +43,6 @@ export class LoginComponent implements OnInit {
   }
 
   async login(email: string, password: string) {
-    this.getItemsList();
     this.authService.login(email, password);
   }
-
-  getItemsList() {
-    this.contactsService.getContactsList();
-  }
-
 }

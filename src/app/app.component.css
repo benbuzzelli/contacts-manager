@@ -42,6 +42,14 @@
     padding-top: 20px;
 }
 
+.card-size-2 {
+    min-width: 250px;
+}
+
+.input-width-4 {
+    width: 90%;
+}
+
 .text-option {
     font-size: 14px;
 }

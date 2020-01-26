@@ -1,11 +1,11 @@
 <div class="card-custom center">
-<mat-card class="mat-form-field">
+<mat-card class="mat-form-field card-size-2">
     <form [formGroup]="registerForm">
         <mat-card-header class="center">
             <mat-card-title>Register</mat-card-title>
         </mat-card-header>
-        <p>
-            <mat-form-field appearance="legacy">
+        <p class="center">
+            <mat-form-field class="input-width-4" appearance="legacy">
                 <input matInput #email type="text" placeholder="Email" required [formControl]="emailFormControl"
                 [errorStateMatcher]="matcher">
                 <mat-error *ngIf="emailFormControl.hasError('email') && !emailFormControl.hasError('required')">
@@ -13,8 +13,8 @@
                 </mat-error>
             </mat-form-field>
         </p>
-        <p>
-            <mat-form-field appearance="legacy">
+        <p class="center">
+            <mat-form-field class="input-width-4" appearance="legacy">
                 <input matInput #password type="password" class="form-control mb-2" placeholder="Password" required>
             </mat-form-field>
         </p>

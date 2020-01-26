@@ -1,2 +1,21 @@
 <!-- This button was for testing purposes and can be deleted -->
-<button (click)="router.navigate(['contacts']);">create contacts</button>
+<br>
+<div class="center">
+    <button mat-button (click)="router.navigate(['contacts']);">create contacts</button>
+</div>
+<br>
+<br>
+<div class="center">
+    <button mat-raised-button (click)="showContacts();">update contacts</button>
+</div>
+<div class="center">
+    <ul>
+        <li *ngFor="let contact of contacts$ | async">
+            {{contact.id}}
+            <mat-icon class="dropdown-btn" (click)="deleteContact(contact);">cancel</mat-icon>
+        </li>
+    </ul>
+</div>
+<!-- <div class="center">
+    <button color="primary" mat-raised-button (click)="deleteContact();">delete contact</button>
+</div> -->

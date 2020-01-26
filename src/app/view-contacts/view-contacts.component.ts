@@ -3,6 +3,7 @@ import { AngularFireDatabase, AngularFireList } from "@angular/fire/database";
 import { ContactsService } from '../contacts/contacts.service';
 import { Observable } from 'rxjs';
 import { Router } from  "@angular/router";
+import { Contact } from '../contacts/contacts.service';
 
 @Component({
   selector: 'app-view-contacts',
@@ -18,8 +19,17 @@ export class ViewContactsComponent implements OnInit {
   ngOnInit() {
   }
 
-  showContacts() {
+  async showContacts() {
+    this.contactsService.getContactsList();
     this.contacts$ = this.contactsService.contacts$;
+  }
+
+  search() {
+    this.contactsService.search();
+  }
+
+  deleteContact(contact: Contact) {
+    this.contactsService.deleteContact(contact);
   }
 
 }

@@ -4,6 +4,8 @@ import { ContactsService } from '../create-contacts/contacts.service';
 import { Observable } from 'rxjs';
 import { Router } from  "@angular/router";
 import { Contact } from '../create-contacts/contacts.service';
+import {MatTableModule} from '@angular/material/table';
+
 
 @Component({
   selector: 'app-view-contacts',
@@ -12,6 +14,11 @@ import { Contact } from '../create-contacts/contacts.service';
 })
 export class ViewContactsComponent implements OnInit {
   contacts$: Observable<any[]> = null;
+  
+  /**
+   * Setup table with column headers to diplsay contacts
+   */
+  displayedColumns: string[] = ['fullName'];
 
   constructor(private contactsService: ContactsService, 
     private db: AngularFireDatabase, public router: Router) { }

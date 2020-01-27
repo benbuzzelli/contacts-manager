@@ -24,6 +24,7 @@ export class ViewContactsComponent implements OnInit {
     private db: AngularFireDatabase, public router: Router) { }
 
   ngOnInit() {
+    this.showContacts();
   }
 
   async showContacts() {

@@ -24,6 +24,11 @@ export class ViewContactsComponent implements OnInit {
     private db: AngularFireDatabase, public router: Router) {
       // Initialise contact$ 
       this.contacts$ = this.contactsService.contacts$;
+
+      router.events.subscribe((val) => {
+        console.log("Route chaged");
+        this.setContacts();
+      })
   }
 
   ngOnInit() {

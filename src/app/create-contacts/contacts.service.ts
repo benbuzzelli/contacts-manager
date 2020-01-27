@@ -44,7 +44,8 @@ export class ContactsService {
   setContactsList(): Observable<any[]> {
     // Set contactsRef to be the user's contact collection.
     // If no collection exists, one will be created with the user's id.
-    this.contactsRef = this.afs.collection<Contact>(`contacts-${this.userId}`);
+    this.contactsRef = this.afs.collection<Contact>(`contacts-${this.userId}`, ref => ref.orderBy('fullName'));
+
     if (!this.userId) return;
 
     // Set the contacts$ variable using Angular Firestore's snapshotChanges method.

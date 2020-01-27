@@ -2,12 +2,14 @@
     <mat-card class="mat-form-field">
         <form [formGroup]="createContactForm">
             <mat-toolbar style="background-color:transparent; padding: 0px;" class="center">
+                <!-- Brings up a dialog if clicked which asks if the user wants to discard the new contact -->
                 <button (click)="openEditDialog();" class="dropdown-btn" style="padding-bottom: 10px;">
                     <mat-icon>keyboard_backspace</mat-icon>
                 </button>
                 <mat-card-header class="center" style="width: 85%;">
                     <mat-card-title>Create New Contact</mat-card-title>
                 </mat-card-header>
+                <!-- Calls createContact if clicked, and navigates back to view-contacts -->
                 <button type="button" [disabled]="!formIsFilled()" matRipple 
                 class="dropdown-btn" 
                 style="padding-bottom: 10px;" 
@@ -15,7 +17,7 @@
                     <mat-icon>check</mat-icon>
                 </button>
             </mat-toolbar>
-            <!-- Input for contacts's name (prefix, first, middle, etc.) -->
+            <!-- Input for contacts's fullName and prefix -->
             <div class="center card-contact-div">
                 <!-- This is in here to align the name element -->
                 <mat-icon style="color: transparent;">expand_less</mat-icon>
@@ -38,6 +40,7 @@
                         expand_less</mat-icon>
                 </button>
             </div>
+            <!-- Input for contacts's first, middle, last name, and suffix -->
             <p *ngIf="dropdownToggle" class="center-col">
                 <mat-form-field class="full-width-field" appearance="legacy">
                     <input matInput formControlName="firstName" #firstName type="text" placeholder="First name"

@@ -21,19 +21,19 @@ export class ViewContactsComponent implements OnInit {
   displayedColumns: string[] = ['fullName'];
 
   constructor(private contactsService: ContactsService, 
-    private db: AngularFireDatabase, public router: Router) { }
+    private db: AngularFireDatabase, public router: Router) {
+      // Initialise contact$ 
+      this.contacts$ = this.contactsService.contacts$;
+  }
 
   ngOnInit() {
-    this.showContacts();
+    // Set the users contacts in the template on init.
+    this.setContacts();
   }
 
-  async showContacts() {
-    this.contactsService.getContactsList();
-    this.contacts$ = this.contactsService.contacts$;
-  }
-
-  search() {
-    this.contactsService.search();
+  // See method: setContactsList() in create-contacts/contacts.service.ts
+  async setContacts() {
+    this.contactsService.setContactsList();
   }
 
   deleteContact(contact: Contact) {

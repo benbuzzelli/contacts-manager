@@ -4,21 +4,25 @@
         <mat-card-header class="center">
             <mat-card-title>Login</mat-card-title>
         </mat-card-header>
+        <!-- Input field for email -->
         <p class="center">
             <mat-form-field class="input-width-4" appearance="legacy">
                 <input matInput #email type="text" placeholder="Email" required [formControl]="emailFormControl"
                 [errorStateMatcher]="matcher">
+                <!-- Error displayed if a user inputs an invalid email -->
                 <mat-error *ngIf="emailFormControl.hasError('email') && !emailFormControl.hasError('required')">
                     Please enter a valid email address
                 </mat-error>
             </mat-form-field>
         </p>
+        <!-- Input field for password -->
         <p class="center">
             <mat-form-field class="input-width-4" appearance="legacy">
                 <input matInput #password type="password" class="form-control mb-2" placeholder="Password" required>
             </mat-form-field>
         </p>
         <p class="center">
+        <!-- Calls the login function when clicked -->
         <button mat-raised-button color="primary" 
                 type="submit" 
                 (click)="login(email.value, password.value)">Login</button>

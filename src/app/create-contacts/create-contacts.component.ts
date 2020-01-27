@@ -7,7 +7,7 @@ import { Router } from  "@angular/router";
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { EditDialogComponent } from '../edit-dialog/edit-dialog.component';
 
-export class contactType {
+export class ContactType {
   value: string;
   viewValue: string;
   inUse: boolean;
@@ -23,16 +23,20 @@ export class ContactsComponent implements OnInit {
   phoneNumbers: FormArray;
   emails: FormArray;
   
+  // When true, the name dropdown shows, which lets the user
+  // input more name field values.
   dropdownToggle: boolean;
 
-  phoneTypes: contactType[] = [
+  // Array of ContactType's for the phone types to populate the phone number select options
+  phoneTypes: ContactType[] = [
     {value: "Mobile", viewValue: "Mobile", inUse: false},
     {value: "Work", viewValue: "Work", inUse: false},
     {value: "Home", viewValue: "Home", inUse: false},
     {value: "Other", viewValue: "Other", inUse: false}
   ];
 
-  emailTypes: contactType[] = [
+  // Array of ContactType's for the email types to populate the email select options
+  emailTypes: ContactType[] = [
     {value: "Work", viewValue: "Work", inUse: false},
     {value: "Home", viewValue: "Home", inUse: false},
     {value: "Other", viewValue: "Other", inUse: false}
@@ -57,24 +61,32 @@ export class ContactsComponent implements OnInit {
     })
   }
 
+  // Adds a new phone number input field into the template
   addPhoneNumber(): void {
     this.phoneNumbers = this.createContactForm.get('phoneNumbers') as FormArray;
     this.phoneNumbers.push(this.createPhoneNumber(this.phoneNumbers.length));
   }
 
+  // Adds a new email input field into the template
   addEmail(): void {
     this.emails = this.createContactForm.get('emails') as FormArray;
     this.emails.push(this.createEmail(this.emails.length));
   }
 
+  // Toggles the dropDownToggle boolean
   toggleDropdown() {
     this.dropdownToggle = !this.dropdownToggle;
   }
 
+  // Creates a new contact with the input values from createContactForm
   createContact() {
+    // Retrieves the raw data values of phoneNumbers and emails from createContactForm,
+    // and stores them into two separate arrays.
     let phoneNumbers: any[] = (this.createContactForm.get('phoneNumbers') as FormArray).getRawValue();
     let emails: any[] = (this.createContactForm.get('emails') as FormArray).getRawValue();
 
+    // Removes the last element from phoneNumbers and emails if
+    // they are "empty".
     if (phoneNumbers[phoneNumbers.length-1].value === "")
       phoneNumbers.pop();
     if (emails[emails.length-1].value === "")
@@ -83,6 +95,8 @@ export class ContactsComponent implements OnInit {
     this.contactsService.createContact(new Contact(this.getFullName(), phoneNumbers, emails));
   }
 
+  // Removes or adds a new phone number input field whether or not
+  // there is no empty phone number input field.
   handlePhoneArray(value: string) {
     this.phoneNumbers = this.createContactForm.get('phoneNumbers') as FormArray;
     let length: number = (this.phoneNumbers.length);
@@ -109,6 +123,8 @@ export class ContactsComponent implements OnInit {
     }
   }
 
+  // Removes or adds a new email input field whether or not
+  // there is no empty email input field.
   handleEmailArray(value: string) {
     this.emails = this.createContactForm.get('emails') as FormArray;
     let length: number = (this.emails.length);
@@ -135,6 +151,7 @@ export class ContactsComponent implements OnInit {
     }
   }
 
+  // Returns a new FormGroup instance for phone numbers
   createPhoneNumber(length: number): FormGroup {
     return this.formBuilder.group({
       type: this.getDefaultedPhoneType(),
@@ -144,6 +161,7 @@ export class ContactsComponent implements OnInit {
     });
   }
 
+  // Returns a new FormGroup instance for email
   createEmail(length: number): FormGroup {
     return this.formBuilder.group({
       type: this.getDefaultedEmailType(),
@@ -153,6 +171,8 @@ export class ContactsComponent implements OnInit {
     });
   }
 
+  // Returns the type of phone number to be displayed, based on which
+  // types are currently in use.
   getDefaultedPhoneType() {
     for (let i = 0; i < this.phoneTypes.length; i++) {
       if (!this.phoneTypes[i].inUse)
@@ -161,6 +181,8 @@ export class ContactsComponent implements OnInit {
     return this.phoneTypes[this.phoneTypes.length-1].viewValue;
   }
 
+  // Returns the type of email to be displayed, based on which
+  // types are currently in use.
   getDefaultedEmailType() {
     for (let i = 0; i < this.emailTypes.length; i++) {
       if (!this.emailTypes[i].inUse)
@@ -169,6 +191,9 @@ export class ContactsComponent implements OnInit {
     return this.emailTypes[this.emailTypes.length-1].viewValue;
   }
 
+  // Loops through the phone number and email types
+  // and sets their inUse value to true if they are equal
+  // to the createContactForm phone number or email type.
   setTypesInUse() {
     this.phoneNumbers = this.createContactForm.get('phoneNumbers') as FormArray;
     for (let j = 0; j < this.phoneTypes.length; j++) {
@@ -195,6 +220,7 @@ export class ContactsComponent implements OnInit {
     }
   }
 
+  // Checks all formGroup values to see if the form is filled
   formIsFilled(): boolean {
     let emails: FormArray = this.createContactForm.get('emails') as FormArray;
     let phoneNumbers: FormArray = this.createContactForm.get('phoneNumbers') as FormArray;
@@ -213,6 +239,10 @@ export class ContactsComponent implements OnInit {
     return false
   }
 
+  // Called whenever a user inputs into the primaryName field.
+  // Patches the values in createContactForm with the updated
+  // values for prefix, first, middle, last name, and suffix,
+  // which change based on the input primary name.
   setNameValues(primary: string) {    
     let fullName: FullName = this.contactsService.getAllNameValues(this.createContactForm.get('primaryName').value);
 
@@ -226,6 +256,8 @@ export class ContactsComponent implements OnInit {
     });
   }
 
+  // Returns a FullName instance which is 
+  // created using the createContactForm values.
   getFullName() {
     return new FullName(
       this.createContactForm.get('primaryName').value,
@@ -237,6 +269,9 @@ export class ContactsComponent implements OnInit {
     );
   }
 
+  // Updates the formGroup variable, "primaryName". This is
+  // called whenever a user inputs into the fields for a contact's
+  // prefix, first, middle, last name, and suffix.
   updatePrimary() {
     let primaryName: string = this.contactsService.getDisplayName(this.getFullName());
     this.createContactForm.patchValue({
@@ -244,6 +279,8 @@ export class ContactsComponent implements OnInit {
     });
   }
 
+  // Opens the edit dialog to give a user the option to either discard their changes,
+  // or keep creating the new contact.
   openEditDialog() {
     if (!this.formIsFilled()) {
       this.router.navigate(['view-contacts']);

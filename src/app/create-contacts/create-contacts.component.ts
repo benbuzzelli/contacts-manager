@@ -6,6 +6,7 @@ import { FormGroup, FormBuilder, FormArray } from '@angular/forms';
 import { Router } from  "@angular/router";
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { EditDialogComponent } from '../edit-dialog/edit-dialog.component';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 export class ContactType {
   value: string;
@@ -46,7 +47,8 @@ export class ContactsComponent implements OnInit {
     private db: AngularFireDatabase,
     private formBuilder: FormBuilder, 
     public router: Router,
-    public dialog: MatDialog) { }
+    public dialog: MatDialog,
+    private _createdContactSnackBar: MatSnackBar) { }
 
   ngOnInit() {
     this.createContactForm = this.formBuilder.group({
@@ -76,6 +78,13 @@ export class ContactsComponent implements OnInit {
   // Toggles the dropDownToggle boolean
   toggleDropdown() {
     this.dropdownToggle = !this.dropdownToggle;
+  }
+
+  openContactCreatedSnackBar(action: string) {
+    let message = this.createContactForm.get('primaryName').value;
+    this._createdContactSnackBar.open(message, action, {
+      duration: 2000,
+    });
   }
 
   // Creates a new contact with the input values from createContactForm

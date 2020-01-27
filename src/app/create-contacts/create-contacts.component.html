@@ -13,7 +13,7 @@
                 <button type="button" [disabled]="!formIsFilled()" matRipple 
                 class="dropdown-btn" 
                 style="padding-bottom: 10px;" 
-                (click)="createContact(); router.navigate(['view-contacts']);">
+                (click)="createContact(); openContactCreatedSnackBar('created!'); router.navigate(['view-contacts']);">
                     <mat-icon>check</mat-icon>
                 </button>
             </mat-toolbar>

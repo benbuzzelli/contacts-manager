@@ -8,8 +8,9 @@ import { AngularFirestoreCollection, AngularFirestore } from '@angular/fire/fire
 import { map } from 'rxjs/operators';
 
 export class Contact {
-  id: string
-  fullName: FullName
+  id: string;
+  name: string;
+  fullName: FullName;
   phoneNumbers: any[];
   emails: any[];
 
@@ -17,6 +18,8 @@ export class Contact {
     this.fullName = fullName;
     this.phoneNumbers = phoneNumbers;
     this.emails = emails;
+
+    this.name = fullName.fullName.toLowerCase();
   }
 }
 
@@ -44,7 +47,7 @@ export class ContactsService {
   setContactsList(): Observable<any[]> {
     // Set contactsRef to be the user's contact collection.
     // If no collection exists, one will be created with the user's id.
-    this.contactsRef = this.afs.collection<Contact>(`contacts-${this.userId}`, ref => ref.orderBy('fullName'));
+    this.contactsRef = this.afs.collection<Contact>(`contacts-${this.userId}`, ref => ref.orderBy('name'));
 
     if (!this.userId) return;
 
@@ -66,6 +69,7 @@ export class ContactsService {
   createContact(contact: Contact)  {
     this.contactsRef = this.afs.collection<Contact>(`contacts-${this.userId}`);
     this.contactsRef.add(JSON.parse(JSON.stringify(contact)));
+    this.setContactsList();
   }
 
   // Gets the document with the contact's id and deletes it.

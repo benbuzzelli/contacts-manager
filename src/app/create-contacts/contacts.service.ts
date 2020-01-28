@@ -42,15 +42,15 @@ export class ContactsService {
     this.afAuth.authState.subscribe(user => {
       if(user) this.userId = user.uid
     })
+    if (localStorage.getItem('uid') != null)
+      this.userId = localStorage.getItem('uid').replace(/\"/g, "")
   }
 
-  setContactsList(): Observable<any[]> {
+  setContactsList(): void {
+    if (this.userId === null) return;
     // Set contactsRef to be the user's contact collection.
     // If no collection exists, one will be created with the user's id.
     this.contactsRef = this.afs.collection<Contact>(`contacts-${this.userId}`, ref => ref.orderBy('name'));
-
-    if (!this.userId) return;
-
     // Set the contacts$ variable using Angular Firestore's snapshotChanges method.
     this.contacts$ = this.contactsRef.snapshotChanges().pipe(map(actions => {
       return actions.map(action => {
@@ -61,6 +61,11 @@ export class ContactsService {
         return { id, ...data };
       });
     }));
+  }
+
+  getContactsList(): Observable<any[]> {
+    this.setContactsList();
+    return this.contacts$;
   }
 
   // Sets contactRef and adds the new contact. The contact neeeds 

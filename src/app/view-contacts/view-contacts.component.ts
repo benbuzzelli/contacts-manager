@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit} from '@angular/core';
 import { AngularFireDatabase, AngularFireList } from "@angular/fire/database";
 import { ContactsService } from '../create-contacts/contacts.service';
 import { Observable } from 'rxjs';
@@ -37,12 +37,14 @@ export class ViewContactsComponent implements OnInit {
   }
 
   // See method: setContactsList() in create-contacts/contacts.service.ts
-  async setContacts() {
+  public setContacts() {
     this.contactsService.setContactsList();
   }
 
   deleteContact(contact: Contact) {
     this.contactsService.deleteContact(contact);
   }
+
+
 
 }

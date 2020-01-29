@@ -1,1 +1,5 @@
 @import '../app.component.css';
+
+table {
+  	width: 75%;
+}

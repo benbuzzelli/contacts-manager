@@ -29,16 +29,11 @@ export class ViewContactsComponent implements OnInit {
     private db: AngularFireDatabase, public router: Router) {
       // Initialise contact$
       this.contacts$ = this.contactsService.contacts$;
-
-      router.events.subscribe((val) => {
-        console.log("Route chaged");
-        this.setContacts();
-      })
   }
 
   ngOnInit() {
     // Set the users contacts in the template on init.
-    this.setContacts();
+    this.contacts$ = this.contactsService.getContactsList();
   }
 
   // See method: setContactsList() in create-contacts/contacts.service.ts

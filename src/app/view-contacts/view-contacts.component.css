@@ -1,1 +1,27 @@
 @import '../app.component.css';
+
+.view-container {
+    height: 500px;
+    width: 800px;
+    overflow: auto;
+}
+
+.view-container-search {
+    min-height: 50px;
+    max-height: 500px;
+    width: 800px;
+    overflow: auto;
+}
+
+.search-input {
+    height: 30px;
+    width: 90%;
+    padding-left: 10px;
+    font-size: small;
+    border: 2px solid #673AB7;
+    border-radius: 30px;
+}
+
+.search-input:focus {
+    outline: none;
+}

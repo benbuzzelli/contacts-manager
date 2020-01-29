@@ -28,12 +28,12 @@ export class ViewContactsComponent implements OnInit {
     public dialog: MatDialog,
     private db: AngularFireDatabase, public router: Router) {
       // Initialise contact$
-      this.contacts$ = this.contactsService.contacts$;
+      this.contacts$ = this.contactsService.getSearchResults('');
   }
 
   ngOnInit() {
     // Set the users contacts in the template on init.
-    this.contacts$ = this.contactsService.getContactsList();
+    this.contacts$ = this.contactsService.getSearchResults('');
   }
 
   // See method: setContactsList() in create-contacts/contacts.service.ts
@@ -49,6 +49,11 @@ export class ViewContactsComponent implements OnInit {
         this.contactsService.deleteContact(contact);
     })
 
+  }
+
+  search(str: string) {
+    str = str.replace(/[^a-zA-Z0-9]/g, "");
+    this.contacts$ = this.contactsService.getSearchResults(str);;
   }
 
 }

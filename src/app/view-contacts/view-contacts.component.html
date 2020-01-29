@@ -3,10 +3,12 @@
 <div class="center">
     <button mat-button (click)="router.navigate(['contacts']);">create contacts</button>
 </div>
-<br>
 
-<div>
-
+<!-- Search input field -->
+<div class="center">
+    <p style="width: 400px;" class="center" appearance="legacy">
+        <input class="search-input" (keyup)="search(searchVal.value)" #searchVal type="text" placeholder="Search contacts">
+    </p>
 </div>
 
 <!--Diplay Contacts in a Table-->

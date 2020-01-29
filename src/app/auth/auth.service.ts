@@ -10,13 +10,16 @@ export class AuthService {
   user: User;
 
   constructor(public  afAuth:  AngularFireAuth, public  router:  Router) {
+    console.log("auth service");
     // Adds the user to localStorage if there is one.
     this.afAuth.authState.subscribe(user => {
       if (user){
         this.user = user;
         localStorage.setItem('user', JSON.stringify(this.user));
+        localStorage.setItem('uid', JSON.stringify(this.user.uid))
       } else {
         localStorage.setItem('user', null);
+        localStorage.setItem('uid', null);
       }
     });
   }
@@ -60,6 +63,7 @@ export class AuthService {
   async logout(){
     await this.afAuth.auth.signOut();
     localStorage.removeItem('user');
+    localStorage.removeItem('uid');
     this.router.navigate(['login']);
   }
 

@@ -8,8 +8,9 @@ import { AngularFirestoreCollection, AngularFirestore } from '@angular/fire/fire
 import { map } from 'rxjs/operators';
 
 export class Contact {
-  id: string
-  fullName: FullName
+  id: string;
+  name: string;
+  fullName: FullName;
   phoneNumbers: any[];
   emails: any[];
 
@@ -17,6 +18,8 @@ export class Contact {
     this.fullName = fullName;
     this.phoneNumbers = phoneNumbers;
     this.emails = emails;
+
+    this.name = fullName.fullName.toLowerCase();
   }
 }
 
@@ -39,15 +42,15 @@ export class ContactsService {
     this.afAuth.authState.subscribe(user => {
       if(user) this.userId = user.uid
     })
+    if (localStorage.getItem('uid') != null)
+      this.userId = localStorage.getItem('uid').replace(/\"/g, "")
   }
 
-  setContactsList(): Observable<any[]> {
+  setContactsList(): void {
+    if (this.userId === null) return;
     // Set contactsRef to be the user's contact collection.
     // If no collection exists, one will be created with the user's id.
-    this.contactsRef = this.afs.collection<Contact>(`contacts-${this.userId}`, ref => ref.orderBy('fullName'));
-
-    if (!this.userId) return;
-
+    this.contactsRef = this.afs.collection<Contact>(`contacts-${this.userId}`, ref => ref.orderBy('name'));
     // Set the contacts$ variable using Angular Firestore's snapshotChanges method.
     this.contacts$ = this.contactsRef.snapshotChanges().pipe(map(actions => {
       return actions.map(action => {
@@ -60,16 +63,69 @@ export class ContactsService {
     }));
   }
 
+  getContactsList(): Observable<any[]> {
+    this.setContactsList();
+    return this.contacts$;
+  }
+
+  searchEmpty: boolean = false;
+  setSearchContacts(searchStr: string) {
+    let contactsRef: AngularFirestoreCollection<Contact> = null;
+    if (searchStr === null || searchStr === '')
+      contactsRef = this.afs.collection<Contact>(`contacts-${this.userId}`, ref => ref.orderBy('name'));
+    else 
+      contactsRef = this.afs.collection<Contact>(`contacts-${this.userId}`, ref => ref.orderBy('searchIndex' + searchStr));
+    this.contacts$ = contactsRef.snapshotChanges().pipe(map(actions => {
+      return actions.map(action => {
+        const data = action.payload.doc.data() as Contact;
+
+        // Gets the id associated with the document and sets it's id field equal to its id.
+        const id = action.payload.doc.id;
+        return { id, ...data };
+      });
+    }));
+    contactsRef.get().subscribe(doc => {
+      this.searchEmpty = doc.empty;
+    })
+  }
+
+  getSearchResults(str: string): Observable<any[]> {
+    if (str === null || str === '')
+      this.setSearchContacts('');
+    else
+      this.setSearchContacts('.' + str.toLowerCase())
+    return this.contacts$;
+  }
+
   // Sets contactRef and adds the new contact. The contact neeeds 
   // to be parsed as a JSON string because that's what Angular Firestore's
   // add function parameter needs to be.
   createContact(contact: Contact)  {
     this.contactsRef = this.afs.collection<Contact>(`contacts-${this.userId}`);
-    this.contactsRef.add(JSON.parse(JSON.stringify(contact)));
+    this.contactsRef.add(JSON.parse(this.getContactJsonString(contact)));
+    this.setContactsList();
+  }
+
+  // Creates string in json format representing the contact.
+  // This also adds key's under "searchIndex" which represent
+  // valid searches for that contact.
+  getContactJsonString(contact: Contact) {
+    let contactString: string = JSON.stringify(contact);
+    let searchIndexString = ',"searchIndex":{';
+    for (let i = 0; i < contact.name.length; i++) {
+      let strIndex = '"' + contact.name.substring(0, i+1).toLowerCase() + '":"true"';
+      if (i < contact.name.length-1)
+        strIndex += ','
+      searchIndexString += strIndex;
+    }
+    searchIndexString += '}}'
+    contactString = contactString.slice(0,contactString.length-1) + searchIndexString;
+    return contactString;
   }
 
   // Gets the document with the contact's id and deletes it.
   deleteContact(contact: Contact) {
+    this.contactsRef = this.afs.collection<Contact>(`contacts-${this.userId}`);
     this.contactsRef.doc(contact.id).delete();
   }
 

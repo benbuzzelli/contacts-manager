@@ -30,6 +30,7 @@ import { ViewContactsComponent } from './view-contacts/view-contacts.component';
 import { EditDialogComponent } from './edit-dialog/edit-dialog.component';
 
 import { AuthGuard } from './auth/auth.guard';
+import { DeleteDialogComponent } from './delete-dialog/delete-dialog.component';
 
 const appRoutes: Routes = [
   { path:  'login',component:  LoginComponent},
@@ -50,7 +51,8 @@ const appRoutes: Routes = [
     ToolbarComponent,
     ContactsComponent,
     ViewContactsComponent,
-    EditDialogComponent
+    EditDialogComponent,
+    DeleteDialogComponent
   ],
   imports: [
     RouterModule.forRoot(
@@ -70,7 +72,7 @@ const appRoutes: Routes = [
     MatIconModule,
     AppRoutingModule
   ],
-  entryComponents: [EditDialogComponent],
+  entryComponents: [EditDialogComponent, DeleteDialogComponent],
   providers: [AuthGuard, { provide: LocationStrategy, useClass: HashLocationStrategy }],
   bootstrap: [AppComponent]
 })

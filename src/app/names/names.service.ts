@@ -34,7 +34,8 @@ export class FullName {
 export class NamesService {
 
   prefixes: string[] = ["adm","atty","brother","capt","chief","cmdr","col","dean","dr","elder","father","gen","gov",
-                        "hon","maj","msgt","mr","mrs","ms","prince", "prof","rabbi","rev","sister"];
+                        "hon","maj","msgt","mr","mrs","ms","prince", "prof","rabbi","rev","sister", "mr.", "mrs.",
+                        "ms.", "dr."];
   suffixes: string[] = ["ii","iii","iv","cpa","jr","lld","md","phd","ret","rn","sr"];
 
   getPrefix(prefix: string) {
@@ -72,7 +73,7 @@ export class NamesService {
     let firstIndex = 0;
 
     prefix = this.getPrefix(names[0]);
-    
+
     assigned[0] = prefix != "";
     console.log("primary length = " + length);
     if (length > 2) {
@@ -90,7 +91,7 @@ export class NamesService {
 
     let numUnassigned = 0;
     for (let i = 0; i < length; i++)
-      if (!assigned[i]) 
+      if (!assigned[i])
         numUnassigned++;
 
     if (numUnassigned > 1) {

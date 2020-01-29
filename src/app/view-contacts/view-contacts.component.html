@@ -4,6 +4,11 @@
     <button mat-button (click)="router.navigate(['contacts']);">create contacts</button>
 </div>
 <br>
+
+<div>
+
+</div>
+
 <!--Diplay Contacts in a Table-->
 <div class="center">
 	<!--contacts$ found in view-contacts.comp.ts-->
@@ -14,7 +19,17 @@
             <th mat-header-cell *matHeaderCellDef> Name </th>
             <td mat-cell *matCellDef="let element"> {{element.fullName.fullName}} </td>
         </ng-container>
-        
+
+        <!--Implements the delete contact button, its functionality, and displays it on the table-->
+        <ng-container matColumnDef="deleteButton">
+            <th mat-header-cell *matHeaderCellDef></th>
+            <td mat-cell *matCellDef="let element">
+              <button mat-icon-button aria-lable="Delete Contact" (click)="deleteContact(element)">
+                <mat-icon>delete</mat-icon>
+              </button>
+            </td>
+        </ng-container>
+
         <!--Define the header row and data rows below it-->
         <!--displayedColumns found in view-contacts.comp.ts-->
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

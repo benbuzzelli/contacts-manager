@@ -5,6 +5,10 @@ import { Observable } from 'rxjs';
 import { Router } from  "@angular/router";
 import { Contact } from '../create-contacts/contacts.service';
 import {MatTableModule} from '@angular/material/table';
+import { DeleteDialogComponent } from '../delete-dialog/delete-dialog.component';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
+
 
 
 @Component({
@@ -14,15 +18,16 @@ import {MatTableModule} from '@angular/material/table';
 })
 export class ViewContactsComponent implements OnInit {
   contacts$: Observable<any[]> = null;
-  
+
   /**
    * Setup table with column headers to diplsay contacts
    */
-  displayedColumns: string[] = ['fullName'];
+  displayedColumns: string[] = ['fullName', 'deleteButton'];
 
-  constructor(private contactsService: ContactsService, 
+  constructor(private contactsService: ContactsService,
+    public dialog: MatDialog,
     private db: AngularFireDatabase, public router: Router) {
-      // Initialise contact$ 
+      // Initialise contact$
       this.contacts$ = this.contactsService.contacts$;
 
       router.events.subscribe((val) => {
@@ -42,7 +47,13 @@ export class ViewContactsComponent implements OnInit {
   }
 
   deleteContact(contact: Contact) {
-    this.contactsService.deleteContact(contact);
+    let dialogRef = this.dialog.open(DeleteDialogComponent);
+
+    dialogRef.afterClosed().subscribe(res => {
+      if (res === "yes")
+        this.contactsService.deleteContact(contact);
+    })
+
   }
 
 }

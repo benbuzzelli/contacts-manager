@@ -7,14 +7,14 @@
 <!-- Search input field -->
 <div class="center">
     <p style="width: 400px;" class="center" appearance="legacy">
-        <input class="search-input" (keyup)="search(searchVal.value)" #searchVal type="text" placeholder="Search contacts">
+        <input class="search-input" (keyup)="setContacts(searchVal.value)" #searchVal type="text" placeholder="Search contacts">
     </p>
 </div>
 
 <!--Diplay Contacts in a Table-->
 <div class="center">
 	<!--contacts$ found in view-contacts.comp.ts-->
-    <table mat-table [dataSource]="contacts$" class="mat-elevation-z8">
+    <table mat-table style="width: 500px;" [dataSource]="contacts$" class="mat-elevation-z8">
 
     	<!--Define columns of table based on labels in diplayedColumns-->
         <ng-container matColumnDef="fullName">

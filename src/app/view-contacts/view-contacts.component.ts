@@ -9,8 +9,6 @@ import { DeleteDialogComponent } from '../delete-dialog/delete-dialog.component'
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
-
-
 @Component({
   selector: 'app-view-contacts',
   templateUrl: './view-contacts.component.html',
@@ -28,17 +26,18 @@ export class ViewContactsComponent implements OnInit {
     public dialog: MatDialog,
     private db: AngularFireDatabase, public router: Router) {
       // Initialise contact$
-      this.contacts$ = this.contactsService.getSearchResults('');
+      this.setContacts('')
   }
 
   ngOnInit() {
     // Set the users contacts in the template on init.
-    this.contacts$ = this.contactsService.getSearchResults('');
+    this.setContacts('')
   }
 
   // See method: setContactsList() in create-contacts/contacts.service.ts
-  async setContacts() {
-    this.contactsService.setContactsList();
+  async setContacts(str: string) {
+    str = str.replace(/[^a-zA-Z0-9 ]/g, "");
+    this.contacts$ = this.contactsService.getSearchResults(str);
   }
 
   deleteContact(contact: Contact) {
@@ -50,10 +49,4 @@ export class ViewContactsComponent implements OnInit {
     })
 
   }
-
-  search(str: string) {
-    str = str.replace(/[^a-zA-Z0-9]/g, "");
-    this.contacts$ = this.contactsService.getSearchResults(str);;
-  }
-
 }

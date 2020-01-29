@@ -31,6 +31,9 @@ export class ContactsService {
   contacts$: Observable<Contact[]> = null;
   userId: string;
 
+  // If this is empty, then the table will not display
+  searchEmpty: boolean = false;
+
   // Reference to the user's contact collection in Angular Firestore
   contactsRef: AngularFirestoreCollection<Contact> = null;
 
@@ -46,29 +49,9 @@ export class ContactsService {
       this.userId = localStorage.getItem('uid').replace(/\"/g, "")
   }
 
-  setContactsList(): void {
-    if (this.userId === null) return;
-    // Set contactsRef to be the user's contact collection.
-    // If no collection exists, one will be created with the user's id.
-    this.contactsRef = this.afs.collection<Contact>(`contacts-${this.userId}`, ref => ref.orderBy('name'));
-    // Set the contacts$ variable using Angular Firestore's snapshotChanges method.
-    this.contacts$ = this.contactsRef.snapshotChanges().pipe(map(actions => {
-      return actions.map(action => {
-        const data = action.payload.doc.data() as Contact;
-
-        // Gets the id associated with the document and sets it's id field equal to its id.
-        const id = action.payload.doc.id;
-        return { id, ...data };
-      });
-    }));
-  }
-
-  getContactsList(): Observable<any[]> {
-    this.setContactsList();
-    return this.contacts$;
-  }
-
-  searchEmpty: boolean = false;
+  // Stores the list of contacts ordered by the name key if the user
+  // has not input anything into the search field. Otherwise, it orders
+  // the contacts by their searchIndex field.
   setSearchContacts(searchStr: string) {
     let contactsRef: AngularFirestoreCollection<Contact> = null;
     if (searchStr === null || searchStr === '')
@@ -103,7 +86,6 @@ export class ContactsService {
   createContact(contact: Contact)  {
     this.contactsRef = this.afs.collection<Contact>(`contacts-${this.userId}`);
     this.contactsRef.add(JSON.parse(this.getContactJsonString(contact)));
-    this.setContactsList();
   }
 
   // Creates string in json format representing the contact.

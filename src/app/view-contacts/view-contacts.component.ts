@@ -20,7 +20,7 @@ export class ViewContactsComponent implements OnInit {
   /**
    * Setup table with column headers to diplsay contacts
    */
-  displayedColumns: string[] = ['fullName', 'deleteButton'];
+  displayedColumns: string[] = ['fullName', 'deleteButton', 'editButton'];
 
   constructor(private contactsService: ContactsService,
     public dialog: MatDialog,
@@ -47,6 +47,10 @@ export class ViewContactsComponent implements OnInit {
       if (res === "yes")
         this.contactsService.deleteContact(contact);
     })
+  }
 
+  gotToEditContact(contact: Contact) {
+    this.contactsService.setStoredContact(contact);
+    this.router.navigate(['edit-contact']);
   }
 }

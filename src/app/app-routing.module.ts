@@ -7,6 +7,7 @@ import { VerifyEmailComponent } from  './verify-email/verify-email.component';
 import { ContactsComponent } from './create-contacts/create-contacts.component';
 import { ViewContactsComponent } from './view-contacts/view-contacts.component';
 import { AuthGuard } from './auth/auth.guard';
+import { EditContactComponent } from './edit-contact/edit-contact.component';
 
 const appRoutes: Routes = [
   { path: '', redirectTo: 'register', pathMatch: 'full' },
@@ -16,6 +17,7 @@ const appRoutes: Routes = [
   { path:  'verify-email', component:  VerifyEmailComponent },
   { path:  'contacts',component:  ContactsComponent, canActivate: [AuthGuard]},
   { path:  'view-contacts',component:  ViewContactsComponent, canActivate: [AuthGuard]},
+  { path:  'edit-contact',component:  EditContactComponent, canActivate: [AuthGuard]},
   { path:  'forgot-password',component:  ViewContactsComponent}
 ];
 

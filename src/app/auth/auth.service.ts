@@ -10,7 +10,6 @@ export class AuthService {
   user: User;
 
   constructor(public  afAuth:  AngularFireAuth, public  router:  Router) {
-    console.log("auth service");
     // Adds the user to localStorage if there is one.
     this.afAuth.authState.subscribe(user => {
       if (user){

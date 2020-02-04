@@ -122,4 +122,16 @@ export class ContactsService {
   getDisplayName(fullName: FullName) {
     return this.namesService.getFullName(fullName);
   }
+
+  setStoredContact(contact: Contact) {
+    localStorage.setItem('selectedContact', JSON.stringify(contact));
+  }
+
+  removeStoredContact() {
+    localStorage.setItem('selectedContact', null);
+  }
+
+  getStoredContact(): Contact {
+    return JSON.parse(localStorage.getItem('selectedContact'));
+  }
 }

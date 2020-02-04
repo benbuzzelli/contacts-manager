@@ -9,10 +9,10 @@
                 <mat-card-title>Create New Contact</mat-card-title>
             </mat-card-header>
             <!-- Calls createContact if clicked, and navigates back to view-contacts -->
-            <button type="button" [disabled]="!formIsFilled()" matRipple 
+            <button type="button" [disabled]="!formIsChanged()" matRipple 
             class="dropdown-btn" 
             style="padding-bottom: 10px;" 
-            (click)="createContact(); openContactCreatedSnackBar('created!'); router.navigate(['view-contacts']);">
+            (click)="openSaveChangesDialog();">
                 <mat-icon>check</mat-icon>
             </button>
         </mat-toolbar>

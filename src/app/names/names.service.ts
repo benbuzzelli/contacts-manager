@@ -75,7 +75,6 @@ export class NamesService {
     prefix = this.getPrefix(names[0]);
 
     assigned[0] = prefix != "";
-    console.log("primary length = " + length);
     if (length > 2) {
       suffix = this.getSuffix(names[length-1]);
       assigned[length-1] = suffix != "";

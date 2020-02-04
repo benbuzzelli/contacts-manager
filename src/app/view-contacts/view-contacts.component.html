@@ -32,6 +32,16 @@
             </td>
         </ng-container>
 
+        <!--Implements the delete contact button, its functionality, and displays it on the table-->
+        <ng-container matColumnDef="editButton">
+            <th mat-header-cell *matHeaderCellDef></th>
+            <td mat-cell *matCellDef="let element">
+              <button mat-icon-button aria-lable="Edit Contact" (click)="gotToEditContact(element)">
+                <mat-icon>edit</mat-icon>
+              </button>
+            </td>
+        </ng-container>
+
         <!--Define the header row and data rows below it-->
         <!--displayedColumns found in view-contacts.comp.ts-->
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

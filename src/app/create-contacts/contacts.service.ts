@@ -6,6 +6,7 @@ import { NamesService, FullName } from '../names/names.service';
 import * as firebase from 'firebase';
 import { AngularFirestoreCollection, AngularFirestore } from '@angular/fire/firestore';
 import { map } from 'rxjs/operators';
+import { element } from 'protractor';
 
 export class Contact {
   id: string;
@@ -51,13 +52,30 @@ export class ContactsService {
 
   // Stores the list of contacts ordered by the name key if the user
   // has not input anything into the search field. Otherwise, it orders
-  // the contacts by their searchIndex field.
-  setSearchContacts(searchStr: string) {
+  // the contacts by their comparison to the search string
+  setSearchContacts(searchStr: string, searchAlpha: boolean) {
     let contactsRef: AngularFirestoreCollection<Contact> = null;
     if (searchStr === null || searchStr === '')
       contactsRef = this.afs.collection<Contact>(`contacts-${this.userId}`, ref => ref.orderBy('name'));
-    else 
-      contactsRef = this.afs.collection<Contact>(`contacts-${this.userId}`, ref => ref.orderBy('searchIndex' + searchStr));
+    else
+    {
+      console.log(searchAlpha);
+      if (searchAlpha) 
+      {
+          // Replace the last character of the search string and increment it by one
+          // this will be the upperbound of our search result.
+          var upperChar = 1 + searchStr.charCodeAt(searchStr.length-1);
+          var stringUpperBoundary = searchStr.substr(0, searchStr.length-1) + String.fromCharCode(upperChar);
+          //console.log("upperChar: "+ upperChar + " upperStringBound: " + stringUpperBoundary);
+          contactsRef = this.afs.collection<Contact>(`contacts-${this.userId}`, ref => ref.where('name', '>=', searchStr).where('name', "<", stringUpperBoundary));
+          console.log(this.afs.collection<Contact>(`contacts-${this.userId}`).ref.get());
+      }
+      else
+      {
+        console.log(searchStr);
+        contactsRef = this.afs.collection<Contact>(`contacts-${this.userId}`, ref => ref.where('phoneNumbers', 'array-contains', searchStr));
+      }
+    }
     this.contacts$ = contactsRef.snapshotChanges().pipe(map(actions => {
       return actions.map(action => {
         const data = action.payload.doc.data() as Contact;
@@ -72,11 +90,11 @@ export class ContactsService {
     })
   }
 
-  getSearchResults(str: string): Observable<any[]> {
+  getSearchResults(str: string, searchAlpha: boolean): Observable<any[]> {
     if (str === null || str === '')
-      this.setSearchContacts('');
+      this.setSearchContacts('', true);
     else
-      this.setSearchContacts('.' + str.toLowerCase())
+      this.setSearchContacts('' + str.toLowerCase(), searchAlpha)
     return this.contacts$;
   }
 

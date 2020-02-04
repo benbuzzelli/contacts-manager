@@ -6,7 +6,7 @@
                 <mat-icon>keyboard_backspace</mat-icon>
             </button>
             <mat-card-header class="center" style="width: 85%;">
-                <mat-card-title>Create New Contact</mat-card-title>
+                <mat-card-title>Edit {{ contactsService.getStoredContact().fullName.fullName }}</mat-card-title>
             </mat-card-header>
             <!-- Calls createContact if clicked, and navigates back to view-contacts -->
             <button type="button" [disabled]="!formIsChanged()" matRipple 

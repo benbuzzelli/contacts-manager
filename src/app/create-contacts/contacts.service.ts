@@ -103,24 +103,7 @@ export class ContactsService {
   // add function parameter needs to be.
   createContact(contact: Contact)  {
     this.contactsRef = this.afs.collection<Contact>(`contacts-${this.userId}`);
-    this.contactsRef.add(JSON.parse(this.getContactJsonString(contact)));
-  }
-
-  // Creates string in json format representing the contact.
-  // This also adds key's under "searchIndex" which represent
-  // valid searches for that contact.
-  getContactJsonString(contact: Contact) {
-    let contactString: string = JSON.stringify(contact);
-    let searchIndexString = ',"searchIndex":{';
-    for (let i = 0; i < contact.name.length; i++) {
-      let strIndex = '"' + contact.name.substring(0, i+1).toLowerCase() + '":"true"';
-      if (i < contact.name.length-1)
-        strIndex += ','
-      searchIndexString += strIndex;
-    }
-    searchIndexString += '}}'
-    contactString = contactString.slice(0,contactString.length-1) + searchIndexString;
-    return contactString;
+    this.contactsRef.add(JSON.parse(JSON.stringify(contact)));
   }
 
   // Gets the document with the contact's id and deletes it.

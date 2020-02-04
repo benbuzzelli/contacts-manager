@@ -37,7 +37,8 @@ export class ViewContactsComponent implements OnInit {
   // See method: setContactsList() in create-contacts/contacts.service.ts
   async setContacts(str: string) {
     str = str.replace(/[^a-zA-Z0-9 ]/g, "");
-    this.contacts$ = this.contactsService.getSearchResults(str);
+    let searchAlpha = (str.replace(/[^0-9 ]/g, "").length == 0);
+    this.contacts$ = this.contactsService.getSearchResults(str, searchAlpha);
   }
 
   deleteContact(contact: Contact) {

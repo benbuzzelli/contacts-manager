@@ -31,6 +31,9 @@ import { EditDialogComponent } from './edit-dialog/edit-dialog.component';
 
 import { AuthGuard } from './auth/auth.guard';
 import { DeleteDialogComponent } from './delete-dialog/delete-dialog.component';
+import { ContactFormComponent } from './contact-form/contact-form.component';
+import { EditContactComponent } from './edit-contact/edit-contact.component';
+import { SaveChangesDialogComponent } from './save-changes-dialog/save-changes-dialog.component';
 
 const appRoutes: Routes = [
   { path:  'login',component:  LoginComponent},
@@ -52,7 +55,10 @@ const appRoutes: Routes = [
     ContactsComponent,
     ViewContactsComponent,
     EditDialogComponent,
-    DeleteDialogComponent
+    DeleteDialogComponent,
+    ContactFormComponent,
+    EditContactComponent,
+    SaveChangesDialogComponent
   ],
   imports: [
     RouterModule.forRoot(
@@ -72,7 +78,7 @@ const appRoutes: Routes = [
     MatIconModule,
     AppRoutingModule
   ],
-  entryComponents: [EditDialogComponent, DeleteDialogComponent],
+  entryComponents: [EditDialogComponent, DeleteDialogComponent, SaveChangesDialogComponent],
   providers: [AuthGuard, { provide: LocationStrategy, useClass: HashLocationStrategy }],
   bootstrap: [AppComponent]
 })

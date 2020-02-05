@@ -1,50 +1,64 @@
 <!-- This button was for testing purposes and can be deleted -->
 <br>
-<div class="center">
-    <button mat-button (click)="router.navigate(['contacts']);">create contacts</button>
-</div>
-
 <!-- Search input field -->
 <div class="center">
     <p style="width: 400px;" class="center" appearance="legacy">
         <input class="search-input" (keyup)="setContacts(searchVal.value)" #searchVal type="text" placeholder="Search contacts">
     </p>
+    <button class="general-icon-button" mat-icon-button (click)="router.navigate(['contacts']);">
+        <mat-icon>person_add</mat-icon>
+    </button>
 </div>
 
-<!--Diplay Contacts in a Table-->
+<!-- Accordion for displaying contacts -->
 <div class="center">
-	<!--contacts$ found in view-contacts.comp.ts-->
-    <table mat-table style="width: 500px;" [dataSource]="contacts$" class="mat-elevation-z8">
-
-    	<!--Define columns of table based on labels in diplayedColumns-->
-        <ng-container matColumnDef="fullName">
-            <th mat-header-cell *matHeaderCellDef> Name </th>
-            <td mat-cell *matCellDef="let element"> {{element.fullName.fullName}} </td>
-        </ng-container>
-
-        <!--Implements the delete contact button, its functionality, and displays it on the table-->
-        <ng-container matColumnDef="deleteButton">
-            <th mat-header-cell *matHeaderCellDef></th>
-            <td mat-cell *matCellDef="let element">
-              <button mat-icon-button aria-lable="Delete Contact" (click)="deleteContact(element)">
-                <mat-icon>delete</mat-icon>
-              </button>
-            </td>
-        </ng-container>
-
-        <!--Implements the delete contact button, its functionality, and displays it on the table-->
-        <ng-container matColumnDef="editButton">
-            <th mat-header-cell *matHeaderCellDef></th>
-            <td mat-cell *matCellDef="let element">
-              <button mat-icon-button aria-lable="Edit Contact" (click)="gotToEditContact(element)">
-                <mat-icon>edit</mat-icon>
-              </button>
-            </td>
-        </ng-container>
-
-        <!--Define the header row and data rows below it-->
-        <!--displayedColumns found in view-contacts.comp.ts-->
-        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-    </table>
+    <mat-accordion id="acord" class="mat-elevation-z8 view-container">
+        <!-- ngFor loops through all contacts -->
+        <mat-expansion-panel #elem [id]="contact.id" *ngFor="let contact of contacts$ | async; let i = index;" [expanded]="step === i" (opened)="setStep(i)" hideToggle>
+            <mat-expansion-panel-header (click)="scroll(elem.id)">
+                <mat-panel-title [class.contact-header]="step === i" style="color: #383838; padding-top: 10px;">
+                    {{ contact.fullName.fullName }}
+                </mat-panel-title>
+                <!-- menu button for editing and deleting selected contact -->
+                <button class="general-icon-button" *ngIf="step === i" (click)="$event.stopPropagation();" mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+                    <mat-icon>more_vert</mat-icon>
+                </button>
+                <mat-menu #menu="matMenu">
+                    <button mat-menu-item aria-lable="Edit Contact" (click)="gotToEditContact(contact)">
+                        <mat-icon>edit</mat-icon>
+                        <span>edit</span>
+                    </button>
+                    <button mat-menu-item aria-lable="Delete Contact" (click)="deleteContact(contact)">
+                        <mat-icon>delete</mat-icon>
+                        <span>delete</span>
+                    </button>
+                </mat-menu>
+            </mat-expansion-panel-header>
+            <!-- List to display contact's phone numbers -->
+            <mat-list class="contact-list">
+                <mat-list-item *ngFor="let phoneNumber of contact.phoneNumbers; let i = index;">
+                    <mat-icon mat-list-icon *ngIf="i == 0">phone</mat-icon>
+                    <mat-icon mat-list-icon style="color: transparent;" *ngIf="i > 0">phone</mat-icon>
+                    <h4 mat-line>{{ phoneNumber.value }}</h4>
+                    <p class="subtitle" mat-line>{{ phoneNumber.type }}</p>
+                </mat-list-item>
+            </mat-list>
+            <!-- List to display contact's emails -->
+            <mat-divider *ngIf="contact.phoneNumbers.length > 0 && contact.emails.length > 0"></mat-divider>
+            <mat-list class="contact-list">
+                <mat-list-item *ngFor="let email of contact.emails; let i = index;">
+                    <mat-icon mat-list-icon *ngIf="i == 0">email</mat-icon>
+                    <mat-icon mat-list-icon style="color: transparent;" *ngIf="i > 0">email</mat-icon>
+                    <h4 mat-line>{{ email.value }}</h4>
+                    <p class="subtitle" mat-line>{{ email.type }}</p>
+                </mat-list-item>
+            </mat-list>
+            </mat-expansion-panel>
+    </mat-accordion>
 </div>
+<br>
+<!-- <div class="center">
+    <button class="general-icon-button" mat-icon-button (click)="router.navigate(['contacts']);">
+        <mat-icon>person_add</mat-icon>
+    </button>
+</div> -->

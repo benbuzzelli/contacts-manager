@@ -11,27 +11,31 @@
     </p>
 </div>
 
+<!-- Accordion for displaying contacts -->
 <div class="center">
-    <mat-accordion class="mat-elevation-z8 view-container">
-        <mat-expansion-panel *ngFor="let contact of contacts$ | async; let i = index;" [expanded]="step === i" (opened)="setStep(i)" hideToggle>
-            <mat-expansion-panel-header>
+    <mat-accordion id="acord" class="mat-elevation-z8 view-container">
+        <!-- ngFor loops through all contacts -->
+        <mat-expansion-panel #elem [id]="contact.id" *ngFor="let contact of contacts$ | async; let i = index;" [expanded]="step === i" (opened)="setStep(i)" hideToggle>
+            <mat-expansion-panel-header (click)="scroll(elem.id)">
                 <mat-panel-title style="padding-top: 10px;">
                     {{ contact.fullName.fullName }}
                 </mat-panel-title>
+                <!-- menu button for editing and deleting selected contact -->
                 <button class="general-icon-button" *ngIf="step === i" (click)="$event.stopPropagation();" mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
                     <mat-icon>more_vert</mat-icon>
                 </button>
                 <mat-menu #menu="matMenu">
-                    <button mat-menu-item aria-lable="Delete Contact" (click)="deleteContact(contact)">
-                        <mat-icon>delete</mat-icon>
-                        <span>delete</span>
-                    </button>
                     <button mat-menu-item aria-lable="Edit Contact" (click)="gotToEditContact(contact)">
                         <mat-icon>edit</mat-icon>
                         <span>edit</span>
                     </button>
+                    <button mat-menu-item aria-lable="Delete Contact" (click)="deleteContact(contact)">
+                        <mat-icon>delete</mat-icon>
+                        <span>delete</span>
+                    </button>
                 </mat-menu>
             </mat-expansion-panel-header>
+            <!-- List to display contact's phone numbers -->
             <mat-list>
                 <mat-list-item *ngFor="let phoneNumber of contact.phoneNumbers; let i = index;">
                     <mat-icon mat-list-icon *ngIf="i == 0">phone</mat-icon>
@@ -40,6 +44,7 @@
                     <p class="subtitle" mat-line>{{ phoneNumber.type }}</p>
                 </mat-list-item>
             </mat-list>
+            <!-- List to display contact's emails -->
             <mat-divider *ngIf="contact.phoneNumbers.length > 0 && contact.emails.length > 0"></mat-divider>
             <mat-list>
                 <mat-list-item *ngFor="let email of contact.emails; let i = index;">

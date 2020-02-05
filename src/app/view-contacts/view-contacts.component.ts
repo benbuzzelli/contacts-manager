@@ -8,11 +8,20 @@ import {MatTableModule} from '@angular/material/table';
 import { DeleteDialogComponent } from '../delete-dialog/delete-dialog.component';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import {animate, state, style, transition, trigger} from '@angular/animations';
+
 
 @Component({
   selector: 'app-view-contacts',
   templateUrl: './view-contacts.component.html',
-  styleUrls: ['./view-contacts.component.css']
+  styleUrls: ['./view-contacts.component.css'],
+  animations: [
+    trigger('detailExpand', [
+      state('collapsed', style({height: '0px', minHeight: '0'})),
+      state('expanded', style({height: '*'})),
+      transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
+    ]),
+  ]
 })
 export class ViewContactsComponent implements OnInit {
   contacts$: Observable<any[]> = null;
@@ -21,6 +30,7 @@ export class ViewContactsComponent implements OnInit {
    * Setup table with column headers to diplsay contacts
    */
   displayedColumns: string[] = ['fullName', 'deleteButton', 'editButton'];
+  expandedContact: Contact | null;
 
   constructor(private contactsService: ContactsService,
     public dialog: MatDialog,
@@ -53,5 +63,19 @@ export class ViewContactsComponent implements OnInit {
   gotToEditContact(contact: Contact) {
     this.contactsService.setStoredContact(contact);
     this.router.navigate(['edit-contact']);
+  }
+
+  step = 0;
+
+  setStep(index: number) {
+    this.step = index;
+  }
+
+  nextStep() {
+    this.step++;
+  }
+
+  prevStep() {
+    this.step--;
   }
 }

@@ -14,11 +14,11 @@
             (keyup)="updatePrimary()">
         </mat-form-field>
         <!-- Toggles the extra names values to be visible in the dom -->
-        <button matRipple *ngIf="!dropdownToggle" class="dropdown-btn" [(value)]="dropdownToggle" (click)="toggleDropdown()">
+        <button mat-icon-button *ngIf="!dropdownToggle" class="dropdown-btn general-icon-button" [(value)]="dropdownToggle" (click)="toggleDropdown()">
             <mat-icon>
                 expand_more</mat-icon>
         </button>
-        <button matRipple *ngIf="dropdownToggle" class="dropdown-btn" [(value)]="dropdownToggle" (click)="toggleDropdown()">
+        <button mat-icon-button *ngIf="dropdownToggle" class="dropdown-btn general-icon-button" [(value)]="dropdownToggle" (click)="toggleDropdown()">
             <mat-icon>
                 expand_less</mat-icon>
         </button>
@@ -47,7 +47,7 @@
     <span formArrayName="phoneNumbers"
     *ngFor="let phoneNumber of contactForm.get('phoneNumbers')['controls']; let i = index;" class="center">
         <div [formGroupName]="i" class="center card-contact-div">
-            <mat-icon *ngIf="i==0">call</mat-icon>
+            <mat-icon *ngIf="i==0" class="general-icon">call</mat-icon>
             <mat-icon style="color: transparent;" *ngIf="i!=0">call</mat-icon>
             <mat-form-field class="card-type-email-phone">
                 <mat-select formControlName="type">
@@ -59,10 +59,9 @@
             <mat-form-field appearance="legacy" class="card-email-phone">
                 <input formControlName="value" (keyup)="handlePhoneAndEmailArrays(phone.value, 'phoneNumbers')" matInput #phone type="tel" class="form-control mb-2" placeholder="Phone #">
             </mat-form-field>
-            <button matRipple *ngIf="phone.value != ''" class="dropdown-btn" (click)="contactForm.get('phoneNumbers')['controls'].splice(i, 1)">
+            <button mat-icon-button *ngIf="phone.value != ''" class="dropdown-btn general-icon-button" (click)="contactForm.get('phoneNumbers')['controls'].splice(i, 1)">
                 <mat-icon>close</mat-icon>
-            </button
-            >
+            </button>
             <mat-icon style="color: transparent; cursor: default;" *ngIf="phone.value == ''">close</mat-icon>
         </div>
     </span>
@@ -70,7 +69,7 @@
     <span formArrayName="emails"
     *ngFor="let email of contactForm.get('emails')['controls']; let i = index;" class="center">
         <div [formGroupName]="i" class="center card-contact-div">
-            <mat-icon *ngIf="i==0">email</mat-icon>
+            <mat-icon *ngIf="i==0" class="general-icon">email</mat-icon>
             <mat-icon style="color: transparent;" *ngIf="i!=0">email</mat-icon>
             <mat-form-field class="card-type-email-phone">
                 <mat-select formControlName="type">
@@ -82,7 +81,7 @@
             <mat-form-field appearance="legacy" class="card-email-phone">
                 <input formControlName="value" (keyup)="handlePhoneAndEmailArrays(email.value, 'emails')" matInput #email type="text" class="form-control mb-2" placeholder="Email">
             </mat-form-field>
-            <button matRipple *ngIf="email.value != ''" class="dropdown-btn" (click)="contactForm.get('emails')['controls'].splice(i, 1)">
+            <button mat-icon-button *ngIf="email.value != ''" class="dropdown-btn general-icon-button" (click)="contactForm.get('emails')['controls'].splice(i, 1)">
                 <mat-icon>close</mat-icon>
             </button>
             <mat-icon style="color: transparent; cursor: default;"  *ngIf="email.value == ''">close</mat-icon>

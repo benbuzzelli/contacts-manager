@@ -95,3 +95,15 @@
 .btn-route-link:hover {
     color: #673AB7;
 }
+
+.general-icon-button {
+    color: #696969;
+}
+
+.general-icon {
+    color: #696969;
+}
+
+.general-icon-button:hover {
+    color: #383838;
+}

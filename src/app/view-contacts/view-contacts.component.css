@@ -1,7 +1,11 @@
 @import '../app.component.css';
 
+.mat-expansion-panel-body {
+    padding: 0;
+}
+
 .view-container {
-    height: 500px;
+    max-height: 800px;
     width: 800px;
     overflow: auto;
 }
@@ -24,4 +28,8 @@
 
 .search-input:focus {
     outline: none;
+}
+
+.subtitle {
+    color: darkgray;
 }

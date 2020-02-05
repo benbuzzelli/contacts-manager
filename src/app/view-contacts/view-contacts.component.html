@@ -1,14 +1,13 @@
 <!-- This button was for testing purposes and can be deleted -->
 <br>
-<div class="center">
-    <button mat-button (click)="router.navigate(['contacts']);">create contacts</button>
-</div>
-
 <!-- Search input field -->
 <div class="center">
     <p style="width: 400px;" class="center" appearance="legacy">
         <input class="search-input" (keyup)="setContacts(searchVal.value)" #searchVal type="text" placeholder="Search contacts">
     </p>
+    <button class="general-icon-button" mat-icon-button (click)="router.navigate(['contacts']);">
+        <mat-icon>person_add</mat-icon>
+    </button>
 </div>
 
 <!-- Accordion for displaying contacts -->
@@ -17,7 +16,7 @@
         <!-- ngFor loops through all contacts -->
         <mat-expansion-panel #elem [id]="contact.id" *ngFor="let contact of contacts$ | async; let i = index;" [expanded]="step === i" (opened)="setStep(i)" hideToggle>
             <mat-expansion-panel-header (click)="scroll(elem.id)">
-                <mat-panel-title style="padding-top: 10px;">
+                <mat-panel-title [class.contact-header]="step === i" style="color: #383838; padding-top: 10px;">
                     {{ contact.fullName.fullName }}
                 </mat-panel-title>
                 <!-- menu button for editing and deleting selected contact -->
@@ -36,7 +35,7 @@
                 </mat-menu>
             </mat-expansion-panel-header>
             <!-- List to display contact's phone numbers -->
-            <mat-list>
+            <mat-list class="contact-list">
                 <mat-list-item *ngFor="let phoneNumber of contact.phoneNumbers; let i = index;">
                     <mat-icon mat-list-icon *ngIf="i == 0">phone</mat-icon>
                     <mat-icon mat-list-icon style="color: transparent;" *ngIf="i > 0">phone</mat-icon>
@@ -46,7 +45,7 @@
             </mat-list>
             <!-- List to display contact's emails -->
             <mat-divider *ngIf="contact.phoneNumbers.length > 0 && contact.emails.length > 0"></mat-divider>
-            <mat-list>
+            <mat-list class="contact-list">
                 <mat-list-item *ngFor="let email of contact.emails; let i = index;">
                     <mat-icon mat-list-icon *ngIf="i == 0">email</mat-icon>
                     <mat-icon mat-list-icon style="color: transparent;" *ngIf="i > 0">email</mat-icon>
@@ -57,3 +56,9 @@
             </mat-expansion-panel>
     </mat-accordion>
 </div>
+<br>
+<!-- <div class="center">
+    <button class="general-icon-button" mat-icon-button (click)="router.navigate(['contacts']);">
+        <mat-icon>person_add</mat-icon>
+    </button>
+</div> -->

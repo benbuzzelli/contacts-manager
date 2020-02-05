@@ -33,3 +33,13 @@
 .subtitle {
     color: darkgray;
 }
+
+.contact-header {
+    font-size: larger;
+    font-weight: bold;
+}
+
+.contact-list {
+    max-height: 150px;
+    overflow: auto;
+}

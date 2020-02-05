@@ -65,17 +65,9 @@ export class ViewContactsComponent implements OnInit {
     this.router.navigate(['edit-contact']);
   }
 
-  scrollTo($event) {
-    if ($event) {
-      console.log("Yay")
-      $event.target.scrollTo();
-      // $event.target.scrollIntoView();
-    }
-  }
-
   scroll(id) {
     let el = document.getElementById(id);
-    setTimeout(() => el.scrollIntoView({behavior: 'smooth', block: 'start'}), 1);
+    // setTimeout(() => el.scrollIntoView({behavior: 'smooth', block: 'start'}), 1);
   }
 
   step = -1;

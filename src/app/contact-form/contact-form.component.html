@@ -67,7 +67,7 @@
     </span>
     <!-- Input for contacts's emails -->
     <span formArrayName="emails"
-    *ngFor="let email of contactForm.get('emails')['controls']; let i = index;" class="center">
+    *ngFor="let email of contactForm.get('emails')['controls']; let i = index;">
         <div [formGroupName]="i" class="center card-contact-div">
             <mat-icon *ngIf="i==0" class="general-icon">email</mat-icon>
             <mat-icon style="color: transparent;" *ngIf="i!=0">email</mat-icon>

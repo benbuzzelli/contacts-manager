@@ -24,9 +24,13 @@
 }
 
 .full-width-field {
-    width: 75%;
-    padding-right: 5%;
-    padding-left: 5%;
+    width: 314px;
+    padding-right: 4px;
+    padding-left: 20px;
+}
+
+.full-width-field-1 {
+    width: 314px;
 }
 
 .input-padding {
@@ -61,23 +65,28 @@
     background: none;
 }
 
+.type-icon {
+    padding-left: 8px;
+    padding-right: 8px;
+}
+
 .dropdown-btn:hover {
     cursor: pointer;
 }
 
 .card-contact-div {
-    max-width: 400px;
+    max-width: 430px;
 }
 
 .card-email-phone {
-    width: 50%;
-    padding-right: 5%;
+    width: 219px;
+    padding-right: 12px;
 }
 
 .card-type-email-phone {
-    width: 20%;
-    padding-right: 5%;
-    padding-left: 5%;
+    width: 75px;
+    padding-right: 20px;
+    padding-left: 12px;
 }
 
 .btn-route-link {

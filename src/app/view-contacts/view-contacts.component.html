@@ -11,9 +11,10 @@
 </div>
 
 <!-- Accordion for displaying contacts -->
-<div class="center">
-    <mat-list style="padding-top: 0px;" class="mat-elevation-z8 view-container">
-      <div *ngFor="let contact of contacts$ | async as contacts; let i = index;">
+<div class="center" *ngIf="contacts$ | async;let contacts">
+    <!-- ContactLength: {{ cons.length }} -->
+    <mat-list #clist *ngIf="contacts.length > 0" style="padding-top: 0px;" class="mat-elevation-z8 view-container">
+      <div *ngFor="let contact of contacts; let i = index;">
         <mat-divider *ngIf="isDistinctStr(contact, i===0 ? null : contacts[i-1])"></mat-divider>
         <mat-list-item (mouseover)="setIndex(i)" (click)="openBottomSheet(contact)" class="contact-list-item" #elem [id]="contact.id">
           <span class="center light-text" style="width: 20px; padding-right: 20px;">{{ getDistinctStr(contact, i===0 ? null : contacts[i-1]) }}</span>

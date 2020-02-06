@@ -55,11 +55,12 @@ export class ContactsService {
   // the contacts by their comparison to the search string
   setSearchContacts(searchStr: string, searchAlpha: boolean) {
     let contactsRef: AngularFirestoreCollection<Contact> = null;
-    if (searchStr === null || searchStr === '')
+    if (searchStr === null || searchStr === '') {
+      console.log("Setting contacts")
       contactsRef = this.afs.collection<Contact>(`contacts-${this.userId}`, ref => ref.orderBy('name'));
+    }
     else
     {
-      console.log(searchAlpha);
       if (searchAlpha) 
       {
           // Replace the last character of the search string and increment it by one
@@ -68,11 +69,9 @@ export class ContactsService {
           var stringUpperBoundary = searchStr.substr(0, searchStr.length-1) + String.fromCharCode(upperChar);
           //console.log("upperChar: "+ upperChar + " upperStringBound: " + stringUpperBoundary);
           contactsRef = this.afs.collection<Contact>(`contacts-${this.userId}`, ref => ref.where('name', '>=', searchStr).where('name', "<", stringUpperBoundary));
-          console.log(this.afs.collection<Contact>(`contacts-${this.userId}`).ref.get());
       }
       else
       {
-        console.log(searchStr);
         contactsRef = this.afs.collection<Contact>(`contacts-${this.userId}`, ref => ref.where('phoneNumbers', 'array-contains', searchStr));
       }
     }

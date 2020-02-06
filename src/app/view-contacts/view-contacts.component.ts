@@ -25,7 +25,7 @@ import {MatBottomSheet, MatBottomSheetRef, MAT_BOTTOM_SHEET_DATA} from '@angular
 })
 export class ViewContactsComponent implements OnInit {
   contacts$: Observable<any[]> = null;
-
+  contactsLength: Number;
   /**
    * Setup table with column headers to diplsay contacts
    */
@@ -47,11 +47,16 @@ export class ViewContactsComponent implements OnInit {
     this.setContacts('')
   }
 
+  async setContactsLength() {
+    this.contacts$.subscribe(result => {this.contactsLength = result.length});
+  }
+
   // See method: setContactsList() in create-contacts/contacts.service.ts
   async setContacts(str: string) {
     str = str.replace(/[^a-zA-Z0-9 ]/g, "");
     let searchAlpha = (str.replace(/[^0-9 ]/g, "").length == 0);
     this.contacts$ = this.contactsService.getSearchResults(str, searchAlpha);
+    this.setContactsLength();
   }
 
   deleteContact(contact: Contact) {
@@ -86,7 +91,9 @@ export class ViewContactsComponent implements OnInit {
   }
 
   setIndex(i) {
+    console.log("len: " + this.contactsLength)
     this.hoveredIndex = i;
+    return true
   }
 }
 

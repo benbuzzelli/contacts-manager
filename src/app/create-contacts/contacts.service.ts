@@ -102,6 +102,15 @@ export class ContactsService {
   // to be parsed as a JSON string because that's what Angular Firestore's
   // add function parameter needs to be.
   createContact(contact: Contact)  {
+    let noNameStr: string = 'Mr No Name';
+    if (contact.phoneNumbers.length > 0)
+      noNameStr = contact.phoneNumbers[0].value;
+    else if (contact.emails.length > 0)
+      noNameStr = contact.emails[0].value;
+
+    if (contact.fullName.fullName === '')
+      contact.fullName = this.getAllNameValues(noNameStr)
+
     this.contactsRef = this.afs.collection<Contact>(`contacts-${this.userId}`);
     this.contactsRef.add(JSON.parse(JSON.stringify(contact)));
   }
@@ -141,18 +150,19 @@ export class ContactsService {
     c = this.getGeneralStr(c);
     
     if (c2 === null)
-      return c;
+      return c.toUpperCase();
 
     let d = c2.fullName.fullName.substr(0,1);
     d = this.getGeneralStr(d);
     
     if (c !== d)
-      return c;
+      return c.toUpperCase();
 
     return '';
   }
 
   getGeneralStr(c: string) {
+    c = c.toLowerCase();
     if (!this.isAlphaNumeric(c))
       return '...';
     if (this.isNum(c))
@@ -165,7 +175,7 @@ export class ContactsService {
   }
 
   isAlph(c: String) {
-    c.toLowerCase();
+    c = c.toLowerCase();
     return (c >= 'a' && c <= 'z')
   }
 

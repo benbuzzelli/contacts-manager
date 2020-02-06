@@ -31,6 +31,7 @@ export class ViewContactsComponent implements OnInit {
    */
   displayedColumns: string[] = ['fullName', 'deleteButton', 'editButton'];
   expandedContact: Contact | null;
+  hoveredIndex = -1;
 
   constructor(private contactsService: ContactsService,
     public dialog: MatDialog,
@@ -82,6 +83,10 @@ export class ViewContactsComponent implements OnInit {
 
   getDistinctStr(c1, c2) {
     return this.contactsService.getDistinctStr(c1, c2);
+  }
+
+  setIndex(i) {
+    this.hoveredIndex = i;
   }
 }
 

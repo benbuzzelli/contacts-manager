@@ -42,11 +42,13 @@
             (keyup)="updatePrimary()">
         </mat-form-field>
     </p>
-
+    <br>
+    
     <!-- Input for contacts's phone numbers -->
+    <div class="contact-form-list">
     <span formArrayName="phoneNumbers"
     *ngFor="let phoneNumber of contactForm.get('phoneNumbers')['controls']; let i = index;" class="center">
-        <div [formGroupName]="i" class="center card-contact-div">
+        <div [formGroupName]="i" class="center card-contact-div contact-form-list">
             <mat-icon *ngIf="i==0" class="type-icon general-icon">call</mat-icon>
             <mat-icon class="type-icon" style="color: transparent;" *ngIf="i!=0">call</mat-icon>
             <mat-form-field class="card-type-email-phone">
@@ -65,6 +67,9 @@
             <button mat-icon-button [disabled]="true" *ngIf="phone.value == ''"></button>
         </div>
     </span>
+    </div>
+    <br>
+
     <!-- Input for contacts's emails -->
     <span formArrayName="emails"
     *ngFor="let email of contactForm.get('emails')['controls']; let i = index;">

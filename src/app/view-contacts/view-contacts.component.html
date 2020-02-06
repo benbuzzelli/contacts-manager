@@ -15,9 +15,23 @@
     <mat-list style="padding-top: 0px;" class="mat-elevation-z8 view-container">
       <div *ngFor="let contact of contacts$ | async as contacts; let i = index;">
         <mat-divider *ngIf="isDistinctStr(contact, i===0 ? null : contacts[i-1])"></mat-divider>
-        <mat-list-item (click)="openBottomSheet(contact)" class="contact-list-item" #elem [id]="contact.id">
+        <mat-list-item (mouseover)="setIndex(i)" (click)="openBottomSheet(contact)" class="contact-list-item" #elem [id]="contact.id">
           <span class="center light-text" style="width: 20px; padding-right: 20px;">{{ getDistinctStr(contact, i===0 ? null : contacts[i-1]) }}</span>
             {{ contact.fullName.fullName }}
+            <span class="spacer"></span>
+          <button (click)="$event.stopPropagation()" *ngIf="hoveredIndex === i" class="general-icon-button" mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+            <mat-icon>more_vert</mat-icon>
+          </button>
+          <mat-menu #menu="matMenu">
+            <button mat-menu-item aria-lable="Edit Contact" (click)="gotToEditContact(contact)">
+              <mat-icon>edit</mat-icon>
+              <span>edit</span>
+            </button>
+            <button mat-menu-item aria-lable="Delete Contact" (click)="deleteContact(contact)">
+              <mat-icon>delete</mat-icon>
+              <span>delete</span>
+            </button>
+          </mat-menu>
         </mat-list-item>
       </div>
     </mat-list>

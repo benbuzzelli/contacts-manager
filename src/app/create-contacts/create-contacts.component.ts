@@ -50,6 +50,9 @@ export class ContactsComponent implements OnInit {
 
   openContactCreatedSnackBar(action: string) {
     let message = this.contactForm.get('primaryName').value;
+    let name = this.contactsService.contactNameJustCreated;
+    if (name != undefined && name != null)
+      message = name
     this._createdContactSnackBar.open(message, action, {
       duration: 2000,
     });

@@ -37,6 +37,7 @@ export class ContactsService {
 
   // Reference to the user's contact collection in Angular Firestore
   contactsRef: AngularFirestoreCollection<Contact> = null;
+  contactNameJustCreated: string;
 
   constructor(private db: AngularFireDatabase, 
     private afAuth: AngularFireAuth, 
@@ -57,7 +58,7 @@ export class ContactsService {
     let contactsRef: AngularFirestoreCollection<Contact> = null;
     if (searchStr === null || searchStr === '') {
       console.log("Setting contacts")
-      contactsRef = this.afs.collection<Contact>(`contacts-${this.userId}`, ref => ref.orderBy('name'));
+      contactsRef = this.afs.collection<Contact>(`contacts-${this.userId}`, ref => ref.orderBy('fullName.firstName'));
     }
     else
     {
@@ -112,7 +113,7 @@ export class ContactsService {
     else {
       contact.fullName = this.getAllNameValues(this.namesService.nameToCamelCase(contact.fullName.fullName))
     }
-
+    this.contactNameJustCreated = contact.fullName.fullName;
     this.contactsRef = this.afs.collection<Contact>(`contacts-${this.userId}`);
     this.contactsRef.add(JSON.parse(JSON.stringify(contact)));
   }
@@ -148,13 +149,13 @@ export class ContactsService {
   }
 
   getDistinctStr(c1, c2) {
-    let c = c1.fullName.fullName.substr(0,1);
+    let c = c1.fullName.firstName.substr(0,1);
     c = this.getGeneralStr(c);
     
     if (c2 === null)
       return c.toUpperCase();
 
-    let d = c2.fullName.fullName.substr(0,1);
+    let d = c2.fullName.firstName.substr(0,1);
     d = this.getGeneralStr(d);
     
     if (c !== d)

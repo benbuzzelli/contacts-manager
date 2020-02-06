@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input, Inject } from '@angular/core';
 import { AngularFireDatabase, AngularFireList } from "@angular/fire/database";
 import { ContactsService } from '../create-contacts/contacts.service';
 import { Observable } from 'rxjs';
@@ -9,7 +9,7 @@ import { DeleteDialogComponent } from '../delete-dialog/delete-dialog.component'
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import {animate, state, style, transition, trigger} from '@angular/animations';
-
+import {MatBottomSheet, MatBottomSheetRef, MAT_BOTTOM_SHEET_DATA} from '@angular/material/bottom-sheet';
 
 @Component({
   selector: 'app-view-contacts',
@@ -34,7 +34,9 @@ export class ViewContactsComponent implements OnInit {
 
   constructor(private contactsService: ContactsService,
     public dialog: MatDialog,
-    private db: AngularFireDatabase, public router: Router) {
+    private db: AngularFireDatabase, 
+    public router: Router,
+    private _contactSheet: MatBottomSheet) {
       // Initialise contact$
       this.setContacts('')
   }
@@ -70,17 +72,54 @@ export class ViewContactsComponent implements OnInit {
     // setTimeout(() => el.scrollIntoView({behavior: 'smooth', block: 'start'}), 1);
   }
 
-  step = -1;
-
-  setStep(index: number) {
-    this.step = index;
+  openBottomSheet(contact): void {
+    this._contactSheet.open(ContactBottomSheet, {data: contact});
   }
 
-  nextStep() {
-    this.step++;
+  isDistinctStr(c1, c2) {
+    return this.getDistinctStr(c1, c2) !== '';
   }
 
-  prevStep() {
-    this.step--;
+  getDistinctStr(c1, c2) {
+    return this.contactsService.getDistinctStr(c1, c2);
+  }
+}
+
+@Component({
+  selector: 'contact-bottom-sheet',
+  styleUrls: ['./view-contacts.component.css'],
+  templateUrl: 'contact-bottom-sheet.html',
+})
+export class ContactBottomSheet {
+  contact: Contact;
+  constructor(public router: Router,
+    private contactsService: ContactsService,
+    private _contactSheetRef: MatBottomSheetRef<ContactBottomSheet>,
+    @Inject(MAT_BOTTOM_SHEET_DATA) public _contact: any,
+    public dialog: MatDialog,) {
+      console.log(_contact)
+      this.contact = _contact;
+    }
+
+  openLink(event: MouseEvent): void {
+    this._contactSheetRef.dismiss();
+    event.preventDefault();
+  }
+
+  deleteContact(contact: Contact) {
+    let dialogRef = this.dialog.open(DeleteDialogComponent);
+
+    dialogRef.afterClosed().subscribe(res => {
+      if (res === "yes") {
+        this.contactsService.deleteContact(contact);
+        this._contactSheetRef.dismiss();
+      }
+    })
+  }
+
+  gotToEditContact(contact: Contact) {
+    this._contactSheetRef.dismiss();
+    this.contactsService.setStoredContact(contact);
+    this.router.navigate(['edit-contact']);
   }
 }

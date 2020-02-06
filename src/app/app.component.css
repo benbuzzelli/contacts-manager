@@ -116,3 +116,7 @@
 .general-icon-button:hover {
     color: #383838;
 }
+
+.spacer {
+    flex: 1 1 auto;
+}

@@ -17,6 +17,15 @@
     overflow: auto;
 }
 
+.contact-list-item:hover {
+    background-color: #F8F8F8;
+    cursor: default;
+}
+
+.contact-list::-webkit-scrollbar {
+    background-color: transparent;
+}
+
 .search-input {
     height: 30px;
     width: 90%;
@@ -35,11 +44,17 @@
 }
 
 .contact-header {
-    font-size: larger;
+    font-size: large;
     font-weight: bold;
 }
 
 .contact-list {
-    max-height: 150px;
+    max-height: 250px;
     overflow: auto;
+}
+
+.light-text {
+    color: #B8B8B8;
+    font-weight: lighter;
+    font-size: small;
 }

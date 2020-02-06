@@ -26,7 +26,7 @@ import { MaterialModule } from './material/material.module';
 import { MatIconModule } from '@angular/material/icon';
 import { ToolbarComponent } from './toolbar/toolbar.component';
 import { ContactsComponent } from './create-contacts/create-contacts.component';
-import { ViewContactsComponent } from './view-contacts/view-contacts.component';
+import { ViewContactsComponent, ContactBottomSheet } from './view-contacts/view-contacts.component';
 import { EditDialogComponent } from './edit-dialog/edit-dialog.component';
 
 import { AuthGuard } from './auth/auth.guard';
@@ -58,7 +58,8 @@ const appRoutes: Routes = [
     DeleteDialogComponent,
     ContactFormComponent,
     EditContactComponent,
-    SaveChangesDialogComponent
+    SaveChangesDialogComponent,
+    ContactBottomSheet
   ],
   imports: [
     RouterModule.forRoot(
@@ -78,7 +79,7 @@ const appRoutes: Routes = [
     MatIconModule,
     AppRoutingModule
   ],
-  entryComponents: [EditDialogComponent, DeleteDialogComponent, SaveChangesDialogComponent],
+  entryComponents: [EditDialogComponent, DeleteDialogComponent, SaveChangesDialogComponent, ContactBottomSheet],
   providers: [AuthGuard, { provide: LocationStrategy, useClass: HashLocationStrategy }],
   bootstrap: [AppComponent]
 })

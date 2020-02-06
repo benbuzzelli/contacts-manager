@@ -135,4 +135,41 @@ export class ContactsService {
   getStoredContact(): Contact {
     return JSON.parse(localStorage.getItem('selectedContact'));
   }
+
+  getDistinctStr(c1, c2) {
+    let c = c1.fullName.fullName.substr(0,1);
+    c = this.getGeneralStr(c);
+    
+    if (c2 === null)
+      return c;
+
+    let d = c2.fullName.fullName.substr(0,1);
+    d = this.getGeneralStr(d);
+    
+    if (c !== d)
+      return c;
+
+    return '';
+  }
+
+  getGeneralStr(c: string) {
+    if (!this.isAlphaNumeric(c))
+      return '...';
+    if (this.isNum(c))
+      return '#';
+    return c;
+  }
+
+  isAlphaNumeric(c: string) {
+    return this.isAlph(c) || this.isNum(c);
+  }
+
+  isAlph(c: String) {
+    c.toLowerCase();
+    return (c >= 'a' && c <= 'z')
+  }
+
+  isNum(c: String) {
+    return (c >= '0' && c <= '9')
+  }
 }

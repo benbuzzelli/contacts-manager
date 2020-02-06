@@ -110,6 +110,9 @@ export class ContactsService {
 
     if (contact.fullName.fullName === '')
       contact.fullName = this.getAllNameValues(noNameStr)
+    else {
+      contact.fullName = this.getAllNameValues(this.namesService.nameToCamelCase(contact.fullName.fullName))
+    }
 
     this.contactsRef = this.afs.collection<Contact>(`contacts-${this.userId}`);
     this.contactsRef.add(JSON.parse(JSON.stringify(contact)));
@@ -162,24 +165,6 @@ export class ContactsService {
   }
 
   getGeneralStr(c: string) {
-    c = c.toLowerCase();
-    if (!this.isAlphaNumeric(c))
-      return '...';
-    if (this.isNum(c))
-      return '#';
-    return c;
-  }
-
-  isAlphaNumeric(c: string) {
-    return this.isAlph(c) || this.isNum(c);
-  }
-
-  isAlph(c: String) {
-    c = c.toLowerCase();
-    return (c >= 'a' && c <= 'z')
-  }
-
-  isNum(c: String) {
-    return (c >= '0' && c <= '9')
+    return this.namesService.getGeneralStr(c)
   }
 }

@@ -127,4 +127,40 @@ export class NamesService {
     return fullNameArray.join(" ");
   }
 
+  nameToCamelCase(str: string) {
+    let l = str.length;
+    for (let i = 0; i < l; i++) {
+      let cap = str.substring(i,i+1);
+      if (i !== 0 && str.substring(i-1,i) === ' ') {
+        if (this.isAlph(cap))
+          str = str.replace((' ' + cap), (' ' + cap.toUpperCase()))
+      } else if (i === 0) {
+        str = cap.toUpperCase() + str.slice(1, str.length);
+      }
+    }
+    return str;
+  }
+
+  getGeneralStr(c: string) {
+    c = c.toLowerCase();
+    if (!this.isAlphaNumeric(c))
+      return '...';
+    if (this.isNum(c))
+      return '#';
+    return c;
+  }
+
+  isAlphaNumeric(c: string) {
+    return this.isAlph(c) || this.isNum(c);
+  }
+
+  isAlph(c: String) {
+    c = c.toLowerCase();
+    return (c >= 'a' && c <= 'z')
+  }
+
+  isNum(c: String) {
+    return (c >= '0' && c <= '9')
+  }
+
 }

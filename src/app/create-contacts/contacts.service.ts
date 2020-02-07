@@ -33,6 +33,8 @@ export class ContactsService {
   contacts$: Observable<Contact[]> = null;
   userId: string;
 
+  setContacts:  false;
+
   // If this is empty, then the table will not display
   searchEmpty: boolean = false;
 
@@ -58,7 +60,6 @@ export class ContactsService {
   setSearchContacts(searchStr: string, searchAlpha: boolean) {
     let contactsRef: AngularFirestoreCollection<Contact> = null;
     if (searchStr === null || searchStr === '') {
-      console.log("Setting contacts")
       contactsRef = this.afs.collection<Contact>(`contacts-${this.userId}`, ref => ref.orderBy('sortName'));
     }
     else
@@ -167,7 +168,7 @@ export class ContactsService {
     if (c === '')
       c = c1.fullName.firstName.substr(0,1);
     c = this.getGeneralStr(c);
-    
+
     if (c2 === null)
       return c.toUpperCase();
 

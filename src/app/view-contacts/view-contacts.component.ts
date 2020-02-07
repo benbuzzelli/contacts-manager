@@ -65,8 +65,11 @@ export class ViewContactsComponent implements OnInit {
     let dialogRef = this.dialog.open(DeleteDialogComponent);
 
     dialogRef.afterClosed().subscribe(res => {
-      if (res === "yes")
+      if (res === "yes") {
         this.contactsService.deleteContact(contact);
+        this.setContacts('');
+        this.groupsSet = false;
+      }
     })
   }
 
@@ -105,8 +108,10 @@ export class ViewContactsComponent implements OnInit {
 
   setGroups(contacts: Contact[]) {
     if (!this.groupsSet) {
+      console.log("Setting groups")
       this.contactGroups = [];
       let l = contacts.length;
+      console.log("len = " + l)
       let prevIndex = 0;
       let curGroupStr = '';
       let groupStr = '';

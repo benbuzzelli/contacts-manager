@@ -100,11 +100,12 @@ export class ViewContactsComponent implements OnInit {
   check() {
     if (document.getElementById('sticky'))
       console.log(document.getElementById('sticky').style.position)
-    return true
+    return
   }
 
   setGroups(contacts: Contact[]) {
     if (!this.groupsSet) {
+      this.contactGroups = [];
       let l = contacts.length;
       let prevIndex = 0;
       let curGroupStr = '';

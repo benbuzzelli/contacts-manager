@@ -1,7 +1,7 @@
 <!-- Search input field -->
 <div class="center">
     <p style="width: 400px;" class="center" appearance="legacy">
-        <input class="search-input" (keyup)="setContacts(searchVal.value)" #searchVal type="text" placeholder="Search contacts">
+        <input class="search-input" (keyup)="setContacts(searchVal.value); groupsSet=false" #searchVal type="text" placeholder="Search contacts">
     </p>
     <button class="general-icon-button" mat-icon-button (click)="router.navigate(['contacts']);">
         <mat-icon>person_add</mat-icon>
@@ -22,12 +22,12 @@
           </div>
           <mat-divider></mat-divider>
         <!-- </div> -->
-        <div class="contact-list-spacing">
+        <!-- <div class="contact-list-spacing"> -->
           <mat-list-item (click)="openBottomSheet(contact)" 
                           class="contact-list-item"
                           (mouseover)="setIndex(i.toString() + ii.toString())"
                           *ngFor="let contact of contacts | slice:contactGroup.start:contactGroup.end; let i = index">
-            {{ contact.fullName.fullName }}
+            <span class="contact-list-spacing"></span>{{ contact.fullName.fullName }}
             <span class="spacer"></span>
             <button (click)="$event.stopPropagation()" *ngIf="hoveredIndex === (i.toString() + ii.toString())" class="general-icon-button" mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
               <mat-icon>more_vert</mat-icon>
@@ -43,7 +43,7 @@
               </button>
             </mat-menu>
           </mat-list-item>
-        </div>
+        <!-- </div> -->
       </div>
     </mat-list>
 </div>

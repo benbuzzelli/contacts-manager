@@ -143,8 +143,10 @@ export class NamesService {
 
   getGeneralStr(c: string) {
     c = c.toLowerCase();
-    if (!this.isAlphaNumeric(c))
+    if (!this.isAlphaNumeric(c)) {
+      console.log(c === '')
       return '...';
+    }
     if (this.isNum(c))
       return '#';
     return c;

@@ -12,6 +12,7 @@ export class Contact {
   id: string;
   name: string;
   fullName: FullName;
+  sortName: string;
   phoneNumbers: any[];
   emails: any[];
 
@@ -58,7 +59,7 @@ export class ContactsService {
     let contactsRef: AngularFirestoreCollection<Contact> = null;
     if (searchStr === null || searchStr === '') {
       console.log("Setting contacts")
-      contactsRef = this.afs.collection<Contact>(`contacts-${this.userId}`, ref => ref.orderBy('fullName.firstName'));
+      contactsRef = this.afs.collection<Contact>(`contacts-${this.userId}`, ref => ref.orderBy('sortName'));
     }
     else
     {
@@ -114,8 +115,19 @@ export class ContactsService {
       contact.fullName = this.getAllNameValues(this.namesService.nameToCamelCase(contact.fullName.fullName))
     }
     this.contactNameJustCreated = contact.fullName.fullName;
+    contact.sortName = this.getSortName(contact.fullName);
     this.contactsRef = this.afs.collection<Contact>(`contacts-${this.userId}`);
     this.contactsRef.add(JSON.parse(JSON.stringify(contact)));
+  }
+
+  getSortName(fullName: FullName) {
+    let f = fullName.firstName.toLowerCase();
+    let l = fullName.lastName.toLowerCase();
+    let p = fullName.prefix.toLowerCase();
+    let m = fullName.middleName.toLowerCase();
+    let s = fullName.suffix.toLowerCase();
+    let sortName = f + m + l + p + s;
+    return sortName;
   }
 
   // Gets the document with the contact's id and deletes it.
@@ -151,8 +163,9 @@ export class ContactsService {
   getDistinctStr(c1, c2) {
     if (c1 === undefined && c2 === undefined)
       return '';
-
-    let c = c1.fullName.firstName.substr(0,1);
+    let c = c1.sortName.substr(0,1);
+    if (c === '')
+      c = c1.fullName.firstName.substr(0,1);
     c = this.getGeneralStr(c);
     
     if (c2 === null)
@@ -160,7 +173,7 @@ export class ContactsService {
 
     let d = c2.fullName.firstName.substr(0,1);
     d = this.getGeneralStr(d);
-    
+
     if (c !== d)
       return c.toUpperCase();
 

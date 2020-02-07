@@ -10,7 +10,7 @@
             </mat-card-header>
             <!-- Calls createContact if clicked, and navigates back to view-contacts -->
             <button type="button" [disabled]="!formIsFilled()" mat-icon-button 
-            class="dropdown-btn general-icon-button" 
+            [class.general-icon-button]="formIsFilled()" 
             style="padding-bottom: 10px;" 
             (click)="createContact(); openContactCreatedSnackBar('created!'); router.navigate(['view-contacts']);">
                 <mat-icon>check</mat-icon>

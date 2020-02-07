@@ -10,7 +10,7 @@
             </mat-card-header>
             <!-- Calls createContact if clicked, and navigates back to view-contacts -->
             <button type="button" [disabled]="!formIsChanged()" mat-icon-button 
-            class="dropdown-btn general-icon-button" 
+            [class.general-icon-button]="formIsChanged()"
             style="padding-bottom: 10px;" 
             (click)="openSaveChangesDialog();">
                 <mat-icon>check</mat-icon>

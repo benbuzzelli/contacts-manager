@@ -10,11 +10,29 @@
     overflow: auto;
 }
 
+.parent-str {
+    position: relative;
+}
+
+.child-str {
+    position: absolute;
+    top: 18px;
+    padding-left: 20px;
+}
+
 .view-container-search {
     min-height: 50px;
     max-height: 500px;
     width: 800px;
     overflow: auto;
+}
+
+.contact-list-spacing {
+    padding-left: 30px;
+}
+
+.contact-list-item {
+    padding-left: 50px;
 }
 
 .contact-list-item:hover {
@@ -57,4 +75,13 @@
     color: #B8B8B8;
     font-weight: lighter;
     font-size: small;
+}
+
+.sticky-divider {
+    position: sticky; 
+    top: 0px;
+}
+
+.inline-item {
+    display: inline-block;
 }

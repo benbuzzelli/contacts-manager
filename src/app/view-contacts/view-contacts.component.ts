@@ -31,7 +31,9 @@ export class ViewContactsComponent implements OnInit {
    */
   displayedColumns: string[] = ['fullName', 'deleteButton', 'editButton'];
   expandedContact: Contact | null;
-  hoveredIndex = -1;
+  hoveredIndex = '-1';
+  contactGroups: Array<Group> = [];
+  groupsSet = false;
 
   constructor(private contactsService: ContactsService,
     public dialog: MatDialog,
@@ -91,9 +93,50 @@ export class ViewContactsComponent implements OnInit {
   }
 
   setIndex(i) {
-    console.log("len: " + this.contactsLength)
     this.hoveredIndex = i;
     return true
+  }
+
+  check() {
+    if (document.getElementById('sticky'))
+      console.log(document.getElementById('sticky').style.position)
+    return true
+  }
+
+  setGroups(contacts: Contact[]) {
+    if (!this.groupsSet) {
+      let l = contacts.length;
+      let prevIndex = 0;
+      let curGroupStr = '';
+      let groupStr = '';
+      for (let i = 0; i < l; i++) {
+        groupStr = this.getDistinctStr(contacts[i], i===0 ? null : contacts[i-1]);
+        if (i === 0)
+          curGroupStr = groupStr;
+        if (groupStr !== curGroupStr && groupStr != '') {
+          this.contactGroups.push(new Group(prevIndex, i, curGroupStr))
+          curGroupStr = groupStr;
+          prevIndex = i;
+          if (i === l-1) {
+            this.contactGroups.push(new Group(prevIndex, i+1, curGroupStr))
+          }
+        } else if (i === l-1) {
+          this.contactGroups.push(new Group(prevIndex, i+1, curGroupStr))
+        }
+      }
+      this.groupsSet = true;
+    }
+  }
+}
+
+export class Group {
+  start: Number;
+  end: Number;
+  value: string;
+  constructor (s, e, value) {
+    this.start = s;
+    this.end = e;
+    this.value = value;
   }
 }
 
@@ -109,7 +152,6 @@ export class ContactBottomSheet {
     private _contactSheetRef: MatBottomSheetRef<ContactBottomSheet>,
     @Inject(MAT_BOTTOM_SHEET_DATA) public _contact: any,
     public dialog: MatDialog,) {
-      console.log(_contact)
       this.contact = _contact;
     }
 

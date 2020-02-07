@@ -149,6 +149,9 @@ export class ContactsService {
   }
 
   getDistinctStr(c1, c2) {
+    if (c1 === undefined && c2 === undefined)
+      return '';
+
     let c = c1.fullName.firstName.substr(0,1);
     c = this.getGeneralStr(c);
     

@@ -14,14 +14,14 @@
     <!-- ContactLength: {{ cons.length }} -->
     <mat-list #clist *ngIf="groupsSet" style="padding-top: 0px;" class="mat-elevation-z8 view-container">
       <div *ngFor="let contactGroup of contactGroups; let ii = index;">
-        <!-- <div class="sticky-divider"> -->
+        <div [class.sticky-divider]="contactGroup.sticky">
           <div class="parent-str">
-            <div class="child-str light-text">
+            <div [class.transparent-str]="contactGroup.transparent" class="child-str light-text">
               {{ contactGroup.value }}
             </div>
           </div>
-          <mat-divider></mat-divider>
-        <!-- </div> -->
+          <mat-divider *ngIf="!contactGroup.transparent"></mat-divider>
+        </div>
         <!-- <div class="contact-list-spacing"> -->
           <mat-list-item (click)="openBottomSheet(contact)" 
                           class="contact-list-item"

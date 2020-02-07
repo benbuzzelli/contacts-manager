@@ -115,14 +115,24 @@ export class ViewContactsComponent implements OnInit {
         if (i === 0)
           curGroupStr = groupStr;
         if (groupStr !== curGroupStr && groupStr != '') {
-          this.contactGroups.push(new Group(prevIndex, i, curGroupStr))
+          if (i-prevIndex === 1)
+            this.contactGroups.push(new Group(prevIndex, i, curGroupStr, false, false))
+          else {
+            this.contactGroups.push(new Group(prevIndex, i-1, curGroupStr, true, false))
+            this.contactGroups.push(new Group(i-1, i, curGroupStr, false, true))
+          }
           curGroupStr = groupStr;
           prevIndex = i;
           if (i === l-1) {
-            this.contactGroups.push(new Group(prevIndex, i+1, curGroupStr))
+            this.contactGroups.push(new Group(prevIndex, i+1, curGroupStr, false, false))
           }
         } else if (i === l-1) {
-          this.contactGroups.push(new Group(prevIndex, i+1, curGroupStr))
+          if (i-prevIndex === 1)
+            this.contactGroups.push(new Group(prevIndex, i+1, curGroupStr, false, false))
+          else {
+            this.contactGroups.push(new Group(prevIndex, i, curGroupStr, true, false))
+            this.contactGroups.push(new Group(i, i+1, curGroupStr, false, true))
+          }
         }
       }
       this.groupsSet = true;
@@ -134,10 +144,14 @@ export class Group {
   start: Number;
   end: Number;
   value: string;
-  constructor (s, e, value) {
+  sticky: false;
+  transparent: false;
+  constructor (s, e, value, sticky, transparent) {
     this.start = s;
     this.end = e;
     this.value = value;
+    this.sticky = sticky;
+    this.transparent = transparent;
   }
 }
 

@@ -85,3 +85,8 @@
 .inline-item {
     display: inline-block;
 }
+
+.transparent-str {
+    color: transparent;
+    background-color: transparent;
+}

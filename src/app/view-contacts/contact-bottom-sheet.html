@@ -21,10 +21,10 @@
     <mat-divider></mat-divider>
     <mat-list class="contact-list">
         <mat-list-item *ngFor="let email of contact.emails; let i = index;">
-        <mat-icon class="general-icon" mat-list-icon *ngIf="i == 0">email</mat-icon>
-        <mat-icon mat-list-icon style="color: transparent;" *ngIf="i > 0">email</mat-icon>
-        <h4 mat-line>{{ email.value }}</h4>
-        <p class="subtitle" mat-line>{{ email.type }}</p>
+            <mat-icon class="general-icon" mat-list-icon *ngIf="i == 0">email</mat-icon>
+            <mat-icon mat-list-icon style="color: transparent;" *ngIf="i > 0">email</mat-icon>
+            <h4 mat-line>{{ email.value }}</h4>
+            <p class="subtitle" mat-line>{{ email.type }}</p>
         </mat-list-item>
     </mat-list>
 </div>

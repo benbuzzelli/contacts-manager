@@ -22,6 +22,10 @@
     padding-left: 20px;
 }
 
+.contact-menu-button {
+    visibility: hidden;
+}
+
 .view-container-search {
     min-height: 50px;
     max-height: 75%;
@@ -29,8 +33,14 @@
     overflow: auto;
 }
 
-.contact-list-spacing {
+.contact-list-name {
+    width: 30%;
     padding-left: 30px;
+}
+
+.contact-list-element {
+    width: 30%;
+    overflow: hidden;
 }
 
 .contact-list-item {

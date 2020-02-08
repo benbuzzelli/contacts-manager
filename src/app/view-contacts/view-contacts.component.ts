@@ -29,7 +29,7 @@ export class ViewContactsComponent implements OnInit {
   /**
    * Setup table with column headers to diplsay contacts
    */
-  displayedColumns: string[] = ['fullName', 'deleteButton', 'editButton'];
+  displayedColumns: string[] = ['fullName'];
   expandedContact: Contact | null;
   hoveredIndex = '-1';
   contactGroups: Array<Group> = [];

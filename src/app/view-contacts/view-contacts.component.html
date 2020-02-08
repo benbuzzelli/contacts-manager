@@ -1,17 +1,19 @@
 <!-- Search input field -->
-<div class="center">
-    <p style="width: 400px;" class="center" appearance="legacy">
-        <input class="search-input" (keyup)="setContacts(searchVal.value); groupsSet=false" #searchVal type="text" placeholder="Search contacts">
-    </p>
-    <button class="general-icon-button" mat-icon-button (click)="router.navigate(['contacts']);">
+<div class="search">
+  <div style="position: relative;">
+    <input class="search-input" (keyup)="setContacts(searchVal.value); groupsSet=false" #searchVal type="text" placeholder="Search contacts">
+    <div class="add-contact">
+      <button class="general-icon-button-light" mat-icon-button (click)="router.navigate(['contacts']);">
         <mat-icon>person_add</mat-icon>
-    </button>
+      </button>
+    </div>
+  </div>
 </div>
-
+<br>
 <!-- Accordion for displaying contacts -->
-<div class="center" *ngIf="contacts$ | async;let contacts">
+<div style="height: 75%; position: relative;" class="center" *ngIf="contacts$ | async;let contacts">
     <div *ngIf="contacts.length > 0; then setGroups(contacts)"></div>
-    <!-- ContactLength: {{ cons.length }} -->
+    
     <mat-list #clist *ngIf="groupsSet" style="padding-top: 0px;" class="mat-elevation-z8 view-container">
       <div *ngFor="let contactGroup of contactGroups; let ii = index;">
         <div [class.sticky-divider]="contactGroup.sticky">

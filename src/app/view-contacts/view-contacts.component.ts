@@ -32,7 +32,7 @@ export class ViewContactsComponent implements OnInit {
   expandedContact: Contact | null;
   hoveredIndex = '-1';
   contactGroups: Array<Group> = [];
-  groupsSet = false;
+  groupsSet = {value: false};
 
   constructor(private contactsService: ContactsService,
     public dialog: MatDialog,
@@ -41,11 +41,13 @@ export class ViewContactsComponent implements OnInit {
     private _snackBar: MatSnackBar) {
       // Initialise contact$
       this.setContacts('')
+      this.groupsSet.value = false;
   }
 
   ngOnInit() {
     // Set the users contacts in the template on init.
     this.setContacts('')
+    this.groupsSet.value = false;
   }
 
   async setContactsLength() {
@@ -65,9 +67,10 @@ export class ViewContactsComponent implements OnInit {
     console.log("Opened");
     dialogRef.afterClosed().subscribe(res => {
       if (res === "yes") {
+        console.log("Deleted")
         this.contactsService.deleteContact(contact);
         this.setContacts('');
-        this.groupsSet = false;
+        this.groupsSet.value = false;
         this.openDeletedSnackBar(contact.fullName.fullName, "deleted!")
       }
     })
@@ -98,7 +101,7 @@ export class ViewContactsComponent implements OnInit {
   }
 
   setGroups(contacts: Contact[]) {
-    if (!this.groupsSet) {
+    if (!this.groupsSet.value) {
       console.log("Setting groups")
       this.contactGroups = [];
       let l = contacts.length;
@@ -131,7 +134,7 @@ export class ViewContactsComponent implements OnInit {
           }
         }
       }
-      this.groupsSet = true;
+      this.groupsSet.value = true;
     }
   }
 
@@ -145,8 +148,8 @@ export class ViewContactsComponent implements OnInit {
     dialogRef.afterClosed().subscribe(res => {
       if (res === "yes") {
         this.contactsService.deleteContact(contact);
-        this.setContacts('');
-        // this.groupsSet = false;
+        this.setContacts('')
+        this.groupsSet.value = false;
         this.openDeletedSnackBar(contact.fullName.fullName, "deleted!")
       }
     })
@@ -216,10 +219,6 @@ export class ContactDialog {
   openEditContactForm(contact: Contact) {
     this._contactDialogRef.close();
     this.dialog.open(EditContactComponent, {data: contact, autoFocus: false})
-  }
-
-  gotToEditContact(contact: Contact) {
-    this._contactDialogRef.close();
   }
 
   flipPhoneToggle() {

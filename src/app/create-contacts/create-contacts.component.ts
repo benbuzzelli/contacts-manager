@@ -123,6 +123,9 @@ export class ContactsComponent implements OnInit {
     dialogRef.afterClosed().subscribe(res => {
       if (res === "discard")
         this.router.navigate(['view-contacts']);
+      else {
+        document.getElementById('backButton').blur();
+      }
     })
   }
 }

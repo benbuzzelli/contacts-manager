@@ -24,36 +24,34 @@
           </div>
           <mat-divider *ngIf="!contactGroup.transparent"></mat-divider>
         </div>
-        <!-- <div class="contact-list-spacing"> -->
-          <mat-list-item (click)="openBottomSheet(contact)" 
-                          class="contact-list-item"
-                          (mouseover)="setIndex(i.toString() + ii.toString())"
-                          *ngFor="let contact of contacts | slice:contactGroup.start:contactGroup.end; let i = index">
-            <span class="contact-list-name">{{ contact.fullName.fullName }}</span>
-            <span class="spacer"></span>
-            <span class="light-text contact-list-element" *ngIf="contact.phoneNumbers.length > 0">{{ contact.phoneNumbers[0].value }}</span>
-            <span class="light-text contact-list-element" *ngIf="contact.phoneNumbers.length === 0"></span>
-            <span class="spacer"></span>
-            <span class="light-text contact-list-element" *ngIf="contact.emails.length > 0">{{ contact.emails[0].value }}</span>
-            <span class="light-text contact-list-element" *ngIf="contact.emails.length === 0"></span>
-            <span class="spacer"></span>
-            <button [disabled]="hoveredIndex !== (i.toString() + ii.toString())"
-                    [class.contact-menu-button]="hoveredIndex !== (i.toString() + ii.toString())" 
-                    (click)="$event.stopPropagation()" class="general-icon-button" mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
-              <mat-icon>more_vert</mat-icon>
+        <mat-list-item (click)="openContactDialog(contact)" 
+                        class="contact-list-item"
+                        (mouseover)="setIndex(i.toString() + ii.toString())"
+                        *ngFor="let contact of contacts | slice:contactGroup.start:contactGroup.end; let i = index">
+          <span class="contact-list-name">{{ contact.fullName.fullName }}</span>
+          <span class="spacer"></span>
+          <span class="light-text contact-list-element" *ngIf="contact.phoneNumbers.length > 0">{{ contact.phoneNumbers[0].value }}</span>
+          <span class="light-text contact-list-element" *ngIf="contact.phoneNumbers.length === 0"></span>
+          <span class="spacer"></span>
+          <span class="light-text contact-list-element" *ngIf="contact.emails.length > 0">{{ contact.emails[0].value }}</span>
+          <span class="light-text contact-list-element" *ngIf="contact.emails.length === 0"></span>
+          <span class="spacer"></span>
+          <button [disabled]="hoveredIndex !== (i.toString() + ii.toString())"
+                  [class.contact-menu-button]="hoveredIndex !== (i.toString() + ii.toString())" 
+                  (click)="$event.stopPropagation()" class="general-icon-button" mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+            <mat-icon>more_vert</mat-icon>
+          </button>
+          <mat-menu #menu="matMenu">
+            <button mat-menu-item aria-lable="Edit Contact" (click)="openEditContactForm(contact)">
+              <mat-icon>edit</mat-icon>
+              <span>edit</span>
             </button>
-            <mat-menu #menu="matMenu">
-              <button mat-menu-item aria-lable="Edit Contact" (click)="gotToEditContact(contact)">
-                <mat-icon>edit</mat-icon>
-                <span>edit</span>
-              </button>
-              <button mat-menu-item aria-lable="Delete Contact" (click)="deleteContact(contact)">
-                <mat-icon>delete</mat-icon>
-                <span>delete</span>
-              </button>
-            </mat-menu>
-          </mat-list-item>
-        <!-- </div> -->
+            <button mat-menu-item aria-lable="Delete Contact" (click)="deleteContact(contact)">
+              <mat-icon>delete</mat-icon>
+              <span>delete</span>
+            </button>
+          </mat-menu>
+        </mat-list-item>
       </div>
     </mat-list>
 </div>

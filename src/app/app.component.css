@@ -33,6 +33,16 @@
     width: 314px;
 }
 
+.sheet-toolbar {
+    height: auto;
+    background-color: white; 
+    padding: 0; 
+    padding-top: 0;
+    position: sticky; 
+    top: 0px;
+    z-index: 1;
+}
+
 .input-padding {
     padding-left: 20px;
     padding-right: 20px;
@@ -40,10 +50,6 @@
 
 .input-card-column-division {
     padding-right: 15px;
-}
-
-.card-custom {
-    padding-top: 20px;
 }
 
 .card-size-2 {

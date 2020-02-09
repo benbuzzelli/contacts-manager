@@ -149,18 +149,6 @@ export class ContactsService {
     return this.namesService.getFullName(fullName);
   }
 
-  setStoredContact(contact: Contact) {
-    localStorage.setItem('selectedContact', JSON.stringify(contact));
-  }
-
-  removeStoredContact() {
-    localStorage.setItem('selectedContact', null);
-  }
-
-  getStoredContact(): Contact {
-    return JSON.parse(localStorage.getItem('selectedContact'));
-  }
-
   getDistinctStr(c1, c2) {
     if (c1 === undefined && c2 === undefined)
       return '';

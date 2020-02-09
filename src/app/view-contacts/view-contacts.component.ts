@@ -4,12 +4,11 @@ import { ContactsService } from '../create-contacts/contacts.service';
 import { Observable } from 'rxjs';
 import { Router } from  "@angular/router";
 import { Contact } from '../create-contacts/contacts.service';
-import {MatTableModule} from '@angular/material/table';
 import { DeleteDialogComponent } from '../delete-dialog/delete-dialog.component';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import {animate, state, style, transition, trigger} from '@angular/animations';
-import {MatBottomSheet, MatBottomSheetRef, MAT_BOTTOM_SHEET_DATA} from '@angular/material/bottom-sheet';
+import { EditContactComponent } from '../edit-contact/edit-contact.component';
 
 @Component({
   selector: 'app-view-contacts',
@@ -39,7 +38,7 @@ export class ViewContactsComponent implements OnInit {
     public dialog: MatDialog,
     private db: AngularFireDatabase, 
     public router: Router,
-    private _contactSheet: MatBottomSheet) {
+    private _snackBar: MatSnackBar) {
       // Initialise contact$
       this.setContacts('')
   }
@@ -63,28 +62,20 @@ export class ViewContactsComponent implements OnInit {
 
   deleteContact(contact: Contact) {
     let dialogRef = this.dialog.open(DeleteDialogComponent);
-
+    console.log("Opened");
     dialogRef.afterClosed().subscribe(res => {
       if (res === "yes") {
         this.contactsService.deleteContact(contact);
         this.setContacts('');
         this.groupsSet = false;
+        this.openDeletedSnackBar(contact.fullName.fullName, "deleted!")
       }
     })
-  }
-
-  gotToEditContact(contact: Contact) {
-    this.contactsService.setStoredContact(contact);
-    this.router.navigate(['edit-contact']);
   }
 
   scroll(id) {
     let el = document.getElementById(id);
     // setTimeout(() => el.scrollIntoView({behavior: 'smooth', block: 'start'}), 1);
-  }
-
-  openBottomSheet(contact): void {
-    this._contactSheet.open(ContactBottomSheet, {data: contact});
   }
 
   isDistinctStr(c1, c2) {
@@ -143,6 +134,29 @@ export class ViewContactsComponent implements OnInit {
       this.groupsSet = true;
     }
   }
+
+  openEditContactForm(contact: Contact) {
+    this.dialog.open(EditContactComponent, {data: contact, autoFocus: false})
+  }
+
+  openContactDialog(contact: Contact) {
+    let dialogRef = this.dialog.open(ContactDialog, {data: contact, autoFocus: false});
+
+    dialogRef.afterClosed().subscribe(res => {
+      if (res === "yes") {
+        this.contactsService.deleteContact(contact);
+        this.setContacts('');
+        // this.groupsSet = false;
+        this.openDeletedSnackBar(contact.fullName.fullName, "deleted!")
+      }
+    })
+  }
+
+  openDeletedSnackBar(message: string, action: string) {
+    this._snackBar.open(message, action, {
+      duration: 2000,
+    });
+  }
 }
 
 export class Group {
@@ -161,24 +175,21 @@ export class Group {
 }
 
 @Component({
-  selector: 'contact-bottom-sheet',
+  selector: 'contact-dialog',
   styleUrls: ['./view-contacts.component.css'],
-  templateUrl: 'contact-bottom-sheet.html',
+  templateUrl: 'contact-dialog.html',
 })
-export class ContactBottomSheet {
+export class ContactDialog {
   contact: Contact;
+
   constructor(public router: Router,
     private contactsService: ContactsService,
-    private _contactSheetRef: MatBottomSheetRef<ContactBottomSheet>,
-    @Inject(MAT_BOTTOM_SHEET_DATA) public _contact: any,
-    public dialog: MatDialog,) {
+    @Inject(MAT_DIALOG_DATA) public _contact: any,
+    public dialog: MatDialog, 
+    private _contactDialogRef: MatDialogRef<ContactDialog>,
+    private _snackBar: MatSnackBar) {
       this.contact = _contact;
     }
-
-  openLink(event: MouseEvent): void {
-    this._contactSheetRef.dismiss();
-    event.preventDefault();
-  }
 
   deleteContact(contact: Contact) {
     let dialogRef = this.dialog.open(DeleteDialogComponent);
@@ -186,14 +197,26 @@ export class ContactBottomSheet {
     dialogRef.afterClosed().subscribe(res => {
       if (res === "yes") {
         this.contactsService.deleteContact(contact);
-        this._contactSheetRef.dismiss();
+        this._contactDialogRef.close('yes');
+        this.openDeletedSnackBar(this.contact.fullName.fullName, "deleted!")
+      } else {
+        document.getElementById('deleteButton').blur();
       }
     })
   }
 
+  openDeletedSnackBar(message: string, action: string) {
+    this._snackBar.open(message, action, {
+      duration: 2000,
+    });
+  }
+
+  openEditContactForm(contact: Contact) {
+    this._contactDialogRef.close();
+    this.dialog.open(EditContactComponent, {data: contact, autoFocus: false})
+  }
+
   gotToEditContact(contact: Contact) {
-    this._contactSheetRef.dismiss();
-    this.contactsService.setStoredContact(contact);
-    this.router.navigate(['edit-contact']);
+    this._contactDialogRef.close();
   }
 }

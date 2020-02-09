@@ -1,11 +1,11 @@
-<div style="min-width: 300px; min-height: 300px;">
-    <mat-toolbar class="center" style="background-color: transparent; padding-right: 0px; padding-left: 20px;">
+<div class="contact-dialog-container">
+    <mat-toolbar class="center sheet-toolbar">
         <mat-card-title style="padding-right: 50px;">{{ contact.fullName.fullName }}</mat-card-title>
         <span class="spacer"></span>
-            <button class="general-icon-button" mat-icon-button aria-lable="Edit Contact" (click)="gotToEditContact(contact)">
+            <button class="general-icon-button" mat-icon-button aria-lable="Edit Contact" (click)="openEditContactForm(contact)">
                 <mat-icon>edit</mat-icon>
             </button>
-            <button class="general-icon-button" mat-icon-button aria-lable="Delete Contact" (click)="deleteContact(contact)">
+            <button id="deleteButton" class="general-icon-button" mat-icon-button aria-lable="Delete Contact" (click)="deleteContact(contact)">
                 <mat-icon>delete</mat-icon>
             </button>
     </mat-toolbar>

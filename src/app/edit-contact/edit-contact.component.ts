@@ -1,14 +1,15 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { ContactsService, Contact } from '../create-contacts/contacts.service';
 import { FullName } from '../names/names.service';
 import { AngularFireDatabase } from "@angular/fire/database";
 import { FormGroup, FormBuilder, FormArray, FormControl } from '@angular/forms';
 import { Router } from  "@angular/router";
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { EditDialogComponent } from '../edit-dialog/edit-dialog.component';
 import { SaveChangesDialogComponent } from '../save-changes-dialog/save-changes-dialog.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ContactFormService } from '../contact-form/contact-form.service';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { ContactDialog } from '../view-contacts/view-contacts.component';
 
 @Component({
   selector: 'app-edit-contact',
@@ -17,15 +18,19 @@ import { ContactFormService } from '../contact-form/contact-form.service';
 })
 export class EditContactComponent implements OnInit {
   contactForm: FormGroup;
+  contact: Contact; 
 
   constructor(private contactsService: ContactsService, 
     private db: AngularFireDatabase,
     private formBuilder: FormBuilder, 
     public router: Router,
     public dialog: MatDialog,
-    private _createdContactSnackBar: MatSnackBar,
-    private contactFormService: ContactFormService) {
-    
+    private _snackBar: MatSnackBar,
+    private contactFormService: ContactFormService,
+    @Inject(MAT_DIALOG_DATA) public _contact: any,
+    private _editContactDialogRef: MatDialogRef<EditContactComponent>) {
+
+    this.contact = _contact;
     this.initContactForm();
   }
 
@@ -46,7 +51,7 @@ export class EditContactComponent implements OnInit {
   }
 
   setContactFormToSelectedContact() {
-    let contact = this.contactsService.getStoredContact();
+    let contact = this.contact;
 
     this.contactForm.patchValue({
       primaryName: contact.fullName.fullName,
@@ -84,7 +89,7 @@ export class EditContactComponent implements OnInit {
 
   openContactCreatedSnackBar(action: string) {
     let message = this.contactForm.get('primaryName').value;
-    this._createdContactSnackBar.open(message, action, {
+    this._snackBar.open(message, action, {
       duration: 2000,
     });
   }
@@ -123,23 +128,21 @@ export class EditContactComponent implements OnInit {
   // Checks all formGroup values to see if the form is filled
   formIsChanged(): boolean {
     if (this.contactForm != undefined || this.contactForm != null) {
-      let storedContact = this.contactsService.getStoredContact();
-
       let emails: FormArray = this.contactForm.get('emails') as FormArray;
       let phoneNumbers: FormArray = this.contactForm.get('phoneNumbers') as FormArray;
 
-      if (this.contactForm.get('primaryName').value !== storedContact.fullName.fullName)
+      if (this.contactForm.get('primaryName').value !== this.contact.fullName.fullName)
         return true;
 
-      if (storedContact.phoneNumbers.length != (phoneNumbers.length-1) || storedContact.emails.length != (emails.length-1))
+      if (this.contact.phoneNumbers.length != (phoneNumbers.length-1) || this.contact.emails.length != (emails.length-1))
         return true;
 
       for (let i = 0; i < emails.length; i++)
-        if (storedContact.emails[i] !== undefined && emails.get(i.toString()).get('value').value !== storedContact.emails[i].value)
+        if (this.contact.emails[i] !== undefined && emails.get(i.toString()).get('value').value !== this.contact.emails[i].value)
           return true;
 
       for (let i = 0; i < phoneNumbers.length; i++)
-        if (storedContact.phoneNumbers[i] !== undefined && phoneNumbers.get(i.toString()).get('value').value !== storedContact.phoneNumbers[i].value)
+        if (this.contact.phoneNumbers[i] !== undefined && phoneNumbers.get(i.toString()).get('value').value !== this.contact.phoneNumbers[i].value)
           return true;
 
       return false
@@ -150,8 +153,7 @@ export class EditContactComponent implements OnInit {
   // or keep creating the new contact.
   openEditDialog() {
     if (!this.formIsChanged()) {
-      this.router.navigate(['view-contacts']);
-      this.contactsService.removeStoredContact();
+      this._editContactDialogRef.close();
       return;
     }
 
@@ -159,16 +161,16 @@ export class EditContactComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(res => {
       if (res === "discard") {
-        this.router.navigate(['view-contacts']);
-        this.contactsService.removeStoredContact();
+        this._editContactDialogRef.close();
+      } else {
+        document.getElementById('backspaceButton').blur();
       }
     })
   }
 
   openSaveChangesDialog() {
     if (!this.formIsChanged()) {
-      this.router.navigate(['view-contacts']);
-      this.contactsService.removeStoredContact();
+      this._editContactDialogRef.close();
       return;
     }
 
@@ -178,9 +180,10 @@ export class EditContactComponent implements OnInit {
       if (res === "save") {
         this.createContact();
         this.openContactCreatedSnackBar('edited!');
-        this.contactsService.deleteContact(this.contactsService.getStoredContact())
-        this.contactsService.removeStoredContact();
-        this.router.navigate(['view-contacts']);
+        this.contactsService.deleteContact(this.contact);
+        this._editContactDialogRef.close();
+      } else {
+        document.getElementById('saveButton').blur();
       }
     })
   }

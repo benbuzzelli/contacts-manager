@@ -181,6 +181,8 @@ export class Group {
 })
 export class ContactDialog {
   contact: Contact;
+  showMorePhoneToggle = false;
+  showMoreEmailToggle = false;
 
   constructor(public router: Router,
     private contactsService: ContactsService,
@@ -218,5 +220,13 @@ export class ContactDialog {
 
   gotToEditContact(contact: Contact) {
     this._contactDialogRef.close();
+  }
+
+  flipPhoneToggle() {
+    this.showMorePhoneToggle = !this.showMorePhoneToggle;
+  }
+
+  flipEmailToggle() {
+    this.showMoreEmailToggle = !this.showMoreEmailToggle;
   }
 }

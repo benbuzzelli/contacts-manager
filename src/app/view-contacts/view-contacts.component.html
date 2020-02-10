@@ -10,6 +10,7 @@
   </div>
 </div>
 <br>
+
 <!-- Accordion for displaying contacts -->
 <div style="height: 75%; position: relative;" class="center" *ngIf="contacts$ | async;let contacts">
     <div *ngIf="contacts.length > 0; then setGroups(contacts)"></div>

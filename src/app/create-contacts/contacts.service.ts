@@ -6,11 +6,13 @@ import { NamesService, FullName } from '../names/names.service';
 import * as firebase from 'firebase';
 import { AngularFirestoreCollection, AngularFirestore } from '@angular/fire/firestore';
 import { map } from 'rxjs/operators';
+import { element } from 'protractor';
 
 export class Contact {
   id: string;
   name: string;
   fullName: FullName;
+  sortName: string;
   phoneNumbers: any[];
   emails: any[];
 
@@ -31,8 +33,14 @@ export class ContactsService {
   contacts$: Observable<Contact[]> = null;
   userId: string;
 
+  setContacts:  false;
+
+  // If this is empty, then the table will not display
+  searchEmpty: boolean = false;
+
   // Reference to the user's contact collection in Angular Firestore
   contactsRef: AngularFirestoreCollection<Contact> = null;
+  contactNameJustCreated: string;
 
   constructor(private db: AngularFireDatabase, 
     private afAuth: AngularFireAuth, 
@@ -46,35 +54,30 @@ export class ContactsService {
       this.userId = localStorage.getItem('uid').replace(/\"/g, "")
   }
 
-  setContactsList(): void {
-    if (this.userId === null) return;
-    // Set contactsRef to be the user's contact collection.
-    // If no collection exists, one will be created with the user's id.
-    this.contactsRef = this.afs.collection<Contact>(`contacts-${this.userId}`, ref => ref.orderBy('name'));
-    // Set the contacts$ variable using Angular Firestore's snapshotChanges method.
-    this.contacts$ = this.contactsRef.snapshotChanges().pipe(map(actions => {
-      return actions.map(action => {
-        const data = action.payload.doc.data() as Contact;
-
-        // Gets the id associated with the document and sets it's id field equal to its id.
-        const id = action.payload.doc.id;
-        return { id, ...data };
-      });
-    }));
-  }
-
-  getContactsList(): Observable<any[]> {
-    this.setContactsList();
-    return this.contacts$;
-  }
-
-  searchEmpty: boolean = false;
-  setSearchContacts(searchStr: string) {
+  // Stores the list of contacts ordered by the name key if the user
+  // has not input anything into the search field. Otherwise, it orders
+  // the contacts by their comparison to the search string
+  setSearchContacts(searchStr: string, searchAlpha: boolean) {
     let contactsRef: AngularFirestoreCollection<Contact> = null;
-    if (searchStr === null || searchStr === '')
-      contactsRef = this.afs.collection<Contact>(`contacts-${this.userId}`, ref => ref.orderBy('name'));
-    else 
-      contactsRef = this.afs.collection<Contact>(`contacts-${this.userId}`, ref => ref.orderBy('searchIndex' + searchStr));
+    if (searchStr === null || searchStr === '') {
+      contactsRef = this.afs.collection<Contact>(`contacts-${this.userId}`, ref => ref.orderBy('sortName'));
+    }
+    else
+    {
+      if (searchAlpha) 
+      {
+          // Replace the last character of the search string and increment it by one
+          // this will be the upperbound of our search result.
+          var upperChar = 1 + searchStr.charCodeAt(searchStr.length-1);
+          var stringUpperBoundary = searchStr.substr(0, searchStr.length-1) + String.fromCharCode(upperChar);
+          //console.log("upperChar: "+ upperChar + " upperStringBound: " + stringUpperBoundary); 
+          contactsRef = this.afs.collection<Contact>(`contacts-${this.userId}`, ref => ref.where('name', '>=', searchStr).where('name', "<", stringUpperBoundary));
+      }
+      else
+      {
+        contactsRef = this.afs.collection<Contact>(`contacts-${this.userId}`, ref => ref.where('phoneNumbers', 'array-contains', searchStr));
+      }
+    }
     this.contacts$ = contactsRef.snapshotChanges().pipe(map(actions => {
       return actions.map(action => {
         const data = action.payload.doc.data() as Contact;
@@ -89,11 +92,11 @@ export class ContactsService {
     })
   }
 
-  getSearchResults(str: string): Observable<any[]> {
+  getSearchResults(str: string, searchAlpha: boolean): Observable<any[]> {
     if (str === null || str === '')
-      this.setSearchContacts('');
+      this.setSearchContacts('', true);
     else
-      this.setSearchContacts('.' + str.toLowerCase())
+      this.setSearchContacts('' + str.toLowerCase(), searchAlpha)
     return this.contacts$;
   }
 
@@ -101,26 +104,31 @@ export class ContactsService {
   // to be parsed as a JSON string because that's what Angular Firestore's
   // add function parameter needs to be.
   createContact(contact: Contact)  {
+    let noNameStr: string = 'Mr No Name';
+    if (contact.phoneNumbers.length > 0)
+      noNameStr = contact.phoneNumbers[0].value;
+    else if (contact.emails.length > 0)
+      noNameStr = contact.emails[0].value;
+
+    if (contact.fullName.fullName === '')
+      contact.fullName = this.getAllNameValues(noNameStr)
+    else {
+      contact.fullName = this.getAllNameValues(this.namesService.nameToCamelCase(contact.fullName.fullName))
+    }
+    this.contactNameJustCreated = contact.fullName.fullName;
+    contact.sortName = this.getSortName(contact.fullName);
     this.contactsRef = this.afs.collection<Contact>(`contacts-${this.userId}`);
-    this.contactsRef.add(JSON.parse(this.getContactJsonString(contact)));
-    this.setContactsList();
+    this.contactsRef.add(JSON.parse(JSON.stringify(contact)));
   }
 
-  // Creates string in json format representing the contact.
-  // This also adds key's under "searchIndex" which represent
-  // valid searches for that contact.
-  getContactJsonString(contact: Contact) {
-    let contactString: string = JSON.stringify(contact);
-    let searchIndexString = ',"searchIndex":{';
-    for (let i = 0; i < contact.name.length; i++) {
-      let strIndex = '"' + contact.name.substring(0, i+1).toLowerCase() + '":"true"';
-      if (i < contact.name.length-1)
-        strIndex += ','
-      searchIndexString += strIndex;
-    }
-    searchIndexString += '}}'
-    contactString = contactString.slice(0,contactString.length-1) + searchIndexString;
-    return contactString;
+  getSortName(fullName: FullName) {
+    let f = fullName.firstName.toLowerCase();
+    let l = fullName.lastName.toLowerCase();
+    let p = fullName.prefix.toLowerCase();
+    let m = fullName.middleName.toLowerCase();
+    let s = fullName.suffix.toLowerCase();
+    let sortName = f + m + l + p + s;
+    return sortName;
   }
 
   // Gets the document with the contact's id and deletes it.
@@ -139,5 +147,29 @@ export class ContactsService {
   // which represents the contact's fullName.
   getDisplayName(fullName: FullName) {
     return this.namesService.getFullName(fullName);
+  }
+
+  getDistinctStr(c1, c2) {
+    if (c1 === undefined && c2 === undefined)
+      return '';
+    let c = c1.sortName.substr(0,1);
+    if (c === '')
+      c = c1.fullName.firstName.substr(0,1);
+    c = this.getGeneralStr(c);
+
+    if (c2 === null)
+      return c.toUpperCase();
+
+    let d = c2.fullName.firstName.substr(0,1);
+    d = this.getGeneralStr(d);
+
+    if (c !== d)
+      return c.toUpperCase();
+
+    return '';
+  }
+
+  getGeneralStr(c: string) {
+    return this.namesService.getGeneralStr(c)
   }
 }

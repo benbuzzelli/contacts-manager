@@ -1,40 +1,86 @@
-<!-- This button was for testing purposes and can be deleted -->
-<br>
-<div class="center">
-    <button mat-button (click)="router.navigate(['contacts']);">create contacts</button>
-</div>
-
 <!-- Search input field -->
-<div class="center">
-    <p style="width: 400px;" class="center" appearance="legacy">
-        <input class="search-input" (keyup)="search(searchVal.value)" #searchVal type="text" placeholder="Search contacts">
-    </p>
+<div class="search">
+  <div style="position: relative;">
+    <input class="search-input" (keyup)="setContacts(searchVal.value); groupsSet.value=false" #searchVal type="text" placeholder="Search contacts">
+    <div class="add-contact">
+      <button class="general-icon-button-light" mat-icon-button (click)="router.navigate(['contacts']);">
+        <mat-icon>person_add</mat-icon>
+      </button>
+    </div>
+  </div>
 </div>
+<br>
 
 <!--Diplay Contacts in a Table-->
-<div class="center">
+<!--<div class="center">-->
 	<!--contacts$ found in view-contacts.comp.ts-->
-    <table mat-table [dataSource]="contacts$" class="mat-elevation-z8">
+    <!--<table mat-table [dataSource]="contacts$" class="mat-elevation-z8">-->
 
     	<!--Define columns of table based on labels in diplayedColumns-->
-        <ng-container matColumnDef="fullName">
+        <!--<ng-container matColumnDef="fullName">
             <th mat-header-cell *matHeaderCellDef> List of Contacts </th>
             <td mat-cell *matCellDef="let element"> {{element.fullName.fullName}} </td>
-        </ng-container>
+        </ng-container>-->
 
         <!--Implements the delete contact button, its functionality, and displays it on the table-->
-        <ng-container matColumnDef="deleteButton">
+        <!--<ng-container matColumnDef="deleteButton">
             <th mat-header-cell *matHeaderCellDef></th>
             <td mat-cell *matCellDef="let element">
               <button mat-icon-button aria-lable="Delete Contact" (click)="deleteContact(element)">
                 <mat-icon>delete</mat-icon>
               </button>
             </td>
-        </ng-container>
+        </ng-container>-->
 
         <!--Define the header row and data rows below it-->
         <!--displayedColumns found in view-contacts.comp.ts-->
-        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <!--<tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-    </table>
+    </table>-->
+
+<!-- Accordion for displaying contacts -->
+<div style="height: 75%; position: relative;" class="center" *ngIf="contacts$ | async;let contacts">
+    <div *ngIf="contacts.length > 0; then setGroups(contacts)"></div>
+    
+    <mat-list #clist *ngIf="groupsSet.value" style="padding-top: 0px;" class="mat-elevation-z8 view-container">
+      <div *ngFor="let contactGroup of contactGroups; let ii = index;">
+        <div [class.sticky-divider]="contactGroup.sticky">
+          <div class="parent-str">
+            <div [class.transparent-str]="contactGroup.transparent" class="child-str light-text">
+              {{ contactGroup.value }}
+            </div>
+          </div>
+          <mat-divider *ngIf="!contactGroup.transparent"></mat-divider>
+        </div>
+        <mat-list-item (click)="openContactDialog(contact)" 
+                        class="contact-list-item"
+                        (mouseover)="setIndex(i.toString() + ii.toString())"
+                        *ngFor="let contact of contacts | slice:contactGroup.start:contactGroup.end; let i = index">
+          <span class="contact-list-name">{{ contact.fullName.fullName }}</span>
+          <span class="spacer"></span>
+          <span class="light-text contact-list-element" *ngIf="contact.phoneNumbers.length > 0">{{ contact.phoneNumbers[0].value }}</span>
+          <span class="light-text contact-list-element" *ngIf="contact.phoneNumbers.length === 0"></span>
+          <span class="spacer"></span>
+          <span class="light-text contact-list-element" *ngIf="contact.emails.length > 0">{{ contact.emails[0].value }}</span>
+          <span class="light-text contact-list-element" *ngIf="contact.emails.length === 0"></span>
+          <span class="spacer"></span>
+          <button [disabled]="hoveredIndex !== (i.toString() + ii.toString())"
+                  [class.contact-menu-button]="hoveredIndex !== (i.toString() + ii.toString())" 
+                  (click)="$event.stopPropagation()" class="general-icon-button" mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+            <mat-icon>more_vert</mat-icon>
+          </button>
+          <mat-menu #menu="matMenu">
+            <button mat-menu-item aria-lable="Edit Contact" (click)="openEditContactForm(contact)">
+              <mat-icon>edit</mat-icon>
+              <span>edit</span>
+            </button>
+            <button mat-menu-item aria-lable="Delete Contact" (click)="deleteContact(contact)">
+              <mat-icon>delete</mat-icon>
+              <span>delete</span>
+            </button>
+          </mat-menu>
+        </mat-list-item>
+      </div>
+    </mat-list>
 </div>
+<br>

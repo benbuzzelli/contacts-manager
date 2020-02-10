@@ -1,4 +1,3 @@
-import { Component, OnInit} from '@angular/core';
 import { Component, OnInit, Input, Inject } from '@angular/core';
 import { AngularFireDatabase, AngularFireList } from "@angular/fire/database";
 import { ContactsService } from '../create-contacts/contacts.service';
@@ -41,13 +40,13 @@ export class ViewContactsComponent implements OnInit {
     public router: Router,
     private _snackBar: MatSnackBar) {
       // Initialise contact$
-      this.setContacts('')
+      this.setContacts('');
       this.groupsSet.value = false;
   }
 
   ngOnInit() {
     // Set the users contacts in the template on init.
-    this.setContacts('')
+    this.setContacts('');
     this.groupsSet.value = false;
   }
 
@@ -57,9 +56,9 @@ export class ViewContactsComponent implements OnInit {
 
   // See method: setContactsList() in create-contacts/contacts.service.ts
 
-  public setContacts() {
+  /*public setContacts() {
     this.contactsService.setContactsList();
-  }
+  }*/
   
   async setContacts(str: string) {
     str = str.replace(/[^a-zA-Z0-9 ]/g, "");

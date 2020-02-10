@@ -230,17 +230,7 @@ export class ContactDialog {
   }
 
   openEditContactForm(contact: Contact) {
-    // this.active = false;
-    // let dialogRef = this.dialog.open(EditContactComponent, {data: contact, autoFocus: false})
     this._contactDialogRef.close('edit');
-    // dialogRef.afterClosed().subscribe(res => {
-    //   if (res === "save") {
-    //     this._contactDialogRef.close('save')
-    //     console.log(this._contactDialogRef._containerInstance._state)
-    //   } else {
-    //     this.active = true;
-    //   }
-    // })
   }
 
   flipPhoneToggle() {

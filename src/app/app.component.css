@@ -15,6 +15,11 @@
     overflow: auto;
 }
 
+.create-form {
+    max-height: 400px;
+    overflow: auto;
+}
+
 .center-right {
     display: flex;
     align-items: right;
@@ -36,16 +41,6 @@
 
 .full-width-field-1 {
     width: 314px;
-}
-
-.sheet-toolbar {
-    height: auto;
-    background-color: white; 
-    padding: 0; 
-    padding-top: 0;
-    position: sticky; 
-    top: 0px;
-    z-index: 1;
 }
 
 .input-padding {
@@ -152,4 +147,14 @@
 .contact-form-list::-webkit-scrollbar {
     background-color: transparent;
     width: 0px;
+}
+
+.sheet-header {
+    height: auto;
+    background-color: white; 
+    padding: 0; 
+    position: sticky; 
+    top: 0px;
+    z-index: 5;
+    border-bottom: 1px solid #DCDCDC;
 }

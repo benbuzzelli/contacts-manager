@@ -1,7 +1,9 @@
 <br>
-<div class="center card-custom">
+<div class="center">
     <mat-card class="mat-form-field">
-        <mat-toolbar style="background-color:transparent; padding: 0px;" class="center">
+        <div style="margin: 20px;">
+        <div class="create-form">
+        <mat-toolbar class="center sheet-header">
             <!-- Brings up a dialog if clicked which asks if the user wants to discard the new contact -->
             <button id="backButton" mat-icon-button (click)="openEditDialog();" class="dropdown-btn general-icon-button" style="padding-bottom: 10px;">
                 <mat-icon>keyboard_backspace</mat-icon>
@@ -18,5 +20,7 @@
             </button>
         </mat-toolbar>
         <app-contact-form [contactForm]="contactForm"></app-contact-form>
+        </div>
+        </div>
     </mat-card>
 </div>

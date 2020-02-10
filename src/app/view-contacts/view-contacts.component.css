@@ -126,17 +126,6 @@
     overflow: auto;
 }
 
-.sheet-header {
-    height: auto;
-    background-color: white; 
-    padding: 0; 
-    padding-top: 0;
-    position: sticky; 
-    top: 0px;
-    z-index: 5;
-    border-bottom: 1px solid #DCDCDC;
-}
-
 .list-layer-1 {
     z-index: 1;
 }

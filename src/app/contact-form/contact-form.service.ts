@@ -12,6 +12,8 @@ export class ContactType {
 })
 export class ContactFormService {
 
+  contactForm: FormGroup;
+
   phoneTypeString: string = 'phoneTypes';
   emailTypeString: string = 'emailTypes';
 
@@ -31,6 +33,22 @@ export class ContactFormService {
   ];
 
   constructor(private formBuilder: FormBuilder) { }
+
+  initialiseForm() {
+    this.contactForm = this.formBuilder.group({
+      primaryName: '',
+      prefix: '',
+      firstName: '',
+      middleName: '',
+      lastName: '',
+      suffix: '',
+      emails: this.formBuilder.array([]),
+      phoneNumbers: this.formBuilder.array([]),
+      date: this.formBuilder.group({type: 'Birthday', date: new Date()}),
+      address: '',
+      company: ''
+    })
+  }
 
   initialisePhoneAndEmailTypes() {
     for (let i = 0; i < this.phoneTypes.length; i++)

@@ -43,11 +43,9 @@ export class ContactFormService {
       lastName: '',
       suffix: '',
       emails: this.formBuilder.array([]),
-      phoneNumbers: this.formBuilder.array([]),
-      date: this.formBuilder.group({type: 'Birthday', date: new Date()}),
-      address: '',
-      company: ''
+      phoneNumbers: this.formBuilder.array([])
     })
+    return this.contactForm;
   }
 
   initialisePhoneAndEmailTypes() {

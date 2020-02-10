@@ -22,7 +22,7 @@
         <div *ngFor="let inputType of otherTypes">
             <span formArrayName="{{inputType.controlName}}"
             *ngFor="let field of contactForm.get(inputType.controlName)['controls']; let i = index;">
-                <div [formGroupName]="i" class="center card-contact-div">
+                <div [formGroupName]="i" class="center">
                     <span *ngIf="inputType.controlName === 'phoneNumbers'">
                         <mat-icon *ngIf="i==0" class="type-icon general-icon">phone</mat-icon>
                         <mat-icon class="type-icon" style="color: transparent;" *ngIf="i!=0">phone</mat-icon>
@@ -39,12 +39,12 @@
                         </mat-select>
                     </mat-form-field>
                     <mat-form-field appearance="legacy" class="card-email-phone">
-                        <input formControlName="value" (keyup)="handlePhoneAndEmailArrays(field.value, inputType.controlName)" matInput #email type="text" class="form-control mb-2" placeholder="{{inputType.value}}">
+                        <input formControlName="value" (keyup)="handlePhoneAndEmailArrays(field.value, inputType.controlName)" matInput #inputField type="text" class="form-control mb-2" placeholder="{{inputType.value}}">
                     </mat-form-field>
-                    <button mat-icon-button *ngIf="field.value != ''" class="dropdown-btn general-icon-button" (click)="contactForm.get(inputType.controlName)['controls'].splice(i, 1)">
+                    <button mat-icon-button *ngIf="inputField.value != ''" class="dropdown-btn general-icon-button" (click)="contactForm.get(inputType.controlName)['controls'].splice(i, 1)">
                         <mat-icon>close</mat-icon>
                     </button>
-                    <button mat-icon-button [disabled]="true" *ngIf="field.value == ''"></button>
+                    <button mat-icon-button [disabled]="true" *ngIf="inputField.value == ''"></button>
                 </div>
             </span>
         </div>

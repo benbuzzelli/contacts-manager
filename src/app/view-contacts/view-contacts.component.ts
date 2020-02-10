@@ -85,6 +85,9 @@ export class ViewContactsComponent implements OnInit {
     return this.getDistinctStr(c1, c2) !== '';
   }
 
+  // Gets the string distinct to the current contact. This
+  // is for displaying the group letter on the left side
+  // of the contacts list.
   getDistinctStr(c1, c2) {
     return this.contactsService.getDistinctStr(c1, c2);
   }

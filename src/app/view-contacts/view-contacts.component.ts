@@ -139,7 +139,16 @@ export class ViewContactsComponent implements OnInit {
   }
 
   openEditContactForm(contact: Contact) {
-    this.dialog.open(EditContactComponent, {data: contact, autoFocus: false})
+    let dialogRef = this.dialog.open(EditContactComponent, {data: contact, autoFocus: false})
+
+    dialogRef.afterClosed().subscribe(res => {
+      if (res === "save") {
+        this.setContacts('')
+        this.groupsSet.value = false;
+      } else if (res === 'back to contact') {
+        this.openContactDialog(contact);
+      }
+    })
   }
 
   openContactDialog(contact: Contact) {
@@ -151,6 +160,8 @@ export class ViewContactsComponent implements OnInit {
         this.setContacts('')
         this.groupsSet.value = false;
         this.openDeletedSnackBar(contact.fullName.fullName, "deleted!")
+      } else if (res === "edit") {
+        this.openEditContactForm(contact);
       }
     })
   }
@@ -183,6 +194,7 @@ export class Group {
   templateUrl: 'contact-dialog.html',
 })
 export class ContactDialog {
+  active = true;
   contact: Contact;
   showMorePhoneToggle = false;
   showMoreEmailToggle = false;
@@ -194,6 +206,7 @@ export class ContactDialog {
     private _contactDialogRef: MatDialogRef<ContactDialog>,
     private _snackBar: MatSnackBar) {
       this.contact = _contact;
+      this.active = true;
     }
 
   deleteContact(contact: Contact) {
@@ -217,8 +230,17 @@ export class ContactDialog {
   }
 
   openEditContactForm(contact: Contact) {
-    this._contactDialogRef.close();
-    this.dialog.open(EditContactComponent, {data: contact, autoFocus: false})
+    // this.active = false;
+    // let dialogRef = this.dialog.open(EditContactComponent, {data: contact, autoFocus: false})
+    this._contactDialogRef.close('edit');
+    // dialogRef.afterClosed().subscribe(res => {
+    //   if (res === "save") {
+    //     this._contactDialogRef.close('save')
+    //     console.log(this._contactDialogRef._containerInstance._state)
+    //   } else {
+    //     this.active = true;
+    //   }
+    // })
   }
 
   flipPhoneToggle() {

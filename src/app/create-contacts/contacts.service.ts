@@ -70,7 +70,7 @@ export class ContactsService {
           // this will be the upperbound of our search result.
           var upperChar = 1 + searchStr.charCodeAt(searchStr.length-1);
           var stringUpperBoundary = searchStr.substr(0, searchStr.length-1) + String.fromCharCode(upperChar);
-          //console.log("upperChar: "+ upperChar + " upperStringBound: " + stringUpperBoundary);
+          //console.log("upperChar: "+ upperChar + " upperStringBound: " + stringUpperBoundary); 
           contactsRef = this.afs.collection<Contact>(`contacts-${this.userId}`, ref => ref.where('name', '>=', searchStr).where('name', "<", stringUpperBoundary));
       }
       else

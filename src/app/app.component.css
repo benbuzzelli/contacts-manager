@@ -10,6 +10,11 @@
     margin-right: auto
 }
 
+.general-form {
+    max-height: 600px;
+    overflow: auto;
+}
+
 .center-right {
     display: flex;
     align-items: right;

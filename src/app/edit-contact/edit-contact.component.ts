@@ -153,7 +153,7 @@ export class EditContactComponent implements OnInit {
   // or keep creating the new contact.
   openEditDialog() {
     if (!this.formIsChanged()) {
-      this._editContactDialogRef.close();
+      this._editContactDialogRef.close('back to contact');
       return;
     }
 
@@ -161,7 +161,7 @@ export class EditContactComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(res => {
       if (res === "discard") {
-        this._editContactDialogRef.close();
+        this._editContactDialogRef.close('back to contact');
       } else {
         document.getElementById('backspaceButton').blur();
       }
@@ -181,7 +181,7 @@ export class EditContactComponent implements OnInit {
         this.createContact();
         this.openContactCreatedSnackBar('edited!');
         this.contactsService.deleteContact(this.contact);
-        this._editContactDialogRef.close();
+        this._editContactDialogRef.close('save');
       } else {
         document.getElementById('saveButton').blur();
       }

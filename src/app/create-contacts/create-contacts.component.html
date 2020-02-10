@@ -2,25 +2,25 @@
 <div class="center">
     <mat-card class="mat-form-field">
         <div style="margin: 20px;">
-        <div class="create-form">
-        <mat-toolbar class="center sheet-header">
-            <!-- Brings up a dialog if clicked which asks if the user wants to discard the new contact -->
-            <button id="backButton" mat-icon-button (click)="openEditDialog();" class="dropdown-btn general-icon-button" style="padding-bottom: 10px;">
-                <mat-icon>keyboard_backspace</mat-icon>
-            </button>
-            <mat-card-header class="center" style="width: 85%;">
-                <mat-card-title>Create New Contact</mat-card-title>
-            </mat-card-header>
-            <!-- Calls createContact if clicked, and navigates back to view-contacts -->
-            <button type="button" [disabled]="!formIsFilled()" mat-icon-button 
-            [class.general-icon-button]="formIsFilled()" 
-            style="padding-bottom: 10px;" 
-            (click)="createContact(); openContactCreatedSnackBar('created!'); router.navigate(['view-contacts']);">
-                <mat-icon>check</mat-icon>
-            </button>
-        </mat-toolbar>
-        <app-contact-form [contactForm]="contactForm"></app-contact-form>
-        </div>
+            <div class="create-form">
+                <mat-toolbar class="center sheet-header">
+                    <!-- Brings up a dialog if clicked which asks if the user wants to discard the new contact -->
+                    <button id="backButton" mat-icon-button (click)="openEditDialog();" class="dropdown-btn general-icon-button" style="padding-bottom: 10px;">
+                        <mat-icon>keyboard_backspace</mat-icon>
+                    </button>
+                    <mat-card-header class="center" style="width: 85%;">
+                        <mat-card-title>Create New Contact</mat-card-title>
+                    </mat-card-header>
+                    <!-- Calls createContact if clicked, and navigates back to view-contacts -->
+                    <button type="button" [disabled]="!formIsFilled()" mat-icon-button 
+                    [class.general-icon-button]="formIsFilled()" 
+                    style="padding-bottom: 10px;" 
+                    (click)="createContact(); openContactCreatedSnackBar('created!'); router.navigate(['view-contacts']);">
+                        <mat-icon>check</mat-icon>
+                    </button>
+                </mat-toolbar>
+                <app-contact-form [contactForm]="contactForm"></app-contact-form>
+            </div>
         </div>
     </mat-card>
 </div>

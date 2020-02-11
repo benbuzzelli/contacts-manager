@@ -4,6 +4,11 @@
 
 export const environment = {
   production: false,
+  create: 'https://contacts-manager-990c3.firebaseapp.com/app/api/create',
+  readId: 'https://contacts-manager-990c3.firebaseapp.com/app/api/read',
+  readAll: 'https://contacts-manager-990c3.firebaseapp.com/app/api/read',
+  update: 'https://contacts-manager-990c3.firebaseapp.com/app/api/update',
+  delete: 'https://contacts-manager-990c3.firebaseapp.com/app/api/delete',
   firebase: {
     apiKey: "AIzaSyChcsiQf01F5BFLCjzoSXv3XTU2Zz2maDQ",
     authDomain: "contacts-manager-990c3.firebaseapp.com",

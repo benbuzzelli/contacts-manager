@@ -50,7 +50,7 @@ export class ContactFormComponent implements OnInit {
     public router: Router,
     public dialog: MatDialog,
     private _createdContactSnackBar: MatSnackBar,
-    private contactFormService: ContactFormService) { 
+    public contactFormService: ContactFormService) { 
   
     router.events.subscribe((val) => {
       this.contactFormService.initialisePhoneAndEmailTypes();
@@ -137,14 +137,5 @@ export class ContactFormComponent implements OnInit {
       primaryName: primaryName
     });
   }
-}
-
-@Component({
-  selector: 'app-name-form',
-  templateUrl: './name-form.component.html',
-  styleUrls: ['./contact-form.component.css']
-})
-export class NameFormComponent {
-
 }
 

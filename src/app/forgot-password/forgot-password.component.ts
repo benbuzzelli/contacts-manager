@@ -26,6 +26,8 @@ export class ForgotPasswordComponent implements OnInit {
     Validators.email,
   ]);
 
+  matcher = new MyErrorStateMatcher();
+
   constructor(private authService: AuthService,
     private formBuilder: FormBuilder, public router: Router) { }
 

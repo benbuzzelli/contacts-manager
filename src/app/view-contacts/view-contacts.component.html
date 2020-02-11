@@ -42,7 +42,7 @@
 <div style="height: 75%; position: relative;" class="center" *ngIf="contacts$ | async;let contacts">
     <div *ngIf="contacts.length > 0; then setGroups(contacts)"></div>
     
-    <mat-list #clist *ngIf="groupsSet.value" style="padding-top: 0px;" class="mat-elevation-z8 view-container">
+    <mat-list #clist *ngIf="groupsSet.value && contacts.length > 0" style="padding-top: 0px;" class="mat-elevation-z8 view-container">
       <div *ngFor="let contactGroup of contactGroups; let ii = index;">
         <div [class.sticky-divider]="contactGroup.sticky">
           <div class="parent-str">

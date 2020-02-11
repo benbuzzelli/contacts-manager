@@ -22,6 +22,21 @@ export class ContactType {
 })
 export class ContactFormComponent implements OnInit {
   @Input() contactForm: FormGroup;
+
+  nameTypes: [{},{},{},{},{},{}] = [
+    {controlName: 'primaryName', value: 'Name'},
+    {controlName: 'prefix', value: 'Prefix'},
+    {controlName: 'firstName', value: 'First name'},
+    {controlName: 'middleName', value: 'Middle name'},
+    {controlName: 'lastName', value: 'Last name'},
+    {controlName: 'suffix', value: 'Suffix'}
+  ]
+
+  otherTypes: [{},{}] = [
+    {controlName: 'phoneNumbers', value: 'Phone #', typeVarName: 'phoneTypes'},
+    {controlName: 'emails', value: 'Email', typeVarName: 'emailTypes'}
+  ]
+
   phoneNumbers: FormArray;
   emails: FormArray;
   
@@ -122,5 +137,14 @@ export class ContactFormComponent implements OnInit {
       primaryName: primaryName
     });
   }
+}
+
+@Component({
+  selector: 'app-name-form',
+  templateUrl: './name-form.component.html',
+  styleUrls: ['./contact-form.component.css']
+})
+export class NameFormComponent {
+
 }
 

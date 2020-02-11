@@ -16,6 +16,7 @@
 }
 
 .create-form {
+    width: 430px;
     max-height: 400px;
     overflow: auto;
 }
@@ -41,6 +42,14 @@
 
 .full-width-field-1 {
     width: 314px;
+    padding-right: 52px;
+    padding-left: 28px;
+}
+
+.full-width-field-2 {
+    width: 314px;
+    padding-right: 52px;
+    padding-left: 12px;
 }
 
 .input-padding {
@@ -81,7 +90,7 @@
 }
 
 .card-contact-div {
-    max-width: 430px;
+    width: 430px;
 }
 
 .card-email-phone {

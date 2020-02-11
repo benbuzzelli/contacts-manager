@@ -32,16 +32,7 @@ export class ContactsComponent implements OnInit {
   }
 
   initContactForm() {
-    this.contactForm = this.formBuilder.group({
-      primaryName: '',
-      prefix: '',
-      firstName: '',
-      middleName: '',
-      lastName: '',
-      suffix: '',
-      emails: this.formBuilder.array([]),
-      phoneNumbers: this.formBuilder.array([])
-    })
+    this.contactForm = this.contactFormService.initialiseForm();
     let phoneNumbers = this.contactForm.get('phoneNumbers') as FormArray;
     this.contactFormService.addPhoneOrEmail(phoneNumbers, this.contactFormService.phoneTypeString);
     let emails = this.contactForm.get('emails') as FormArray;

@@ -56,38 +56,134 @@ export class ContactsService {
   // the contacts by their comparison to the search string
   setSearchContacts(searchStr: string, searchAlpha: boolean) {
     let contactsRef: AngularFirestoreCollection<Contact> = null;
+    let phoneRef: AngularFirestoreCollection<Contact> = null;
     if (searchStr === null || searchStr === '') {
       console.log("Setting contacts")
-      contactsRef = this.afs.collection<Contact>(`contacts-${this.userId}`, ref => ref.orderBy('fullName.firstName'));
+      phoneRef = this.afs.collection<Contact>(`contacts-${this.userId}`, ref => ref.orderBy('fullName.firstName'));
     }
     else
     {
+      var upperChar = 1 + searchStr.charCodeAt(searchStr.length-1);
+      var stringUpperBoundary = searchStr.substr(0, searchStr.length-1) + String.fromCharCode(upperChar);
       if (searchAlpha) 
       {
           // Replace the last character of the search string and increment it by one
           // this will be the upperbound of our search result.
-          var upperChar = 1 + searchStr.charCodeAt(searchStr.length-1);
-          var stringUpperBoundary = searchStr.substr(0, searchStr.length-1) + String.fromCharCode(upperChar);
           //console.log("upperChar: "+ upperChar + " upperStringBound: " + stringUpperBoundary);
-          contactsRef = this.afs.collection<Contact>(`contacts-${this.userId}`, ref => ref.where('name', '>=', searchStr).where('name', "<", stringUpperBoundary));
+          phoneRef = this.afs.collection<Contact>(`contacts-${this.userId}`, ref => ref.where('name', '>=', searchStr).where('name', "<", stringUpperBoundary));
+          
+          /*this.contacts$ = contactsRef.snapshotChanges().pipe(map(actions => {
+            return actions.map(action => {
+              const data = action.payload.doc.data() as Contact;
+
+              // Gets the id associated with the document and sets it's id field equal to its id.
+              const id = action.payload.doc.id;
+              return { id, ...data };
+            });
+          }));
+          contactsRef.get().subscribe(doc => {
+            console.log(doc);
+            this.searchEmpty = doc.empty;
+          });*/
+      
       }
       else
       {
-        contactsRef = this.afs.collection<Contact>(`contacts-${this.userId}`, ref => ref.where('phoneNumbers', 'array-contains', searchStr));
+        let refData = [];
+        // console.log(this.afs.collection<Contact>(`contacts-${this.userId}`));
+        // contactsRef = this.afs.collection<Contact>(`contacts-${this.userId}`, ref => ref.where('name', '>', "0"));
+        // contactsRef = this.afs.collection<Contact>(`contacts-${this.userId}`, ref => ref.where('phoneNumbers', 'array-contains', searchStr));
+        //contactsRef = this.afs.collection<Contact>(`contacts-${this.userId}`);
+        contactsRef = this.afs.collection<Contact>(`contacts-${this.userId}`);
+        //phoneRef = this.afs.collection<Contact>(`contacts-${this.userId}`, ref => ref.where("name", "==", "uwu"));
+        phoneRef = this.afs.collection<Contact>(`contacts-${this.userId}`);
+        contactsRef.get().forEach((a) => {
+          // phoneRef = this.afs.collection<Contact>(`contacts-${this.userId}`, ref => ref.where("name", "==", ""));
+          // console.log(a.docs[0].data());
+
+          // phoneRef = new AngularFirestoreCollection<Contact>(null, null, this.afs);
+          // phoneRef = new this.afs.collection<Contact>(this.ad);
+          // console.log("IMPORTANT!!!!!!!!!!!!!!!!!!! " + a.docs.length);
+          for (let i = 0; i < a.docs.length; i++) {
+            let numbers = a.docs[i].data().phoneNumbers;
+            // console.log(numbers.length);
+            for (let j = 0; j < numbers.length; j++)
+            {
+              //console.log("elem: " + i + ", number: " + j);
+              // console.log(numbers[j]);
+              //console.log("search: " + searchStr + ", " + stringUpperBoundary);
+              console.log("Contacts phone number "+ numbers[j].value);
+              console.log("Search string " + searchStr);
+              if (numbers[j].value >= searchStr && numbers[j].value < stringUpperBoundary)
+              //if (numbers[j].value.indexOf(searchStr) != -1)
+              {
+                let contactData = a.docs[i].data() as Contact;
+                //phoneRef.add(data);
+                //contactsRef.add(data);
+                //let jsonData = JSON.stringify(a.docs[i].data());
+                let jsonData = contactData.phoneNumbers[j];
+                // if (!jsonData in refData) {
+                if (!refData.includes(jsonData)) 
+                {
+                  console.log("Added contanct: " + contactData.name);
+                  refData.push(jsonData);
+                }
+                  //phoneRef.add(contactData);
+                }
+            }
+          }
+          phoneRef = this.afs.collection<Contact>(`contacts-${this.userId}`);
+          for (let i = 0; i < refData.length; i++)
+          {
+            phoneRef = this.afs.collection<Contact>(`contacts-${this.userId}`, ref => ref.where("phoneNumbers", "array-contains", refData[i]));
+          }
+          // console.log(refData);
+          // this.contacts$ = contactsRef.snapshotChanges().pipe(map(actions => {
+          //   return actions.map(action => {
+          //     const data = action.payload.doc.data() as Contact;
+      
+          //     // Gets the id associated with the document and sets it's id field equal to its id.
+          //     const id = action.payload.doc.id;
+          //     console.log(data);
+          //     return { id, ...data };
+          //   });
+          // }));
+          // contactsRef.get().subscribe(doc => {
+          //   this.searchEmpty = doc.empty;
+          // });
+
+        });
+
+
+        /*this.contacts$ = phoneRef.snapshotChanges().pipe(map(actions => {
+          return actions.map(action => {
+            const data = action.payload.doc.data() as Contact;
+    
+            // Gets the id associated with the document and sets it's id field equal to its id.
+            const id = action.payload.doc.id;
+            // console.log(data);
+            return { id, ...data };
+          });
+        }));
+        phoneRef.get().subscribe(doc => {
+          this.searchEmpty = doc.empty;
+        });*/
       }
     }
-    this.contacts$ = contactsRef.snapshotChanges().pipe(map(actions => {
+    this.contacts$ = phoneRef.snapshotChanges().pipe(map(actions => {
       return actions.map(action => {
         const data = action.payload.doc.data() as Contact;
+        //console.log(data);
 
         // Gets the id associated with the document and sets it's id field equal to its id.
         const id = action.payload.doc.id;
+        // console.log(data);
         return { id, ...data };
       });
     }));
-    contactsRef.get().subscribe(doc => {
+    phoneRef.get().subscribe(doc => {
       this.searchEmpty = doc.empty;
-    })
+    });
   }
 
   getSearchResults(str: string, searchAlpha: boolean): Observable<any[]> {

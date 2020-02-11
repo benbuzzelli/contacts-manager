@@ -62,7 +62,8 @@ export class ContactsService {
     let phoneRef: AngularFirestoreCollection<Contact> = null;
     if (searchStr === null || searchStr === '') {
       console.log("Setting contacts")
-      phoneRef = this.afs.collection<Contact>(`contacts-${this.userId}`, ref => ref.orderBy('fullName.firstName'));
+      console.log(this.afs.collectionGroup('contacts'));
+      phoneRef = this.afs.collection<Contact>(`contacts-${this.userId}`, ref => ref.orderBy('sortName'));
     }
     else
     {
@@ -73,7 +74,7 @@ export class ContactsService {
           // Replace the last character of the search string and increment it by one
           // this will be the upperbound of our search result.
           //console.log("upperChar: "+ upperChar + " upperStringBound: " + stringUpperBoundary); 
-          phoneRef = this.afs.collection<Contact>(`contacts-${this.userId}`, ref => ref.where('name', '>=', searchStr).where('name', "<", stringUpperBoundary));
+          phoneRef = this.afs.collection<Contact>(`contacts-${this.userId}`, ref => ref.where('sortName', '>=', searchStr).where('sortName', "<", stringUpperBoundary));
       }
       else
       {

@@ -12,6 +12,7 @@ export class Contact {
   id: string;
   name: string;
   fullName: FullName;
+  sortName: string;
   phoneNumbers: any[];
   emails: any[];
 
@@ -19,7 +20,7 @@ export class Contact {
     this.fullName = fullName;
     this.phoneNumbers = phoneNumbers;
     this.emails = emails;
-
+    //this.sortName = this.sortName;
     this.name = fullName.fullName.toLowerCase();
   }
 }
@@ -31,6 +32,8 @@ export class ContactsService {
   baseDBUrl: string;
   contacts$: Observable<Contact[]> = null;
   userId: string;
+
+  setContacts:  false;
 
   // If this is empty, then the table will not display
   searchEmpty: boolean = false;
@@ -69,23 +72,8 @@ export class ContactsService {
       {
           // Replace the last character of the search string and increment it by one
           // this will be the upperbound of our search result.
-          //console.log("upperChar: "+ upperChar + " upperStringBound: " + stringUpperBoundary);
+          //console.log("upperChar: "+ upperChar + " upperStringBound: " + stringUpperBoundary); 
           phoneRef = this.afs.collection<Contact>(`contacts-${this.userId}`, ref => ref.where('name', '>=', searchStr).where('name', "<", stringUpperBoundary));
-          
-          /*this.contacts$ = contactsRef.snapshotChanges().pipe(map(actions => {
-            return actions.map(action => {
-              const data = action.payload.doc.data() as Contact;
-
-              // Gets the id associated with the document and sets it's id field equal to its id.
-              const id = action.payload.doc.id;
-              return { id, ...data };
-            });
-          }));
-          contactsRef.get().subscribe(doc => {
-            console.log(doc);
-            this.searchEmpty = doc.empty;
-          });*/
-      
       }
       else
       {
@@ -210,8 +198,19 @@ export class ContactsService {
       contact.fullName = this.getAllNameValues(this.namesService.nameToCamelCase(contact.fullName.fullName))
     }
     this.contactNameJustCreated = contact.fullName.fullName;
+    contact.sortName = this.getSortName(contact.fullName);
     this.contactsRef = this.afs.collection<Contact>(`contacts-${this.userId}`);
     this.contactsRef.add(JSON.parse(JSON.stringify(contact)));
+  }
+
+  getSortName(fullName: FullName) {
+    let f = fullName.firstName.toLowerCase();
+    let l = fullName.lastName.toLowerCase();
+    let p = fullName.prefix.toLowerCase();
+    let m = fullName.middleName.toLowerCase();
+    let s = fullName.suffix.toLowerCase();
+    let sortName = f + m + l + p + s;
+    return sortName;
   }
 
   // Gets the document with the contact's id and deletes it.
@@ -232,28 +231,20 @@ export class ContactsService {
     return this.namesService.getFullName(fullName);
   }
 
-  setStoredContact(contact: Contact) {
-    localStorage.setItem('selectedContact', JSON.stringify(contact));
-  }
-
-  removeStoredContact() {
-    localStorage.setItem('selectedContact', null);
-  }
-
-  getStoredContact(): Contact {
-    return JSON.parse(localStorage.getItem('selectedContact'));
-  }
-
   getDistinctStr(c1, c2) {
-    let c = c1.fullName.firstName.substr(0,1);
+    if (c1 === undefined && c2 === undefined)
+      return '';
+    let c = c1.sortName.substr(0,1);
+    if (c === '')
+      c = c1.fullName.firstName.substr(0,1);
     c = this.getGeneralStr(c);
-    
+
     if (c2 === null)
       return c.toUpperCase();
 
     let d = c2.fullName.firstName.substr(0,1);
     d = this.getGeneralStr(d);
-    
+
     if (c !== d)
       return c.toUpperCase();
 

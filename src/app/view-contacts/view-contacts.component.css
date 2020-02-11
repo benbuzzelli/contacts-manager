@@ -5,16 +5,46 @@
 }
 
 .view-container {
-    max-height: 500px;
+    position: absolute;
+    top: 0px;
+    max-height: 100%;
     width: 800px;
     overflow: auto;
 }
 
+.parent-str {
+    position: relative;
+}
+
+.child-str {
+    position: absolute;
+    top: 18px;
+    padding-left: 20px;
+}
+
+.contact-menu-button {
+    visibility: hidden;
+}
+
 .view-container-search {
     min-height: 50px;
-    max-height: 500px;
+    max-height: 75%;
     width: 800px;
     overflow: auto;
+}
+
+.contact-list-name {
+    width: 30%;
+    padding-left: 30px;
+}
+
+.contact-list-element {
+    width: 30%;
+    overflow: hidden;
+}
+
+.contact-list-item {
+    padding-left: 50px;
 }
 
 .contact-list-item:hover {
@@ -26,12 +56,27 @@
     background-color: transparent;
 }
 
+.add-contact {
+    position: absolute;
+    top: 50%;
+    right: 0; 
+    transform: translate(30px, -50%);
+}
+
+.search {
+    width: 400px; 
+    position: absolute; 
+    top: 32px; 
+    left: 50%; 
+    transform: translate(-50%, -50%);
+}
+
 .search-input {
     height: 30px;
     width: 90%;
     padding-left: 10px;
     font-size: small;
-    border: 2px solid #673AB7;
+    border: none;
     border-radius: 30px;
 }
 
@@ -49,12 +94,66 @@
 }
 
 .contact-list {
-    max-height: 250px;
-    overflow: auto;
+    padding-top: 0px;
+    padding-left: 0px;
 }
 
 .light-text {
     color: #B8B8B8;
     font-weight: lighter;
     font-size: small;
+}
+
+.sticky-divider {
+    position: sticky; 
+    top: 0px;
+}
+
+.inline-item {
+    display: inline-block;
+}
+
+.transparent-str {
+    color: transparent;
+    background-color: transparent;
+}
+
+.contact-dialog-container {
+    min-width: 300px;
+    max-width: 400px;
+    min-height: 72px;
+    max-height: 479px;
+    overflow: auto;
+}
+
+.list-layer-1 {
+    z-index: 1;
+}
+
+.list-layer-2 {
+    z-index: 2;
+}
+
+.dialog-list-sticky {
+    width: 100%; 
+    height: 3px; 
+    position: sticky;
+    bottom: 0px;
+    background-color: white; 
+    z-index: 0;
+}
+
+.dialog-list-sticky-1 {
+    width: 100%; 
+    height: 3px; 
+    position: sticky;
+    bottom: 0px;
+    background-color: white; 
+    z-index: 1;
+}
+
+.dialog-sticky-expand {
+    position: absolute; 
+    bottom: 0px;
+    right: 0px;
 }

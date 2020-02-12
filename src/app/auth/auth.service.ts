@@ -78,6 +78,7 @@ export class AuthService {
     localStorage.removeItem('user');
     localStorage.removeItem('uid');
     this.router.navigate(['login']);
+    this.notificationService.notification$.next({message: 'Logged out', action: 'goodbye :)'});
   }
 
   // Confirms if a user is logged in.

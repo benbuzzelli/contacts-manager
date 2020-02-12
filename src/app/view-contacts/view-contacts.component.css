@@ -120,9 +120,9 @@
 
 .contact-dialog-container {
     min-width: 300px;
-    max-width: 400px;
+    max-width: 1000px;
     min-height: 72px;
-    max-height: 479px;
+    max-height: 700px;
     overflow: auto;
 }
 

@@ -8,7 +8,7 @@ import {ErrorStateMatcher} from '@angular/material/core';
 export class MyErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
     const isSubmitted = form && form.submitted;
-    return !!(control && control.invalid && (control.dirty || control.touched || isSubmitted));
+    return !!(control && control.invalid && (control.value != '' || control.touched || isSubmitted));
   }
 }
 
@@ -24,6 +24,11 @@ export class RegisterComponent implements OnInit {
   emailFormControl = new FormControl('', [
     Validators.required,
     Validators.email,
+  ]);
+
+  passwordFormControl = new FormControl('', [
+    Validators.required,
+    Validators.minLength(6),
   ]);
 
   matcher = new MyErrorStateMatcher();

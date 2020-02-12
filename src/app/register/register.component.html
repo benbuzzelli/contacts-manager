@@ -11,7 +11,7 @@
                 <input matInput #email type="text" placeholder="Email" required [formControl]="emailFormControl"
                 [errorStateMatcher]="matcher">
                 <!-- Error displayed if a user inputs an invalid email -->
-                <mat-error *ngIf="emailFormControl.hasError('email') && !emailFormControl.hasError('required')">
+                <mat-error>
                     Please enter a valid email address
                 </mat-error>
             </mat-form-field>
@@ -19,7 +19,11 @@
         <!-- Input field for paasword -->
         <p class="center">
             <mat-form-field class="input-width-4" appearance="legacy">
-                <input matInput #password type="password" class="form-control mb-2" placeholder="Password" required>
+                <input matInput #password type="password" class="form-control mb-2" 
+                placeholder="Password" [formControl]="passwordFormControl" [errorStateMatcher]="matcher">
+                <mat-error>
+                    Password must be 6 or more characters
+                </mat-error>
             </mat-form-field>
         </p>
         <p class="center">

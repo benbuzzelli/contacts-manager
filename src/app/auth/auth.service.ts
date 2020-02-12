@@ -46,9 +46,14 @@ export class AuthService {
 
   // Send a verification email and then logs the user out.
   async register(email: string, password: string) {
-    var result = await this.afAuth.auth.createUserWithEmailAndPassword(email, password)
-    this.sendEmailVerification();
-    this.logout();
+    try{
+      var result = await this.afAuth.auth.createUserWithEmailAndPassword(email, password)
+      this.sendEmailVerification();
+      this.logout();
+    } catch (e) {
+        console.log("Got an error!",e);
+        throw e; // rethrow to not marked as handled
+    }
   }
 
   // Routes to the login page after the password reset email has been sent.

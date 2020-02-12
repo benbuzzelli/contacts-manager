@@ -63,8 +63,6 @@ export class ContactsService {
     let contactsRef: AngularFirestoreCollection<Contact> = null;
     let phoneRef: AngularFirestoreCollection<Contact> = null;
     if (searchStr === null || searchStr === '') {
-      console.log("Setting contacts")
-      console.log(this.afs.collectionGroup('contacts'));
       phoneRef = this.afs.collection<Contact>(`contacts-${this.userId}`, ref => ref.orderBy('sortName'));
     }
     else
@@ -185,10 +183,7 @@ export class ContactsService {
     return this.contacts$;
   }
 
-  // Sets contactRef and adds the new contact. The contact neeeds 
-  // to be parsed as a JSON string because that's what Angular Firestore's
-  // add function parameter needs to be.
-  createContact(contact: Contact)  {
+  getParsedContact(contact: Contact) {
     let noNameStr: string = 'Mr No Name';
     if (contact.phoneNumbers.length > 0)
       noNameStr = contact.phoneNumbers[0].value;
@@ -202,9 +197,25 @@ export class ContactsService {
     }
     this.contactNameJustCreated = contact.fullName.fullName;
     contact.sortName = this.getSortName(contact.fullName);
+    return contact;
+  }
+
+  // Sets contactRef and adds the new contact. The contact neeeds 
+  // to be parsed as a JSON string because that's what Angular Firestore's
+  // add function parameter needs to be.
+  createContact(contact: Contact)  {
+    contact = this.getParsedContact(contact);
     this.contactsRef = this.afs.collection<Contact>(`contacts-${this.userId}`);
     this.contactsRef.add(JSON.parse(JSON.stringify(contact)));
     this.notificationService.notification$.next({message: contact.fullName.fullName, action: 'Created!'});
+  }
+
+  // Edit contact
+  editContact(contact: Contact)  {
+    contact = this.getParsedContact(contact);
+    this.contactsRef = this.afs.collection<Contact>(`contacts-${this.userId}`);
+    this.contactsRef.doc(contact.id).update(JSON.parse(JSON.stringify(contact)));
+    this.notificationService.notification$.next({message: contact.fullName.fullName, action: 'Edited!'});
   }
 
   getSortName(fullName: FullName) {

@@ -94,8 +94,7 @@ export class EditContactComponent implements OnInit {
     });
   }
 
-  // Creates a new contact with the input values from contactForm
-  createContact() {
+  getContactFromForm(id) {
     // Retrieves the raw data values of phoneNumbers and emails from contactForm,
     // and stores them into two separate arrays.
     let phoneNumbers: any[] = (this.contactForm.get('phoneNumbers') as FormArray).getRawValue();
@@ -108,7 +107,15 @@ export class EditContactComponent implements OnInit {
     if (emails[emails.length-1].value === "")
       emails.pop();
 
-    this.contactsService.createContact(new Contact(this.getFullName(), phoneNumbers, emails));
+    let contact = new Contact(this.getFullName(), phoneNumbers, emails);
+    contact.id = id;
+    return contact;
+  }
+
+  // Creates a new contact with the input values from contactForm
+  editContact(id) {
+    let contact = this.getContactFromForm(id);
+    this.contactsService.editContact(contact);
   }
 
   // Returns a FullName instance which is 
@@ -178,9 +185,9 @@ export class EditContactComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(res => {
       if (res === "save") {
-        this.createContact();
+        // this.createContact(this.contact.id);
         this.openContactCreatedSnackBar('edited!');
-        this.contactsService.deleteContact(this.contact);
+        this.editContact(this.contact.id)
         this._editContactDialogRef.close('save');
       } else {
         document.getElementById('saveButton').blur();

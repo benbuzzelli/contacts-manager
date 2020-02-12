@@ -39,8 +39,7 @@ export class AuthService {
         this.router.navigate(['view-contacts']);
         this.notificationService.notification$.next({message: email, action: 'Logged in!'});
       } else {
-        this.logout();
-        this.notificationService.notification$.next({message: 'Account not yet verified', action: ''});
+        this.logout('Account not yet verified', '');
       }
     } catch(e) {
       this.notificationService.notification$.next({message: e.message, action: ''});
@@ -58,7 +57,7 @@ export class AuthService {
     try {
       var result = await this.afAuth.auth.createUserWithEmailAndPassword(email, password)
       this.sendEmailVerification();
-      this.logout();
+      this.logout(email,'Registered!');
       this.notificationService.notification$.next({message: email, action: 'Registered!'});
     } catch(e) {
       this.notificationService.notification$.next({message: e.message, action: ''});
@@ -73,12 +72,12 @@ export class AuthService {
 
   // Removes the user from the local storage as well as singing it out.
   // Then navigates to the login page.
-  async logout(){
+  async logout(message: string, action: string){
     await this.afAuth.auth.signOut();
     localStorage.removeItem('user');
     localStorage.removeItem('uid');
     this.router.navigate(['login']);
-    this.notificationService.notification$.next({message: 'Logged out', action: 'goodbye :)'});
+    this.notificationService.notification$.next({message: message, action: action});
   }
 
   // Confirms if a user is logged in.

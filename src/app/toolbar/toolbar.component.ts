@@ -18,9 +18,8 @@ export class ToolbarComponent implements OnInit {
     return this.authService.isLoggedIn;
   }
 
-  logOut() {
-    this.authService.sendPasswordResetEmail('benbuzz68@gmail.com');
-    this.authService.logout();
+  logout(message: string, action: string) {
+    this.authService.logout(message, action);
   }
 
 }

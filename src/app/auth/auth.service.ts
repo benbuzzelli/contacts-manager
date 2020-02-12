@@ -35,15 +35,15 @@ export class AuthService {
   async login(email: string, password: string) {
     try {
       var result = await this.afAuth.auth.signInWithEmailAndPassword(email, password)
+      if (this.isAuthenticated) {
+        this.router.navigate(['view-contacts']);
+        this.notificationService.notification$.next({message: email, action: 'Logged in!'});
+      } else {
+        this.logout();
+        this.notificationService.notification$.next({message: 'Account not yet verified', action: ''});
+      }
     } catch(e) {
       this.notificationService.notification$.next({message: e.message, action: ''});
-    }
-    if (this.isAuthenticated) {
-      this.router.navigate(['view-contacts']);
-      this.notificationService.notification$.next({message: email, action: 'Logged in!'});
-    } else {
-      this.logout();
-      this.notificationService.notification$.next({message: 'Account not yet verified', action: ''});
     }
   }
 

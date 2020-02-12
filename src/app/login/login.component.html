@@ -8,12 +8,7 @@
         <!-- Input field for email -->
         <p class="center">
             <mat-form-field class="input-width-4" appearance="legacy">
-                <input matInput #email type="text" placeholder="Email" required [formControl]="emailFormControl"
-                [errorStateMatcher]="matcher">
-                <!-- Error displayed if a user inputs an invalid email -->
-                <mat-error *ngIf="emailFormControl.hasError('email') && !emailFormControl.hasError('required')">
-                    Please enter a valid email address
-                </mat-error>
+                <input matInput #email type="text" class="form-control mb-2" placeholder="Email" required>
             </mat-form-field>
         </p>
         <!-- Input field for password -->

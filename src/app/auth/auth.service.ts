@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Router } from  "@angular/router";
 import { AngularFireAuth } from  "@angular/fire/auth";
 import { User } from  'firebase';
+import { NotificationService } from '../notification.service';
 
 @Injectable({
   providedIn: 'root'
@@ -9,7 +10,8 @@ import { User } from  'firebase';
 export class AuthService {
   user: User;
 
-  constructor(public  afAuth:  AngularFireAuth, public  router:  Router) {
+  constructor(public  afAuth:  AngularFireAuth, public  router:  Router,
+    private notificationService: NotificationService) {
     // Adds the user to localStorage if there is one.
     this.afAuth.authState.subscribe(user => {
       if (user){
@@ -31,11 +33,18 @@ export class AuthService {
   // Logs a user in and either navigates to the view-contacts page,
   // or logs the user out if they are not yet authenticated.
   async login(email: string, password: string) {
-    var result = await this.afAuth.auth.signInWithEmailAndPassword(email, password)
-    if (this.isAuthenticated)
+    try {
+      var result = await this.afAuth.auth.signInWithEmailAndPassword(email, password)
+    } catch(e) {
+      this.notificationService.notification$.next({message: e.message, action: ''});
+    }
+    if (this.isAuthenticated) {
       this.router.navigate(['view-contacts']);
-    else
+      this.notificationService.notification$.next({message: email, action: 'Logged in!'});
+    } else {
       this.logout();
+      this.notificationService.notification$.next({message: 'Account not yet verified', action: ''});
+    }
   }
 
   // Sends email verification and navigates to the verify-email page.
@@ -46,9 +55,14 @@ export class AuthService {
 
   // Send a verification email and then logs the user out.
   async register(email: string, password: string) {
-    var result = await this.afAuth.auth.createUserWithEmailAndPassword(email, password)
-    this.sendEmailVerification();
-    this.logout();
+    try {
+      var result = await this.afAuth.auth.createUserWithEmailAndPassword(email, password)
+      this.sendEmailVerification();
+      this.logout();
+      this.notificationService.notification$.next({message: email, action: 'Registered!'});
+    } catch(e) {
+      this.notificationService.notification$.next({message: e.message, action: ''});
+    }
   }
 
   // Routes to the login page after the password reset email has been sent.

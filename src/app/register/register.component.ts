@@ -4,6 +4,7 @@ import { FormGroup, FormBuilder } from '@angular/forms';
 import { Router } from  "@angular/router";
 import {FormControl, FormGroupDirective, NgForm, Validators} from '@angular/forms';
 import {ErrorStateMatcher} from '@angular/material/core';
+import { NotificationService } from '../notification.service';
 
 export class MyErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
@@ -30,7 +31,8 @@ export class RegisterComponent implements OnInit {
 
   constructor(private authService: AuthService, 
     private formBuilder: FormBuilder,
-    public router: Router) { }
+    public router: Router,
+    private notificationService: NotificationService) { }
 
   ngOnInit() {
     this.registerForm = this.formBuilder.group({

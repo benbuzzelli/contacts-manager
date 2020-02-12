@@ -67,6 +67,7 @@ export class AuthService {
   // Routes to the login page after the password reset email has been sent.
   async sendPasswordResetEmail(passwordResetEmail: string) {
     await this.afAuth.auth.sendPasswordResetEmail(passwordResetEmail);
+    this.notificationService.notification$.next({message: 'Password reset email sent', action: ''});
     this.router.navigate(['login']);
   }
 

@@ -31,13 +31,11 @@ export class ForgotPasswordComponent implements OnInit {
   constructor(private authService: AuthService,
     private formBuilder: FormBuilder, public router: Router) { }
 
-    ngOnInit() {
-      this.resetPasswordForm = this.formBuilder.group({
-        email: ''
-      })
-  
-      this.resetPasswordForm.valueChanges.subscribe(console.log)
-    }
+  ngOnInit() {
+    this.resetPasswordForm = this.formBuilder.group({
+      email: ''
+    })
+  }
 
   async sendPasswordResetEmail(email: string) {
     this.authService.sendPasswordResetEmail(email);

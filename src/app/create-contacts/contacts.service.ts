@@ -221,7 +221,6 @@ export class ContactsService {
   deleteContact(contact: Contact) {
     this.contactsRef = this.afs.collection<Contact>(`contacts-${this.userId}`);
     this.contactsRef.doc(contact.id).delete();
-    this.notificationService.notification$.next({message: contact.fullName.fullName, action: 'Deleted!'});
   }
 
   // Takes a fullName string and returns a FullName instance,

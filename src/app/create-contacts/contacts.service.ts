@@ -7,6 +7,7 @@ import * as firebase from 'firebase';
 import { AngularFirestoreCollection, AngularFirestore } from '@angular/fire/firestore';
 import { map } from 'rxjs/operators';
 import { element } from 'protractor';
+import { NotificationService } from '../notification.service';
 
 export class Contact {
   id: string;
@@ -45,7 +46,8 @@ export class ContactsService {
   constructor(private db: AngularFireDatabase, 
     private afAuth: AngularFireAuth, 
     private namesService: NamesService,
-    private afs: AngularFirestore) {
+    private afs: AngularFirestore,
+    private notificationService: NotificationService) {
     // Just checks if a user exists and assigns this.userId to it.
     this.afAuth.authState.subscribe(user => {
       if(user) this.userId = user.uid
@@ -202,6 +204,7 @@ export class ContactsService {
     contact.sortName = this.getSortName(contact.fullName);
     this.contactsRef = this.afs.collection<Contact>(`contacts-${this.userId}`);
     this.contactsRef.add(JSON.parse(JSON.stringify(contact)));
+    this.notificationService.notification$.next({message: contact.fullName.fullName, action: 'Created!'});
   }
 
   getSortName(fullName: FullName) {
@@ -218,6 +221,7 @@ export class ContactsService {
   deleteContact(contact: Contact) {
     this.contactsRef = this.afs.collection<Contact>(`contacts-${this.userId}`);
     this.contactsRef.doc(contact.id).delete();
+    this.notificationService.notification$.next({message: contact.fullName.fullName, action: 'Deleted!'});
   }
 
   // Takes a fullName string and returns a FullName instance,

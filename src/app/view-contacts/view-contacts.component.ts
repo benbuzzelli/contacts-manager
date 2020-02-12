@@ -71,7 +71,6 @@ export class ViewContactsComponent implements OnInit {
         this.contactsService.deleteContact(contact);
         this.setContacts('');
         this.groupsSet.value = false;
-        this.openDeletedSnackBar(contact.fullName.fullName, "deleted!")
       }
     })
   }
@@ -162,17 +161,10 @@ export class ViewContactsComponent implements OnInit {
         this.contactsService.deleteContact(contact);
         this.setContacts('')
         this.groupsSet.value = false;
-        this.openDeletedSnackBar(contact.fullName.fullName, "deleted!")
       } else if (res === "edit") {
         this.openEditContactForm(contact);
       }
     })
-  }
-
-  openDeletedSnackBar(message: string, action: string) {
-    this._snackBar.open(message, action, {
-      duration: 2000,
-    });
   }
 }
 
@@ -219,17 +211,10 @@ export class ContactDialog {
       if (res === "yes") {
         this.contactsService.deleteContact(contact);
         this._contactDialogRef.close('yes');
-        this.openDeletedSnackBar(this.contact.fullName.fullName, "deleted!")
       } else {
         document.getElementById('deleteButton').blur();
       }
     })
-  }
-
-  openDeletedSnackBar(message: string, action: string) {
-    this._snackBar.open(message, action, {
-      duration: 2000,
-    });
   }
 
   openEditContactForm(contact: Contact) {

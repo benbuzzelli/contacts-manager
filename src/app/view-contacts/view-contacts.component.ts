@@ -56,8 +56,8 @@ export class ViewContactsComponent implements OnInit {
 
   // See method: setContactsList() in create-contacts/contacts.service.ts
   async setContacts(str: string) {
-    str = str.replace(/[^a-zA-Z0-9 ]/g, "");
-    let searchAlpha = (str.replace(/[^0-9 ]/g, "").length == 0);
+    str = str.replace(/[^a-zA-Z0-9]/g, "");
+    let searchAlpha = (str.replace(/[^0-9]/g, "").length == 0);
     this.contacts$ = this.contactsService.getSearchResults(str, searchAlpha);
     this.setContactsLength();
   }
@@ -76,11 +76,6 @@ export class ViewContactsComponent implements OnInit {
     })
   }
 
-  scroll(id) {
-    let el = document.getElementById(id);
-    // setTimeout(() => el.scrollIntoView({behavior: 'smooth', block: 'start'}), 1);
-  }
-
   isDistinctStr(c1, c2) {
     return this.getDistinctStr(c1, c2) !== '';
   }
@@ -97,18 +92,10 @@ export class ViewContactsComponent implements OnInit {
     return true
   }
 
-  check() {
-    if (document.getElementById('sticky'))
-      console.log(document.getElementById('sticky').style.position)
-    return
-  }
-
   setGroups(contacts: Contact[]) {
     if (!this.groupsSet.value) {
-      console.log("Setting groups")
       this.contactGroups = [];
       let l = contacts.length;
-      console.log("len = " + l)
       let prevIndex = 0;
       let curGroupStr = '';
       let groupStr = '';

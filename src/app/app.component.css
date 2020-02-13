@@ -12,14 +12,12 @@
 
 .general-form {
     width: 430px;
-    max-height: 600px;
-    overflow: auto;
+    max-height: 50vh;
 }
 
 .create-form {
     width: 430px;
-    max-height: 400px;
-    overflow: auto;
+    max-height: 50vh;
 }
 
 .center-right {
@@ -149,6 +147,12 @@
     flex: 1 1 auto;
 }
 
+.contact-form {
+    max-height: 42vh;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
 .contact-form-list {
     max-height: 300px;
     overflow: auto;
@@ -162,10 +166,6 @@
 .sheet-header {
     height: auto;
     background-color: white; 
-    padding: 0; 
-    position: sticky; 
-    top: 0px;
-    z-index: 5;
     border-bottom: 1px solid #DCDCDC;
 }
 

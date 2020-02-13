@@ -5,7 +5,7 @@
             <mat-icon>keyboard_backspace</mat-icon>
         </button>
         <mat-card-header class="text-over-flow-div" style="width: 85%;">
-            <mat-card-title>Edit {{ contact.fullName.fullName }}</mat-card-title>
+            <mat-card-title>Edit: {{ contact.fullName.fullName }}</mat-card-title>
         </mat-card-header>
         <!-- Calls createContact if clicked, and navigates back to view-contacts -->
         <button id="saveButton" type="button" [disabled]="!formIsChanged()" mat-icon-button 
@@ -15,5 +15,8 @@
             <mat-icon>check</mat-icon>
         </button>
     </mat-toolbar>
-    <app-contact-form [contactForm]="contactForm"></app-contact-form>
+    <div class="contact-form">
+        <br>
+        <app-contact-form [contactForm]="contactForm"></app-contact-form>
+    </div>
 </div>

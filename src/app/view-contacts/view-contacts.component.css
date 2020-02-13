@@ -124,14 +124,9 @@
 }
 
 .contact-dialog-container {
-    width: 300px;
+    min-width: 300px;
+    max-width: 400px;
     max-height: 50vh;
-    overflow: auto;
-}
-
-.contact-dialog-container-fixed {
-    width: 300px;
-    max-height: 40vh;
     overflow: auto;
 }
 

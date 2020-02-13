@@ -1,14 +1,18 @@
 <div *ngIf="active" class="contact-dialog-container">
-    <mat-toolbar class="center sheet-header">
-        <mat-card-title style="padding-right: 50px;">{{ contact.fullName.fullName }}</mat-card-title>
-        <span class="spacer"></span>
-        <button class="general-icon-button" mat-icon-button aria-lable="Edit Contact" (click)="openEditContactForm(contact)">
-            <mat-icon>edit</mat-icon>
-        </button>
-        <button id="deleteButton" class="general-icon-button" mat-icon-button aria-lable="Delete Contact" (click)="deleteContact(contact)">
-            <mat-icon>delete</mat-icon>
-        </button>
-    </mat-toolbar>
+    <!-- <div class="text-over-flow-div"> -->
+        <mat-toolbar class="center sheet-header">
+            <div class="text-over-flow-div">
+            <mat-card-title style="padding-right: 50px;">{{ contact.fullName.fullName }}</mat-card-title>
+            </div>
+            <span class="spacer"></span>
+            <button class="general-icon-button" mat-icon-button aria-lable="Edit Contact" (click)="openEditContactForm(contact)">
+                <mat-icon>edit</mat-icon>
+            </button>
+            <button id="deleteButton" class="general-icon-button" mat-icon-button aria-lable="Delete Contact" (click)="deleteContact(contact)">
+                <mat-icon>delete</mat-icon>
+            </button>
+        </mat-toolbar>
+    <!-- </div> -->
     <mat-list class="contact-list list-layer-2">
         <mat-list-item *ngFor="let phoneNumber of contact.phoneNumbers | slice:0:(showMorePhoneToggle ? contact.phoneNumbers.length : 3); let i = index;">
             <mat-icon class="general-icon" mat-list-icon *ngIf="i == 0">phone</mat-icon>

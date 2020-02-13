@@ -11,6 +11,7 @@
 }
 
 .general-form {
+    width: 430px;
     max-height: 600px;
     overflow: auto;
 }
@@ -166,4 +167,9 @@
     top: 0px;
     z-index: 5;
     border-bottom: 1px solid #DCDCDC;
+}
+
+.text-over-flow-div {
+    overflow: hidden;
+    white-space: nowrap;
 }

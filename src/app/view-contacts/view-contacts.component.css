@@ -36,11 +36,16 @@
 .contact-list-name {
     width: 30%;
     padding-left: 30px;
+    overflow: hidden;
+    margin-right: 10px;
+    white-space: nowrap;
 }
 
 .contact-list-element {
     width: 30%;
     overflow: hidden;
+    margin-right: 10px;
+    white-space: nowrap;
 }
 
 .contact-list-item {
@@ -120,9 +125,9 @@
 
 .contact-dialog-container {
     min-width: 300px;
-    max-width: 1000px;
-    min-height: 72px;
-    max-height: 700px;
+    max-width: 400px;
+    min-height: 30vh;
+    max-height: 50vh;
     overflow: auto;
 }
 

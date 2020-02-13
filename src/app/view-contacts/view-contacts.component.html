@@ -11,8 +11,14 @@
 </div>
 <br>
 
+<ng-template #spinner>
+  <div class="center" *ngIf="showSpinner()">
+    <mat-spinner diameter="40"></mat-spinner>
+  </div>
+</ng-template>
+
 <!-- Accordion for displaying contacts -->
-<div style="height: 75%; position: relative;" class="center" *ngIf="contacts$ | async;let contacts">
+<div style="height: 75%; position: relative;" class="center" *ngIf="contacts$ | async;let contacts; else spinner">
     <div *ngIf="contacts.length > 0; then setGroups(contacts)"></div>
     
     <mat-list #clist *ngIf="groupsSet.value && contacts.length > 0" style="padding-top: 0px;" class="mat-elevation-z8 view-container">

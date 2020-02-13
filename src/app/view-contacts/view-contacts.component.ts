@@ -34,6 +34,8 @@ export class ViewContactsComponent implements OnInit {
   contactGroups: Array<Group> = [];
   groupsSet = {value: false};
 
+  spinTime = 0;
+
   constructor(private contactsService: ContactsService,
     public dialog: MatDialog,
     private db: AngularFireDatabase, 
@@ -48,6 +50,18 @@ export class ViewContactsComponent implements OnInit {
     // Set the users contacts in the template on init.
     this.setContacts('')
     this.groupsSet.value = false;
+  }
+
+  showSpinner() {
+    return this.getTime() - this.spinTime > 10000;
+  }
+
+  setSpinTime() {
+    this.spinTime = new Date().getTime();
+  }
+
+  getTime() {
+    return new Date().getTime();
   }
 
   async setContactsLength() {
@@ -93,6 +107,7 @@ export class ViewContactsComponent implements OnInit {
   }
 
   setGroups(contacts: Contact[]) {
+    this.setSpinTime();
     if (!this.groupsSet.value) {
       this.contactGroups = [];
       let l = contacts.length;

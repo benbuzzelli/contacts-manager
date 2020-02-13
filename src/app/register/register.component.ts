@@ -22,6 +22,8 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
 export class RegisterComponent implements OnInit {
   registerForm: FormGroup;
 
+  showPassword = false;
+
   emailFormControl = new FormControl('', [
     Validators.required,
     Validators.email,
@@ -52,4 +54,7 @@ export class RegisterComponent implements OnInit {
     this.authService.register(email, password);
   }
 
+  toggleShowPassword() {
+    this.showPassword = !this.showPassword;
+  }
 }

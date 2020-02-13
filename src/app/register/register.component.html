@@ -19,8 +19,9 @@
         <!-- Input field for paasword -->
         <p class="center">
             <mat-form-field class="input-width-4" appearance="legacy">
-                <input matInput #password type="password" class="form-control mb-2" 
+                <input matInput #password type="{{ showPassword ? 'text' : 'password' }}" class="form-control mb-2" 
                 placeholder="Password" [formControl]="passwordFormControl" [errorStateMatcher]="matcher">
+                <mat-icon class="general-icon-button" (click)="toggleShowPassword()" style="cursor: default; font-size: large;" matSuffix>{{showPassword ? 'visibility_off' : 'visibility'}}</mat-icon>
                 <mat-error>
                     Password must be 6 or more characters
                 </mat-error>

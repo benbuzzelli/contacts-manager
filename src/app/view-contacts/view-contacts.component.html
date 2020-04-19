@@ -1,8 +1,65 @@
-<button (click)="showContacts()">show</button>
-<ul>
-    <mat-list *ngFor="let contact of contacts$ | async">
-        {{ contact.firstName }} {{ contact.lastName }}<br>
-        {{ contact.phone }}<br>
-        {{ contact.email }}
+<!-- Search input field -->
+<div class="search">
+  <div style="position: relative;">
+    <input class="search-input" (keyup)="setContacts(searchVal.value); groupsSet.value=false" #searchVal type="text" placeholder="Search contacts">
+    <div class="add-contact">
+      <button class="general-icon-button-light" mat-icon-button (click)="router.navigate(['contacts']);">
+        <mat-icon>person_add</mat-icon>
+      </button>
+    </div>
+  </div>
+</div>
+<br>
+
+<ng-template #spinner>
+  <div class="center" *ngIf="showSpinner()">
+    <mat-spinner diameter="40"></mat-spinner>
+  </div>
+</ng-template>
+
+<!-- Accordion for displaying contacts -->
+<div style="height: 75%; position: relative;" class="center" *ngIf="contacts$ | async;let contacts; else spinner">
+    <div *ngIf="contacts.length > 0; then setGroups(contacts)"></div>
+    
+    <mat-list #clist *ngIf="groupsSet.value && contacts.length > 0" style="padding-top: 0px;" class="mat-elevation-z8 view-container">
+      <div *ngFor="let contactGroup of contactGroups; let ii = index;">
+        <div [class.sticky-divider]="contactGroup.sticky">
+          <div class="parent-str">
+            <div [class.transparent-str]="contactGroup.transparent" class="child-str light-text">
+              {{ contactGroup.value }}
+            </div>
+          </div>
+          <mat-divider *ngIf="!contactGroup.transparent"></mat-divider>
+        </div>
+        <mat-list-item (click)="openContactDialog(contact)" 
+                        class="contact-list-item"
+                        (mouseover)="setIndex(i.toString() + ii.toString())"
+                        *ngFor="let contact of contacts | slice:contactGroup.start:contactGroup.end; let i = index">
+          <span class="contact-list-name">{{ contact.fullName.fullName }}</span>
+          <span class="spacer"></span>
+          <span class="light-text contact-list-element" *ngIf="contact.phoneNumbers.length > 0">{{ contact.phoneNumbers[0].value }}</span>
+          <span class="light-text contact-list-element" *ngIf="contact.phoneNumbers.length === 0"></span>
+          <span class="spacer"></span>
+          <span class="light-text contact-list-element" *ngIf="contact.emails.length > 0">{{ contact.emails[0].value }}</span>
+          <span class="light-text contact-list-element" *ngIf="contact.emails.length === 0"></span>
+          <span class="spacer"></span>
+          <button [disabled]="hoveredIndex !== (i.toString() + ii.toString())"
+                  [class.contact-menu-button]="hoveredIndex !== (i.toString() + ii.toString())" 
+                  (click)="$event.stopPropagation()" class="general-icon-button" mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+            <mat-icon>more_vert</mat-icon>
+          </button>
+          <mat-menu #menu="matMenu">
+            <button mat-menu-item aria-lable="Edit Contact" (click)="openEditContactForm(contact)">
+              <mat-icon>edit</mat-icon>
+              <span>edit</span>
+            </button>
+            <button mat-menu-item aria-lable="Delete Contact" (click)="deleteContact(contact)">
+              <mat-icon>delete</mat-icon>
+              <span>delete</span>
+            </button>
+          </mat-menu>
+        </mat-list-item>
+      </div>
     </mat-list>
-</ul>
+</div>
+<br>

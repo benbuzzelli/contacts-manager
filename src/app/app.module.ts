@@ -23,10 +23,17 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from './material/material.module';
-import {MatIconModule} from '@angular/material/icon';
+import { MatIconModule } from '@angular/material/icon';
 import { ToolbarComponent } from './toolbar/toolbar.component';
-import { ContactsComponent } from './contacts/contacts.component';
-import { ViewContactsComponent } from './view-contacts/view-contacts.component';
+import { ContactsComponent } from './create-contacts/create-contacts.component';
+import { ViewContactsComponent, ContactDialog } from './view-contacts/view-contacts.component';
+import { EditDialogComponent } from './edit-dialog/edit-dialog.component';
+
+import { AuthGuard } from './auth/auth.guard';
+import { DeleteDialogComponent } from './delete-dialog/delete-dialog.component';
+import { ContactFormComponent } from './contact-form/contact-form.component';
+import { EditContactComponent } from './edit-contact/edit-contact.component';
+import { SaveChangesDialogComponent } from './save-changes-dialog/save-changes-dialog.component';
 
 const appRoutes: Routes = [
   { path:  'login',component:  LoginComponent},
@@ -46,16 +53,21 @@ const appRoutes: Routes = [
     VerifyEmailComponent,
     ToolbarComponent,
     ContactsComponent,
-    ViewContactsComponent
+    ViewContactsComponent,
+    EditDialogComponent,
+    DeleteDialogComponent,
+    ContactFormComponent,
+    EditContactComponent,
+    SaveChangesDialogComponent,
+    ContactDialog
   ],
   imports: [
     RouterModule.forRoot(
       appRoutes,
-      { enableTracing: true }
+      { enableTracing: false }
     ),
     BrowserModule,
     AngularFireDatabaseModule,
-    AppRoutingModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule,
     AngularFireAuthModule,
@@ -64,9 +76,11 @@ const appRoutes: Routes = [
     BrowserAnimationsModule,
     MatFormFieldModule,
     MaterialModule,
-    MatIconModule
+    MatIconModule,
+    AppRoutingModule
   ],
-  providers: [{ provide: LocationStrategy, useClass: HashLocationStrategy }],
+  entryComponents: [EditDialogComponent, DeleteDialogComponent, SaveChangesDialogComponent, ContactDialog, EditContactComponent],
+  providers: [AuthGuard, { provide: LocationStrategy, useClass: HashLocationStrategy }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

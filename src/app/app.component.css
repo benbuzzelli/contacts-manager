@@ -4,6 +4,22 @@
     justify-content: center;
 }
 
+.margin-auto {
+    display: block;
+    margin-left: auto;
+    margin-right: auto
+}
+
+.general-form {
+    width: 430px;
+    max-height: 50vh;
+}
+
+.create-form {
+    width: 430px;
+    max-height: 50vh;
+}
+
 .center-right {
     display: flex;
     align-items: right;
@@ -18,7 +34,21 @@
 }
 
 .full-width-field {
-    width: 80%;
+    width: 314px;
+    padding-right: 12px;
+    padding-left: 28px;
+}
+
+.full-width-field-1 {
+    width: 314px;
+    padding-right: 52px;
+    padding-left: 28px;
+}
+
+.full-width-field-2 {
+    width: 314px;
+    padding-right: 52px;
+    padding-left: 12px;
 }
 
 .input-padding {
@@ -30,8 +60,12 @@
     padding-right: 15px;
 }
 
-.card-custom {
-    padding-top: 20px;
+.card-size-2 {
+    min-width: 250px;
+}
+
+.input-width-4 {
+    width: 90%;
 }
 
 .text-option {
@@ -39,22 +73,34 @@
 }
 
 .dropdown-btn {
+    padding: 0%;
     border: 0px;
     outline: none;
     background: none;
+}
+
+.type-icon {
+    padding-left: 8px;
+    padding-right: 8px;
 }
 
 .dropdown-btn:hover {
     cursor: pointer;
 }
 
+.card-contact-div {
+    width: 430px;
+}
+
 .card-email-phone {
-    width: 55%;
+    width: 219px;
+    padding-right: 12px;
 }
 
 .card-type-email-phone {
-    width: 20%;
-    padding-right: 5%;
+    width: 75px;
+    padding-right: 20px;
+    padding-left: 12px;
 }
 
 .btn-route-link {
@@ -70,5 +116,60 @@
 }
 
 .btn-route-link:hover {
-    color: #673AB7;
+    color: #3f52b5;
+}
+
+.general-icon-button {
+    color: #696969;
+}
+
+.general-icon {
+    color: #696969;
+}
+
+.general-icon-button:hover {
+    color: #383838;
+}
+
+.general-icon-light {
+    color: #696969;
+}
+
+.general-icon-button-light {
+    color: white;
+}
+
+.general-icon-button-light:hover {
+    color: #E8E8E8;
+}
+
+.spacer {
+    flex: 1 1 auto;
+}
+
+.contact-form {
+    max-height: 42vh;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.contact-form-list {
+    max-height: 300px;
+    overflow: auto;
+}
+
+.contact-form-list::-webkit-scrollbar {
+    background-color: transparent;
+    width: 0px;
+}
+
+.sheet-header {
+    height: auto;
+    background-color: white; 
+    border-bottom: 1px solid #DCDCDC;
+}
+
+.text-over-flow-div {
+    overflow: hidden;
+    white-space: nowrap;
 }

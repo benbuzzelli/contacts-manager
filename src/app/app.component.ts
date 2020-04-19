@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { NotificationService } from './notification.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-root',
@@ -7,4 +9,16 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'contacts-manager';
+
+  constructor(
+    private notificationService: NotificationService, private snackBar: MatSnackBar
+  ) {
+    this.notificationService.notification$.subscribe(value => {
+      this.snackBar.open(value.message, value.action, {
+        duration: 2500,
+      });
+    });
+  }
 }
+
+

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from  '../auth/auth.service';
 import { FormGroup, FormBuilder } from '@angular/forms';
-import { ContactsService } from '../contacts/contacts.service';
+import { ContactsService } from '../create-contacts/contacts.service';
 import { Router } from  "@angular/router";
 import {FormControl, FormGroupDirective, NgForm, Validators} from '@angular/forms';
 import {ErrorStateMatcher} from '@angular/material/core';
@@ -21,6 +21,7 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
 
 export class LoginComponent implements OnInit {
   loginForm: FormGroup;
+  showPassword = false;
 
   emailFormControl = new FormControl('', [
     Validators.required,
@@ -33,22 +34,20 @@ export class LoginComponent implements OnInit {
     private contactsService: ContactsService,
     private formBuilder: FormBuilder, public router: Router) { }
 
-    ngOnInit() {
-      this.loginForm = this.formBuilder.group({
-        email: '',
-        password: ''
-      })
-  
-      this.loginForm.valueChanges.subscribe(console.log)
-    }
+  ngOnInit() {
+    this.loginForm = this.formBuilder.group({
+      email: '',
+      password: ''
+    })
+
+    this.loginForm.valueChanges.subscribe(console.log)
+  }
 
   async login(email: string, password: string) {
-    this.getItemsList();
     this.authService.login(email, password);
   }
 
-  getItemsList() {
-    this.contactsService.getItemsList();
+  toggleShowPassword() {
+    this.showPassword = !this.showPassword;
   }
-
 }

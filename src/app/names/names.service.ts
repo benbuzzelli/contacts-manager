@@ -1,7 +1,4 @@
 import { Injectable } from '@angular/core';
-import { AngularFireAuth } from  "@angular/fire/auth";
-import { AngularFireDatabase, AngularFireList } from "@angular/fire/database";
-import { Observable } from 'rxjs';
 
 export class FullName {
   fullName: string;
@@ -11,29 +8,34 @@ export class FullName {
   lastName: string;
   suffix: string;
 
-  constructor(prefix: string,
+  constructor(fullName: string, prefix: string,
     firstName: string,
     middleName: string,
     lastName: string,
-    suffix: string, fullName: string) {
+    suffix: string) {
+      this.fullName = fullName;
       this.prefix = prefix;
       this.firstName = firstName;
       this.middleName = middleName;
       this.lastName = lastName;
       this.suffix = suffix;
-      this.fullName = fullName;
     }
 }
 
-// This class is for the add contacts page and/or the edit contacts page.
+@Injectable({
+  providedIn: 'root'
+})
+
+// This service is for the add contacts page and/or the edit contacts page.
 // It contains a method called getNames() which returns an instance of
 // FullName. The getNames(string[]) method is called in ContactService
 // in the method, getNameValues(string). This is called whenever a user
 // inputs into the add contacts name field.
-export class NameDefaults {
+export class NamesService {
 
   prefixes: string[] = ["adm","atty","brother","capt","chief","cmdr","col","dean","dr","elder","father","gen","gov",
-                        "hon","maj","msgt","mr","mrs","ms","prince", "prof","rabbi","rev","sister"];
+                        "hon","maj","msgt","mr","mrs","ms","prince", "prof","rabbi","rev","sister", "mr.", "mrs.",
+                        "ms.", "dr."];
   suffixes: string[] = ["ii","iii","iv","cpa","jr","lld","md","phd","ret","rn","sr"];
 
   getPrefix(prefix: string) {
@@ -52,7 +54,8 @@ export class NameDefaults {
     return "";
   }
 
-  getNames(names: string[]) {
+  getNames(primary: string) {
+    let names: string[] = primary.split(/\s+/);
     let length = names.length;
     if (names[length-1] === "")
       length--;
@@ -70,9 +73,8 @@ export class NameDefaults {
     let firstIndex = 0;
 
     prefix = this.getPrefix(names[0]);
-    
+
     assigned[0] = prefix != "";
-    
     if (length > 2) {
       suffix = this.getSuffix(names[length-1]);
       assigned[length-1] = suffix != "";
@@ -88,7 +90,7 @@ export class NameDefaults {
 
     let numUnassigned = 0;
     for (let i = 0; i < length; i++)
-      if (!assigned[i]) 
+      if (!assigned[i])
         numUnassigned++;
 
     if (numUnassigned > 1) {
@@ -111,17 +113,7 @@ export class NameDefaults {
     }
 
     firstName = firstNames.join(" ");
-
-    let fullNameArray: Array<string> = new Array();
-    if (prefix != "") fullNameArray.push(prefix);
-    if (firstName != "") fullNameArray.push(firstName);
-    if (middleName != "") fullNameArray.push(middleName);
-    if (lastName != "") fullNameArray.push(lastName);
-    if (suffix != "") fullNameArray.push(suffix);
-
-    let fullName = fullNameArray.join(" ");
-
-    return new FullName(prefix, firstName, middleName, lastName, suffix, fullName);
+    return new FullName(primary, prefix, firstName, middleName, lastName, suffix);
   }
 
   getFullName(fullName: FullName) {
@@ -135,54 +127,42 @@ export class NameDefaults {
     return fullNameArray.join(" ");
   }
 
-}
-
-export class Contact {
-  fullName: FullName
-  phones: [];
-  emails: [];
-
-  constructor(fullName: FullName) {
-    this.fullName = fullName;
-    // this.phones = phones;
-    // this.emails = emails;
-  }
-}
-
-@Injectable({
-  providedIn: 'root'
-})
-export class ContactsService {
-  contacts$: Observable<any[]> = null;
-  userId: string;
-
-  constructor(private db: AngularFireDatabase, private afAuth: AngularFireAuth) {
-    this.afAuth.authState.subscribe(user => {
-      if(user) this.userId = user.uid
-    })
+  nameToCamelCase(str: string) {
+    let l = str.length;
+    for (let i = 0; i < l; i++) {
+      let cap = str.substring(i,i+1);
+      if (i !== 0 && str.substring(i-1,i) === ' ') {
+        if (this.isAlph(cap))
+          str = str.replace((' ' + cap), (' ' + cap.toUpperCase()))
+      } else if (i === 0) {
+        str = cap.toUpperCase() + str.slice(1, str.length);
+      }
+    }
+    return str;
   }
 
-  getItemsList(): Observable<any[]> {
-    if (!this.userId) return;
-    this.contacts$ = this.db.list(`contacts/${this.userId}`).valueChanges();
-    this.db.list(`contacts/${this.userId}`).valueChanges().subscribe(console.log);
-    return this.contacts$;
+  getGeneralStr(c: string) {
+    c = c.toLowerCase();
+    if (!this.isAlphaNumeric(c)) {
+      console.log(c === '')
+      return '...';
+    }
+    if (this.isNum(c))
+      return '#';
+    return c;
   }
 
-
-  createContact(contact: Contact)  {
-    this.getItemsList();
-    this.db.list(`contacts/${this.userId}`).push(contact);
+  isAlphaNumeric(c: string) {
+    return this.isAlph(c) || this.isNum(c);
   }
 
-  getNameValues(primary: string) {
-    let names: string[] = primary.split(" ");
-    let nd: NameDefaults = new NameDefaults();
-    return nd.getNames(names);
+  isAlph(c: String) {
+    c = c.toLowerCase();
+    return (c >= 'a' && c <= 'z')
   }
 
-  getFullName(fullName: FullName) {
-    let nd: NameDefaults = new NameDefaults();
-    return nd.getFullName(fullName);
+  isNum(c: String) {
+    return (c >= '0' && c <= '9')
   }
+
 }

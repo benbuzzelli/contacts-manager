@@ -1,5 +1,7 @@
 <mat-toolbar color="primary">
     <mat-toolbar-row>
-      <span>Contacts Manager</span>
+      <span>&#222;hazeB&#246;&#246;qu&#233;</span>
+      <span class="toolbar-spacer"></span>
+      <button class="btn-no-background" *ngIf="isLoggedIn()" (click)="logout('Logged out', 'Goodbye :)')">LOGOUT</button>
     </mat-toolbar-row>
 </mat-toolbar>
